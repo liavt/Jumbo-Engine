@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="1.8" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="lwjgl" value="project"/>
+		<level name="lwjgl_util" value="project"/>
+		<level name="slick-util" value="project"/>
+	</levels>
+</component>

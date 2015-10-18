@@ -1,0 +1,221 @@
+package com.jumbo.components.entities.ui;
+
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
+import com.jumbo.components.interfaces.TriggeredAction;
+import com.jumbo.rendering.JumboEntity;
+import com.jumbo.rendering.JumboGraphicsObject;
+import com.jumbo.rendering.JumboRenderer;
+import com.jumbo.rendering.JumboTexture;
+
+public class JumboProgressBar extends JumboGraphicsObject {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	protected int progress = 0;
+	protected boolean vertical = false;
+	protected JumboGraphicsObject descriptor;
+
+	/**
+	 * @return the vertical
+	 */
+	public boolean isVertical() {
+		return vertical;
+	}
+
+	/**
+	 * @param vertical
+	 *            the vertical to set
+	 */
+	public void setVertical(boolean vertical) {
+		this.vertical = vertical;
+		setProgress(progress);
+	}
+
+	protected int max = 0;
+	protected JumboImage overlayarea = new JumboImage(new Rectangle(),
+			new JumboTexture(JumboTexture.solidcolor, Color.RED));
+	protected TriggeredAction progresschangeaction;
+
+	public JumboProgressBar(Rectangle bounds) {
+		super(bounds, new JumboTexture(JumboTexture.solidcolor, Color.DARK_GRAY));
+		overlayarea.setBounds(new Rectangle(10, 10, bounds.width - 20, bounds.height - 20));
+		setProgress(progress);
+		overlayarea.setMaintainingPosition(true);
+	}
+
+	public int getProgress() {
+		return progress;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + progress;
+		result = prime * result + ((max));
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		JumboProgressBar other = (JumboProgressBar) obj;
+		return progress == other.progress;
+	}
+
+	@Override
+	public String toString() {
+		return hashCode() + "[ " + progress + " / " + max + " ]";
+	}
+
+	public void setProgress(int prog) {
+		int progress = prog;
+		Rectangle bounds = getOutbounds();
+		if (progress > max) {
+			progress = max;
+		}
+		if (progress < 0) {
+			progress = 0;
+		}
+		this.progress = progress;
+		float mod = (float) (this.progress) / (float) (Math.abs(max));
+		Rectangle overlaybounds = overlayarea.getBounds();
+		if (!vertical) {
+			overlaybounds.x = 10;
+			overlaybounds.height = outbounds.height - 20;
+			overlaybounds.width = (int) Math.abs((((bounds.width - 20) * mod)));
+			overlayarea.getTexture().getTextureCoords().width = (((bounds.width - 20) * mod)
+					/ ((float) bounds.width - 20));
+		} else {
+			overlaybounds.y = 10;
+			overlaybounds.width = outbounds.width - 20;
+			overlaybounds.height = (int) Math.abs((((bounds.height - 20) * mod)));
+			overlayarea.getTexture().getTextureCoords().height = (((bounds.height - 20) * mod)
+					/ ((float) bounds.height - 20));
+		}
+		if (progresschangeaction != null) {
+			progresschangeaction.action();
+		}
+		setUpdaterequired(false);
+	}
+
+	public TriggeredAction getProgresschangeaction() {
+		return progresschangeaction;
+	}
+
+	public void setProgresschangeaction(TriggeredAction progresschangeaction) {
+		this.progresschangeaction = progresschangeaction;
+	}
+
+	/**
+	 * @return the max
+	 */
+	public int getMax() {
+		return max;
+	}
+
+	/**
+	 * @param max
+	 *            the max to set
+	 */
+	public void setMax(int max) {
+		this.max = max;
+		setProgress(progress);
+	}
+
+	public JumboTexture getOverlayarea() {
+		return overlayarea.getTexture();
+	}
+
+	public void setOverlayarea(JumboTexture t) {
+		overlayarea.setTexture(new JumboTexture(t, t.getColor()));
+		setProgress(progress);
+		overlayarea.setMaintainingPosition(true);
+	}
+
+	@Override
+	public void tick() {
+		JumboRenderer.render(this);
+		if (active) {
+			if (overlayarea != null) {
+				final ArrayList<JumboEntity> parents = overlayarea.getParents();
+				if (!parents.contains(this)) {
+					parents.add(this);
+				}
+				overlayarea.calculatePosition();
+				overlayarea.tick();
+			}
+			if (descriptor != null) {
+				System.out.println("HI");
+				final ArrayList<JumboEntity> dparents = descriptor.getParents();
+				if (!dparents.contains(this)) {
+					dparents.add(this);
+				}
+				descriptor.calculatePosition();
+				descriptor.tick();
+			}
+			if (customaction != null) {
+				customaction.action();
+			}
+		}
+	}
+
+	/**
+	 * @return the descriptor
+	 */
+	public JumboGraphicsObject getDescriptor() {
+		return descriptor;
+	}
+
+	/**
+	 * @param descriptor
+	 *            the descriptor to set
+	 */
+	public void setDescriptor(JumboGraphicsObject descriptor) {
+		this.descriptor = descriptor;
+	}
+
+	@Override
+	public Rectangle additionalCalculations(Rectangle bounds) {
+		if (descriptor != null) {
+			descriptor.setBounds(new Rectangle(0, 0, bounds.width, bounds.height));
+			descriptor.setMaintainingDimensions(true);
+			descriptor.setMaintainingPosition(true);
+		}
+		return bounds;
+	}
+
+	@Override
+	public void calculatePosition() {
+		super.calculatePosition();
+		setProgress(progress);
+	}
+
+	public void addProgress(int i) {
+		this.progress += i;
+		setProgress(progress);
+	}
+
+}

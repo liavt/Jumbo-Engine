@@ -1,0 +1,210 @@
+package com.jumbo.tools.calculations;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
+
+import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.TripleFloat;
+import com.jumbo.rendering.Jumbo;
+import com.jumbo.rendering.JumboEntity;
+import com.jumbo.rendering.JumboRenderer;
+import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboSettings;
+
+public final class Maths {
+	private static int triph = 0, tripw = 0, rot = 0;// values for when its
+	// trippy
+
+	public static float xmod = ((Jumbo.getFrameWidth() * 1.0f) / (1080 * 1.0f)), // for
+			// rendering
+			ymod = ((Jumbo.getFrameHeight() * 1.0f) / (720 * 1.0f));// for
+	// rendering
+	public static Dimension currentdim;
+
+	// mapping
+	// input
+
+	public static boolean isPrime(int n) {
+		if (n % 2 == 0) {
+			return false;
+		}
+		for (int i = 3; i * i <= n; i += 2) {
+			if (n % i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void refresh() {
+		if (JumboSettings.shaky || JumboSettings.trippy) {
+			GL11.glMatrixMode(GL11.GL_TEXTURE);
+			GL11.glLoadIdentity();
+			rot++;
+			GL11.glRotatef(rot + (triph / (tripw + 1)), 0, 0, 1);
+			GL11.glMatrixMode(GL11.GL_MODELVIEW);
+			if (JumboSettings.trippy) {
+				tripw -= Dice.rollBool() && tripw > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
+				triph -= Dice.rollBool() && triph > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
+				if (tripw <= 0) {
+					tripw = 0;
+				}
+				if (triph <= 0) {
+					triph = 0;
+				}
+				if (tripw >= 50) {
+					tripw = 50;
+				}
+				if (triph >= 50) {
+					triph = 50;
+				}
+				;
+				boolean negative = Dice.rollBool();
+				JumboSettings.shakeintensity = Dice.roll(tripw + triph);
+				if (negative) {
+					JumboSettings.shakeintensity = -JumboSettings.shakeintensity;
+				}
+			}
+			if (JumboSettings.shakeintensity <= 0) {
+				JumboSettings.shakeintensity = 1;
+			}
+		} else if (JumboSettings.shakeintensity > 0) {
+			JumboSettings.shakeintensity -= (Dice.roll(2) - 1);
+			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+			TripleFloat c = JumboRenderer.getRefreshcolor();
+			JumboRenderer.setRefreshcolor(new TripleFloat(c.x / JumboSettings.shakeintensity,
+					c.y / JumboSettings.shakeintensity, c.z / JumboSettings.shakeintensity));
+		}
+	}
+
+	public static void init() {
+		// GPUCalculator.init();
+		// GPUCalculator.setResultSize(2);
+	}
+
+	public static void destroy() {
+		// GPUCalculator.destroy();
+	}
+
+	public static int floatToX(int number) {
+		int num = number;
+		num = JumboSettings.launchConfig.width * (num / 2);
+		return num;
+	}
+
+	public static int floatToY(int number) {
+		int num = number;
+		num = JumboSettings.launchConfig.height * (num / 2);
+		return num;
+	}
+
+	// returns the closest multiple of 2 there is to n
+	public static int log2(int n) {
+		int v = n;
+		v--;
+		v |= v >> 1;
+		v |= v >> 2;
+		v |= v >> 4;
+		v |= v >> 8;
+		v |= v >> 16;
+		v++;
+		return v;
+	}
+
+	public static Vector2f log2(Vector2f vec) {
+		int result1 = Maths.log2((int) vec.x);
+		int result2 = Maths.log2((int) vec.y);
+		return new Vector2f(result1, result2);
+	}
+
+	public static Rectangle multiplyRectangle(Rectangle rect, float num) {
+		return new Rectangle((int) (rect.x * num), (int) (rect.y * num), (int) (rect.width * num),
+				(int) (rect.height * num));
+	}
+
+	public static Rectangle subtractRectangle(Rectangle rect, int num) {
+		return new Rectangle(rect.x - num, rect.y - num, rect.width - num, rect.height - num);
+	}
+
+	public static Rectangle subtractRectangle(Rectangle rect, Rectangle rect2) {
+		return new Rectangle(rect.x - rect2.x, rect.y - rect2.y, rect.width - rect2.width, rect.height - rect2.height);
+	}
+
+	public static Color floatToColor(FloatRectangle v) {
+		return new Color((int) v.x, (int) v.y, (int) v.width, (int) v.height);
+	}
+
+	public static Rectangle calculateEntityPosition(JumboEntity e) {
+		Dimension entitydim = e.getOptimizedbounds(), currentdim = Maths.currentdim;
+		Rectangle bounds = e.getOutbounds();
+		if (entitydim != currentdim || e.isUpdaterequired()) {
+			int x = 0, y = 0, w = 0, h = 0;
+			try {
+				bounds = e.getBounds();
+				e.setOptimizedbounds(currentdim);
+				w = bounds.width;
+				h = bounds.height;
+				x = bounds.x;
+				y = bounds.y;
+				if (!e.isMaintainingX()) {
+					x *= xmod;
+				}
+				if (!e.isMaintainingY()) {
+					y *= ymod;
+				}
+				if (!e.isMaintainingWidth()) {
+					w *= xmod;
+				}
+				if (!e.isMaintainingHeight()) {
+					h *= ymod;
+				}
+				bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
+				e.setUpdaterequired(false);
+			} catch (NullPointerException i) {
+				System.err.println("ENTITY " + e + " IS NULL!");
+				ErrorHandler.handle(i);
+			}
+		}
+		return bounds;
+
+	}
+
+	public static Object[] reverseArray(Object[] o) {
+		final Object[] out = o;
+		for (int i = 0; i < out.length / 2; i++) {
+			final Object temp = out[i];
+			out[i] = out[out.length - i - 1];
+			out[out.length - i - 1] = temp;
+		}
+		return out;
+	}
+
+	public static int colorToByte(Color c) {
+		return rgbToByte(c.getRGB());
+	}
+
+	public static int rgbToByte(int pix) {
+		return ((pix & 0xff000000) >> 24) << 24 | (pix & 0xff) << 16 | ((pix & 0xff00) >> 8) << 8
+				| ((pix & 0xff0000) >> 16);
+	}
+
+	public static boolean collides(int x, int y, Rectangle r2) {
+		return x >= r2.x && x <= r2.width + r2.x && y >= r2.y && y <= r2.height + r2.y;
+	}
+
+	public static FloatRectangle multiplyRectangle(FloatRectangle r, float f) {
+		return new FloatRectangle(r.x * f, r.y * f, r.width * f, r.height * f);
+	}
+
+	public static FloatRectangle divideRectangle(FloatRectangle r, float f) {
+		return new FloatRectangle(r.x / f, r.y / f, r.width / f, r.height / f);
+	}
+
+	public static FloatRectangle divideRectangle(Rectangle r, int f) {
+		return new FloatRectangle(r.x / f, r.y / f, r.width / f, r.height / f);
+	}
+}
