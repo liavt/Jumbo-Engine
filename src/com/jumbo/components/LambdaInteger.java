@@ -31,6 +31,11 @@ public class LambdaInteger implements java.io.Serializable {
 
 	/**
 	 * @return the current number represented by this {@link LambdaInteger}.
+	 * 
+	 * @see #setNum(int num)
+	 * @see #increment()
+	 * @see #add(int num)
+	 * @see #reduce()
 	 */
 	public int getNum() {
 		return num;
@@ -39,6 +44,11 @@ public class LambdaInteger implements java.io.Serializable {
 	/**
 	 * @param num
 	 *            the num to set this {@link LambdaInteger}
+	 * 
+	 * @see #setNum(int num)
+	 * @see #increment()
+	 * @see #add(int num)
+	 * @see #reduce()
 	 */
 	public void setNum(int num) {
 		this.num = num;
