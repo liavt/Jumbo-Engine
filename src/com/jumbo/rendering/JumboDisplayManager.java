@@ -13,11 +13,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
-import com.jumbo.components.audio.JumboAudioPlayer;
-import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.ErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Maths;
 
 class JumboDisplayManager {
 	// handles the frame
@@ -98,7 +95,7 @@ class JumboDisplayManager {
 
 	}
 
-	public static void createDisplay() {
+	static void createDisplay() {
 		// ContextAttribs attribs = new ContextAttribs(4, 5)
 		// .withForwardCompatible(true);;
 		// // attribs.withProfileCore(true)
@@ -151,21 +148,6 @@ class JumboDisplayManager {
 		} catch (Exception e) {
 			ErrorHandler.handle(e);
 		}
-	}
-
-	public static void closeDisplay() {
-		TriggeredAction close = Jumbo.getCloseaction();
-		if (close != null) {
-			close.action();
-		}
-		Jumbo.paint.stop();
-		JumboAudioPlayer.destroy();
-		Maths.destroy();
-		System.out.flush();
-		System.err.flush();
-		// Display.destroy();
-		// frame.dispose();
-		System.exit(0);
 	}
 
 }
