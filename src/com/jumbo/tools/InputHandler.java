@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 /**
- * A class meant to replace the {@link Keyboard} from LWJGL.
+ * A class meant to replace the {@link Keyboard} class from LWJGL.
  *
  * @author Liav
  */
