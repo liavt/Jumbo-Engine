@@ -13,7 +13,6 @@ import com.jumbo.tools.InputHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Maths;
 import com.jumbo.tools.loaders.ConsoleCommands;
-import com.jumbo.tools.loaders.StringHandler;
 
 final class JumboPaintClass {
 	boolean running = false;
@@ -98,13 +97,6 @@ final class JumboPaintClass {
 
 	void run() {
 		try {
-			JumboDisplayManager.createDisplay();
-			// Mouse.setNativeCursor(c);
-			// ShaderProgram.init();
-			// Maths.init();
-			StringHandler.initFont();
-			JumboRenderer.init();
-			// JumboAudioPlayer.init();
 			running = true;
 			final Runnable input = () -> {
 				if (!JumboAudioPlayer.isInit()) {
@@ -119,7 +111,6 @@ final class JumboPaintClass {
 			};
 			Future<?> inputfuture = e.submit(input), consolefuture = e.submit(console);
 			// console.start();
-
 			// this is to make sure that the audio player is ready before the
 			// program starts. threads are not always reliable, and before,
 			// sometimes the program will start before the audio player is init,
@@ -129,9 +120,13 @@ final class JumboPaintClass {
 					break;
 				}
 			}
-			final TriggeredAction action = Jumbo.getMainaction();
-			if (action != null) {
-				action.action();
+			if (!Jumbo.init) {
+				Jumbo.init();
+				final TriggeredAction action = Jumbo.getMainaction();
+				if (action != null) {
+					action.action();
+				}
+				Jumbo.init = true;
 			}
 			while (running) {
 				if (inputfuture.isDone()) {
@@ -146,7 +141,7 @@ final class JumboPaintClass {
 					Display.sync(fps);
 				}
 				if (Display.isCloseRequested()) {
-					JumboDisplayManager.closeDisplay();
+					Jumbo.stop();
 				}
 			}
 		} catch (Throwable t) {

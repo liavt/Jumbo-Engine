@@ -168,7 +168,6 @@ public class JumboProgressBar extends JumboGraphicsObject {
 				overlayarea.tick();
 			}
 			if (descriptor != null) {
-				System.out.println("HI");
 				final ArrayList<JumboEntity> dparents = descriptor.getParents();
 				if (!dparents.contains(this)) {
 					dparents.add(this);
@@ -194,18 +193,35 @@ public class JumboProgressBar extends JumboGraphicsObject {
 	 *            the descriptor to set
 	 */
 	public void setDescriptor(JumboGraphicsObject descriptor) {
+		if (descriptor == null) {
+			throw new IllegalArgumentException("Input is null!");
+		}
+		Rectangle bounds = getBounds(), dbounds = descriptor.getBounds();
 		this.descriptor = descriptor;
+		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - ((float) dbounds.getWidth() / 2.0f)))),
+				(int) ((((bounds.height / 2.0f) - ((float) dbounds.getHeight() / 2.0f)))));
+		this.descriptor.setMaintainingPosition(true);
 	}
 
 	@Override
 	public Rectangle additionalCalculations(Rectangle bounds) {
 		if (descriptor != null) {
-			descriptor.setBounds(new Rectangle(0, 0, bounds.width, bounds.height));
 			descriptor.setMaintainingDimensions(true);
 			descriptor.setMaintainingPosition(true);
 		}
 		return bounds;
 	}
+
+	@Override
+	public void setRenderable(boolean renderable) {
+		super.setRenderable(renderable);
+		if (descriptor != null) {
+			descriptor.setRenderable(renderable);
+		}
+		if (overlayarea != null) {
+			overlayarea.setRenderable(renderable);
+		}
+	};
 
 	@Override
 	public void calculatePosition() {
@@ -216,6 +232,38 @@ public class JumboProgressBar extends JumboGraphicsObject {
 	public void addProgress(int i) {
 		this.progress += i;
 		setProgress(progress);
+	}
+
+	@Override
+	public void setMaintainx(boolean b) {
+		super.setMaintainx(b);
+		if (this.descriptor != null) {
+			this.descriptor.setMaintainx(b);
+		}
+	}
+
+	@Override
+	public void setMaintainy(boolean b) {
+		super.setMaintainy(b);
+		if (this.descriptor != null) {
+			this.descriptor.setMaintainy(b);
+		}
+	}
+
+	@Override
+	public void setMaintainwidth(boolean b) {
+		super.setMaintainwidth(b);
+		if (this.descriptor != null) {
+			this.descriptor.setMaintainwidth(b);
+		}
+	}
+
+	@Override
+	public void setMaintainheight(boolean b) {
+		super.setMaintainheight(b);
+		if (this.descriptor != null) {
+			this.descriptor.setMaintainheight(b);
+		}
 	}
 
 }
