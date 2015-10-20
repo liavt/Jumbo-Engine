@@ -44,6 +44,9 @@ What are the specifications of the audio player?
 Is it multi-platform?
 * Of course! It is written in Java and uses OpenGL, so it would be a waste not to make it multi-platform. The IO operations are also multi-platform as well.
 
+I hate OpenGL/OpenAL code. Do I have to do any of that?
+* None at all! It comes with pre-made implementations of both! You can rewrite them though.
+
 Do you have any plans to switch to Vulkan when it comes out?
 * Not currently.
 
