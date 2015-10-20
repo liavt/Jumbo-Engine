@@ -5,7 +5,6 @@ package com.jumbo.components;
  * int value, and that integer can be modified via methods, which allows for the
  * modification of an int in a lambda expression
  * 
- * @author Liav
  *
  */
 public class LambdaInteger implements java.io.Serializable {
@@ -31,7 +30,7 @@ public class LambdaInteger implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the num
+	 * @return the current number represented by this {@link LambdaInteger}.
 	 */
 	public int getNum() {
 		return num;
@@ -39,20 +38,46 @@ public class LambdaInteger implements java.io.Serializable {
 
 	/**
 	 * @param num
-	 *            the num to set
+	 *            the num to set this {@link LambdaInteger}
 	 */
 	public void setNum(int num) {
 		this.num = num;
 	}
 
+	/**
+	 * Increments the current number stored by this {@link LambdaInteger} by 1. 
+	 * <p>
+	 * Same as calling {@link #getNum()}++.
+	 * @see #reduce
+	 *@see #getNum()
+	 * @see #setNum(int num)
+	 * */
 	public void increment() {
 		num++;
 	}
 
-	public void incrementDown() {
+		/**
+	 * Reduces the current number stored by this {@link LambdaInteger} by 1. 
+	 * <p>
+	 * Same as calling {@link #getNum()}--.
+	 * @see #increment()
+	 * @see #getNum()
+	 * @see #setNum(int num)
+	 * */
+	public void reduce() {
 		num--;
 	}
 
+	/**
+	 * Adds a specified integer to the number represented by this {@link LambdaInteger}.
+	 * <p>
+	 * Same as {@link #getNum()}+=parameter.
+	 * @param num the number to add
+	 * @see #increment()
+	 * @see #getNum()
+	 * @see #setNum(int num)
+	 * @see #reduce()
+	 * */
 	public void add(int num) {
 		this.num += num;
 	}
