@@ -15,10 +15,17 @@ public class LambdaInteger implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int num = 0;
 
+	/**
+	 * Creates a new {@link LambdaInteger} with a specified value
+	 * @param num starting value
+	 **/
 	public LambdaInteger(int num) {
 		this.num = num;
 	}
 
+	/**
+	 * Creates a new {@link LamdbaInteger} with value of 0 
+	 * */
 	public LambdaInteger() {
 		this(0);
 	}
