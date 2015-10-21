@@ -3,15 +3,16 @@
 A Java 2D engine that uses LWJGL.
 
 # Features
-* Fast and Easy hardware-accelareted [OpenGL](https://www.opengl.org/) rendering
-* Versatile object heirarchy
-* Simple String IO
-* High-quality [OpenAL](https://www.openal.org/) audio player
-* Input handling system to provides fast and easy mouse, key, and joystick support, anywhere
-* Image editing and loading library
+* Fast and easy hardware-accelerated [OpenGL](https://www.opengl.org/) rendering.
+* Versatile object heirarchy.
+* Simple String IO.
+* High-quality [OpenAL](https://www.openal.org/) audio player.
+* Input handling system to provides fast and easy mouse, key, and joystick support, anywhere.
+* Image editing and loading library.
 * Built-in drug trip mode!
 * Developer tools, like an error logger and wireframe mode.
 * Bitmap text renderer, using [Angelcode's BMFont](http://www.angelcode.com/products/bmfont/), with support for italics and colors.
+* Easy and flexible particle generation, with support for anything from fire effects, to rain, to sparkles.
 
 # FAQ
 Why is it called ´Jumbo?´
