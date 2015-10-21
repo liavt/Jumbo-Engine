@@ -19,6 +19,7 @@ public final class JumboRenderMode{
     /**
     *Each render pass, when you bind a new texture, set this {@link LamdbaInteger} to be the new texture ID. This way, you can avoid repeat texture rebindings.
     **/
+    //TODO need to move this somewhere else
     public LambdaInteger prevousid=-1;
 
     private static RenderAction render = (JumboEntity e, int renderwidth, int renderheight)->{	
@@ -40,9 +41,9 @@ public final class JumboRenderMode{
 				final JumboTexture tex = e.getTexture();
 				// to prevent repeat method calls
 				int id = tex.getID();
-				if (previousid != id) {
+				if (previousid.getNum() != id) {
 					tex.bind();
-					previousid = id;
+					previousid.setNum(id);
 				}
 				// color
 				FloatRectangle c = tex.getColor();
