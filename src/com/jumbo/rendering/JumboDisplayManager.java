@@ -20,14 +20,6 @@ class JumboDisplayManager {
 	// handles the frame
 	private static Canvas canvas = new Canvas();
 
-	public static void setFullscreen(boolean full) {
-		JumboSettings.fullscreen = full;
-		if (full) {
-			JumboRenderer.wasResized = true;
-		}
-		createDisplay();
-	}
-
 	public static int getWidth() {
 		return JumboSettings.launchConfig.width;
 	}
@@ -53,6 +45,12 @@ class JumboDisplayManager {
 	}
 
 	private static JFrame frame;
+
+	static void closeDisplay() {
+		Display.destroy();
+		Keyboard.destroy();
+		Mouse.destroy();
+	}
 
 	private static void createLWJGL() {
 		try {

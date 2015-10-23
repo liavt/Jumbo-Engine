@@ -73,7 +73,7 @@ public final class Jumbo {
 		return JumboRenderer.renderheight;
 	}
 
-	public static void setView(JumboViewport v) {
+	public static void setView(JumboScene v) {
 		JumboPaintClass.setView(v);
 	}
 
@@ -85,11 +85,11 @@ public final class Jumbo {
 		return JumboPaintClass.getCustomaction();
 	}
 
-	public static JumboViewport getView() {
+	public static JumboScene getView() {
 		return JumboPaintClass.getView();
 	}
 
-	public static JumboViewport getPreviousView() {
+	public static JumboScene getPreviousView() {
 		return JumboPaintClass.getPreviousView();
 	}
 
@@ -97,7 +97,7 @@ public final class Jumbo {
 		JumboPaintClass.update();
 	}
 
-	public static void setPreviousView(JumboViewport v) {
+	public static void setPreviousView(JumboScene v) {
 		JumboPaintClass.setPreviousView(v);
 	}
 
@@ -119,11 +119,11 @@ public final class Jumbo {
 	 * @see Display
 	 */
 	public static void stop() {
-		closeDisplay();
 		TriggeredAction close = Jumbo.getCloseaction();
 		if (close != null) {
 			close.action();
 		}
+		closeDisplay();
 		JumboAudioPlayer.destroy();
 		Maths.destroy();
 		System.out.flush();
@@ -135,6 +135,7 @@ public final class Jumbo {
 
 	public static void closeDisplay() {
 		Jumbo.paint.stop();
+		JumboDisplayManager.closeDisplay();
 	}
 
 	/**
@@ -152,7 +153,15 @@ public final class Jumbo {
 		start(c);
 	}
 
+	public static void restartWindow() {
+		setNewLaunchConfig(JumboSettings.launchConfig);
+	}
+
 	public static void setFullscreen(boolean b) {
-		JumboDisplayManager.setFullscreen(b);
+		JumboSettings.fullscreen = b;
+		if (b) {
+			JumboRenderer.wasResized = true;
+		}
+		restartWindow();
 	}
 }

@@ -222,7 +222,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * {@link #finalize()}.
 	 * <p>
 	 * Next frame, the entity will be removed from the current
-	 * {@link JumboViewport} or {@link JumboGraphicsGroup}.
+	 * {@link JumboScene} or {@link JumboGraphicsGroup}.
 	 */
 	public void destroy() {
 		dead = true;
@@ -389,7 +389,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * The method in which the overriding {@link JumboEntity} will be doing
 	 * calculations and rendering to the screen.
 	 * <p>
-	 * Called once every frame by the parent {@link JumboViewport} or
+	 * Called once every frame by the parent {@link JumboScene} or
 	 * {@link JumboGraphicsGroup}.
 	 * <p>
 	 * If {@link #isDead()}, this will not be called , and instead, the

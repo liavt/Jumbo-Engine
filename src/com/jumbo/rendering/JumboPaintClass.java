@@ -19,8 +19,8 @@ final class JumboPaintClass {
 
 	private static TriggeredAction customaction;
 
-	private static JumboViewport v = new JumboViewport();
-	private static JumboViewport previousView = new JumboViewport();
+	private static JumboScene v = new JumboScene();
+	private static JumboScene previousView = new JumboScene();
 
 	/**
 	 * @return the customaction
@@ -41,25 +41,25 @@ final class JumboPaintClass {
 	 * @param previousView
 	 *            the previousView to set
 	 */
-	public static void setPreviousView(JumboViewport previousView) {
+	public static void setPreviousView(JumboScene previousView) {
 		JumboPaintClass.previousView = previousView;
 	}
 
 	/**
 	 * @return the v
 	 */
-	static JumboViewport getView() {
+	static JumboScene getView() {
 		return v;
 	}
 
 	/**
 	 * @return the previousView
 	 */
-	static JumboViewport getPreviousView() {
+	static JumboScene getPreviousView() {
 		return previousView;
 	}
 
-	static void setView(JumboViewport ve) {
+	static void setView(JumboScene ve) {
 		previousView = v;
 		v = ve;
 	}
@@ -109,7 +109,8 @@ final class JumboPaintClass {
 				JumboAudioPlayer.tick();
 			} , console = System.console() != null ? ConsoleCommands::tick : () -> {
 			};
-			Future<?> inputfuture = e.submit(input), consolefuture = e.submit(console);
+			Future<?> inputfuture = e.submit(input);
+			Future<?> consolefuture = e.submit(console);
 			// console.start();
 			// this is to make sure that the audio player is ready before the
 			// program starts. threads are not always reliable, and before,
