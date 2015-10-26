@@ -84,8 +84,8 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	// entity
 	private boolean updaterequired = true;
 	protected TriggeredAction customaction;
-	private Dimension optimizedbounds = new Dimension(JumboSettings.launchConfig.width,
-			JumboSettings.launchConfig.height);
+	private Dimension optimizedbounds = new Dimension(JumboSettings.launchConfig.width(),
+			JumboSettings.launchConfig.height());
 
 	public boolean isActive() {
 		return active;

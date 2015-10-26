@@ -40,6 +40,18 @@ public final class Maths {
 		return true;
 	}
 
+	public static int rgbToSRGB(Color c) {
+		return rgbToSRGB(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+	}
+
+	public static int rgbToSRGB(int r, int g, int b) {
+		return rgbToSRGB(r, g, b, 255);
+	}
+
+	public static int rgbToSRGB(int r, int g, int b, int a) {
+		return ((a)) << 24 | (g) << 16 | ((b)) << 8 | ((r));
+	}
+
 	public static void refresh() {
 		if (JumboSettings.shaky || JumboSettings.trippy) {
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
@@ -92,17 +104,22 @@ public final class Maths {
 
 	public static int floatToX(int number) {
 		int num = number;
-		num = JumboSettings.launchConfig.width * (num / 2);
+		num = JumboSettings.launchConfig.width() * (num / 2);
 		return num;
 	}
 
 	public static int floatToY(int number) {
 		int num = number;
-		num = JumboSettings.launchConfig.height * (num / 2);
+		num = JumboSettings.launchConfig.height() * (num / 2);
 		return num;
 	}
 
-	// returns the closest multiple of 2 there is to n
+	/**
+	 * Returns the closest multiple of 2 there is to n
+	 * 
+	 * @param n
+	 * @return closest multiple of 2
+	 */
 	public static int log2(int n) {
 		int v = n;
 		v--;

@@ -35,7 +35,24 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		setProgress(progress);
 	}
 
-	protected int max = 0;
+	protected int max = 100;
+	protected int min = 0;
+
+	/**
+	 * @return the min
+	 */
+	public int getMin() {
+		return min;
+	}
+
+	/**
+	 * @param min
+	 *            the min to set
+	 */
+	public void setMin(int min) {
+		this.min = min;
+	}
+
 	protected JumboImage overlayarea = new JumboImage(new Rectangle(),
 			new JumboTexture(JumboTexture.solidcolor, Color.RED));
 	protected TriggeredAction progresschangeaction;
@@ -60,7 +77,7 @@ public class JumboProgressBar extends JumboGraphicsObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + progress;
+		result = prime * result + progress + min;
 		result = prime * result + ((max));
 		return result;
 	}
@@ -96,8 +113,8 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		if (progress > max) {
 			progress = max;
 		}
-		if (progress < 0) {
-			progress = 0;
+		if (progress < min) {
+			progress = min;
 		}
 		this.progress = progress;
 		float mod = (float) (this.progress) / (float) (Math.abs(max));

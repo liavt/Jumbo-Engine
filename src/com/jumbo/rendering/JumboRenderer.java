@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.TripleFloat;
@@ -339,11 +340,24 @@ public final class JumboRenderer {
 	public static void update() {
 		GL11.glLoadIdentity();
 		// JumboLaunchConfig config = JumboSettings.launchConfig;
-		int width = Display.getWidth(), height = Display.getHeight();
-		Dimension dim = new Dimension(width, height);
-		// Dynamic resizing only works if its larger than the launch dimensions.
-		// If its not, it gets strectched, which looks a bit ugly. Because of
-		// this, developers should make their base window as small as possible.
+		final int width, height;
+		final float factor;
+		if (JumboSettings.launchConfig.fullscreen) {
+			final DisplayMode current = Display.getDisplayMode();
+			factor = Display.getPixelScaleFactor();
+			width = current.getWidth();
+			height = current.getHeight();
+		} else {
+			width = Display.getWidth();
+			height = Display.getHeight();
+			factor = Display.getPixelScaleFactor();
+		}
+		// Dynamic resizing only works if its larger than the launch
+		// dimensions.
+		// If its not, it gets strectched, which looks a bit ugly. Because
+		// of
+		// this, developers should make their base window as small as
+		// possible.
 		// if (width < config.width || height < config.height) {
 		// renderwidth = config.width;
 		// renderheight = config.height;
@@ -352,15 +366,14 @@ public final class JumboRenderer {
 		// Maths.currentdim = new Dimension(config.width, config.height);
 		// } else {
 		// for high dpi modes
-		float factor = Display.getPixelScaleFactor();
-		renderwidth = (int) (dim.width * factor);
-		renderheight = (int) (dim.height * factor);
+		renderwidth = (int) (width * factor);
+		renderheight = (int) (height * factor);
+		Maths.currentdim = new Dimension(renderwidth, renderheight);
 		GL11.glOrtho(0.0f, renderwidth, 0, renderheight, 0.0f, 1.0f);
 		GL11.glViewport(0, 0, renderwidth, renderheight);
-		Maths.currentdim = dim;
 		// }
-		Maths.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width));
-		Maths.ymod = (renderheight / ((float) JumboSettings.launchConfig.height));
+		Maths.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
+		Maths.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
 		if (JumboSettings.wireframe) {
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		}

@@ -1,13 +1,14 @@
 package com.jumbo.components.entities.ui;
 
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class JumboAnimation extends JumboImage {
 	/**

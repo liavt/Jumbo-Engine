@@ -246,6 +246,9 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 				final int pix = pixels[i];
 				pixels[i] = ((pix & 0xff000000) >> 24) << 24 | (pix & 0xff) << 16 | ((pix & 0xff00) >> 8) << 8
 						| ((pix & 0xff0000) >> 16);
+				// pixels[i] = ((Alpha Value in RGB)) << 24 | (Green Value in
+				// RGB) << 16 | ((Blue Value in RGB)) << 8 | ((Red Value in
+				// RGB));
 			}
 			setData(pixels, width, height);
 		} catch (Exception e) {

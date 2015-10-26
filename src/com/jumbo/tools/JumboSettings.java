@@ -21,7 +21,7 @@ public final class JumboSettings {
 													// share textures, as they
 													// will both be the same
 													// color.
-	public static final boolean logerrors = false;// whether to write a log file
+	public static final boolean logerrors = true;// whether to write a log file
 													// to the disk explaining
 													// the error. turn this on
 													// for production, and off
@@ -36,7 +36,7 @@ public final class JumboSettings {
 											// measured
 											// in pixels
 	public static boolean inputEnabled = true;// for user input
-	public static boolean fullscreen = false, vsync = false;// for
+	// for
 	public static int fps = 0;
 	// graphics
 

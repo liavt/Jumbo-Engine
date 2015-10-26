@@ -93,10 +93,11 @@ final class JumboPaintClass {
 		Display.update();
 	}
 
-	private static final ExecutorService e = Executors.newFixedThreadPool(2);
+	private static ExecutorService e;
 
 	void run() {
 		try {
+			e = Executors.newFixedThreadPool(2);
 			running = true;
 			final Runnable input = () -> {
 				if (!JumboAudioPlayer.isInit()) {

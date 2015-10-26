@@ -2,12 +2,15 @@ package com.jumbo.components.entities.ui;
 
 import java.awt.Rectangle;
 
+import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboTexture;
 
 public class JumboCheckbox extends JumboButton {
 
 	public JumboCheckbox(JumboTexture tex, JumboTexture hover, Rectangle rectangle) {
 		super(tex, hover, rectangle);
+		setClickAction(() -> {
+		});
 	}
 
 	/**
@@ -28,15 +31,18 @@ public class JumboCheckbox extends JumboButton {
 	 *            the boxtriggered to set
 	 */
 	public void setCheckboxTriggered(boolean boxtriggered) {
-		this.boxtriggered = boxtriggered;
+		this.boxtriggered = !boxtriggered;
+		if (clickaction != null) {
+			clickaction.action();
+		}
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		if (isTriggered()) {
+	public void setClickAction(TriggeredAction ac) {
+		super.setClickAction(() -> {
 			boxtriggered = !boxtriggered;
-		}
+			ac.action();
+		});
 	}
 
 }
