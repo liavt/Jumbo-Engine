@@ -1,9 +1,9 @@
 package com.jumbo.components.entities;
 
+import java.awt.Rectangle;
+
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
-
-import java.awt.*;
 
 public class JumboTimer extends JumboEntity {
 	/**
@@ -78,10 +78,9 @@ public class JumboTimer extends JumboEntity {
 	public void tick() {
 		if (active) {
 			if (running) {
-				int time = ((int) (System.currentTimeMillis()) - startTime);
+				final int time = ((int) (System.currentTimeMillis()) - startTime);
 				if (Math.abs(time) >= delay) {
 					startTime = (int) System.currentTimeMillis();
-					time = 0;
 					action.action();
 					timeslooped++;
 				}

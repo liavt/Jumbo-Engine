@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.Display;
 
+import com.jumbo.components.JumboException;
 import com.jumbo.components.audio.JumboAudioPlayer;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.ErrorHandler;
@@ -56,9 +57,15 @@ public final class Jumbo {
 	}
 
 	public static void start(JumboLaunchConfig c) {
+		start(c, new JumboScene(), new JumboScene());
+	}
+
+	static void start(JumboLaunchConfig c, JumboScene s, JumboScene prev) {
 		try {
 			JumboSettings.launchConfig = c;
 			paint = new JumboPaintClass();
+			setScene(s);
+			setPreviousScene(prev);
 			paint.run();
 		} catch (Exception e) {
 			ErrorHandler.handle(e);
@@ -73,7 +80,7 @@ public final class Jumbo {
 		return JumboRenderer.renderheight;
 	}
 
-	public static void setView(JumboViewport v) {
+	public static void setScene(JumboScene v) {
 		JumboPaintClass.setView(v);
 	}
 
@@ -85,11 +92,11 @@ public final class Jumbo {
 		return JumboPaintClass.getCustomaction();
 	}
 
-	public static JumboViewport getView() {
+	public static JumboScene getScene() {
 		return JumboPaintClass.getView();
 	}
 
-	public static JumboViewport getPreviousView() {
+	public static JumboScene getPreviousScene() {
 		return JumboPaintClass.getPreviousView();
 	}
 
@@ -97,7 +104,7 @@ public final class Jumbo {
 		JumboPaintClass.update();
 	}
 
-	public static void setPreviousView(JumboViewport v) {
+	public static void setPreviousScene(JumboScene v) {
 		JumboPaintClass.setPreviousView(v);
 	}
 
@@ -119,11 +126,11 @@ public final class Jumbo {
 	 * @see Display
 	 */
 	public static void stop() {
-		closeDisplay();
 		TriggeredAction close = Jumbo.getCloseaction();
 		if (close != null) {
 			close.action();
 		}
+		closeDisplay();
 		JumboAudioPlayer.destroy();
 		Maths.destroy();
 		System.out.flush();
@@ -135,6 +142,8 @@ public final class Jumbo {
 
 	public static void closeDisplay() {
 		Jumbo.paint.stop();
+		JumboDisplayManager.closeInput();
+		JumboDisplayManager.closeDisplay();
 	}
 
 	/**
@@ -148,11 +157,36 @@ public final class Jumbo {
 	 * @see JumboDisplayManager
 	 */
 	public static void setNewLaunchConfig(JumboLaunchConfig c) {
-		closeDisplay();
-		start(c);
+		final TriggeredAction prev = getMainaction();
+		JumboDisplayManager.closeInput();
+		init = false;
+		// to make sure that the mainaction doesn't get called twice, making for
+		// some weird effects.
+		setMainaction(() -> {
+			Jumbo.setMainaction(prev);
+		});
+		start(c, Jumbo.getScene(), Jumbo.getPreviousScene());
+	}
+
+	public static void restartWindow() {
+		setNewLaunchConfig(JumboSettings.launchConfig);
 	}
 
 	public static void setFullscreen(boolean b) {
-		JumboDisplayManager.setFullscreen(b);
+		JumboLaunchConfig c = JumboSettings.launchConfig;
+		c.fullscreen = b;
+		if (b) {
+			JumboRenderer.wasResized = true;
+		}
+		setNewLaunchConfig(c);
+	}
+
+	public static void setVSync(boolean b) throws JumboException {
+		if (!JumboSettings.launchConfig.fullscreen) {
+			throw new JumboException("Can't turn on VSync when fullscreen isn't enabled!");
+		}
+		JumboLaunchConfig c = JumboSettings.launchConfig;
+		c.vsync = b;
+		setNewLaunchConfig(c);
 	}
 }

@@ -2,23 +2,26 @@ package com.jumbo.rendering;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 
-import com.jumbo.components.FloatRectangle;
-import com.jumbo.components.Position;
 import com.jumbo.components.TripleFloat;
+import com.jumbo.components.interfaces.RenderAction;
+import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.ErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
 import com.jumbo.tools.calculations.Maths;
 
 /**
- * @author Liav
- *
+ * Class that handles all OpenGL rendering code.
+ * <p>
+ * Contains an internal buffer of {@link JumboRenderMode}s, and can switch
+ * between them. By default, index 0 has the built-in implemenation, and the
+ * <code>JumboRenderer<code> will use that unless you specify otherwise.
  */
 public final class JumboRenderer {
 	/**
@@ -26,49 +29,263 @@ public final class JumboRenderer {
 	 */
 	public static boolean wasResized = Display.wasResized();
 	static int renderwidth, renderheight;
+	private static final ArrayList<JumboRenderMode> modes = new ArrayList<>();
+	private static RenderAction currentrender = (JumboGraphicsObject o, int w, int h) -> {
+	};
+	static TriggeredAction currentinit = () -> {
+	} , currentprep = () -> {
+	};
+	private static int currentmode = 0;
 
 	private JumboRenderer() {
 	}
 
+	/**
+	 * Adds a new {@link JumboRenderMode} to the internal buffer.
+	 * 
+	 * @param m
+	 *            JumboRenderMode to be added
+	 * @return index of the added JumboRenderMode
+	 * @throws NullPointerException
+	 *             if the parameter is null
+	 */
+	public static int addRenderMode(JumboRenderMode m) {
+		if (m == null) {
+			throw new NullPointerException("Inputted JumboRenderMode is null!");
+		}
+		modes.add(m);
+		return modes.size() - 1;
+	}
+
+	/**
+	 * Removes a {@link JumboRenderMode} from the internal buffer.
+	 * 
+	 * @param m
+	 *            index of the JumboRenderMode to be removed
+	 * @throws IndexOutOfBoundsException
+	 *             if the parameter is less than 0
+	 * @throws IllegalArgumentException
+	 *             if the paramater is larger than the internal buffer size
+	 */
+	public static void removeRenderMode(int m) {
+		if (m < 0) {
+			throw new IllegalArgumentException("Input can't be less than 0!");
+		}
+		if (modes.size() >= m) {
+			throw new IndexOutOfBoundsException(m + " is larger than the internal buffer size@");
+		}
+		if (currentmode == m) {
+			throw new IllegalArgumentException("Can't remove the current JumboRenderMode!");
+		}
+		modes.remove(m);
+	}
+
+	/**
+	 * Removes a {@link JumboRenderMode} from the internal buffer.
+	 * 
+	 * @param m
+	 *            JumboRenderMode to be removed
+	 * @throws NullPointerException
+	 *             if the parameter is null
+	 * @throws IllegalArgumentException
+	 *             if the paramater was never added or it is the only
+	 *             JumboRenderMode in the bufer.
+	 */
+	public static void removeRenderMode(JumboRenderMode m) {
+		if (m == null) {
+			throw new NullPointerException("Inputted JumboRenderMode is null!");
+		}
+		if (!modes.contains(m)) {
+			throw new IllegalArgumentException("JumboRenderMode " + m + " was never added!");
+		}
+		if (modes.size() <= 1) {
+			throw new IllegalArgumentException("Can't remove the only existing JumboRenderMode!");
+		}
+		if (currentmode == modes.indexOf(m)) {
+			throw new IllegalArgumentException("Can't remove the current JumboRenderMode!");
+		}
+		modes.remove(m);
+	}
+
+	/**
+	 * Get the {@link JumboRenderMode} located at an index.
+	 * 
+	 * @param index
+	 *            location of desired JumboRenderMode
+	 * @return The JumboRenderMode located at the specified index
+	 * @see #locationOfMode(JumboRenderMode m)
+	 */
+	public static JumboRenderMode getMode(int index) {
+		if (index < 0) {
+			throw new IllegalArgumentException("Input is less than 0!");
+		}
+		if (index >= modes.size()) {
+			throw new IndexOutOfBoundsException("Input is larger than the internal buffer size!");
+		}
+		return modes.get(index);
+	}
+
+	/**
+	 * Returns the location of a {@link JumboRenderMode} in the internal buffer.
+	 * 
+	 * @param m
+	 *            the JumboRenderMode to look up
+	 * @return the index of parameter <i>m</i>
+	 */
+	public static int locationOfMode(JumboRenderMode m) {
+		if (m == null) {
+			throw new NullPointerException("Input is null!");
+		}
+		final int loc = modes.indexOf(m);
+		if (loc < 0) {
+			throw new IllegalArgumentException("Render mode " + m + " is not in the internal buffer!");
+		}
+		return loc;
+	}
+
+	/**
+	 * Sets a new {@JumboRenderMode} to be used for rendering.
+	 * <p>
+	 * If the input is not in the internal buffer, it will get added
+	 * automatically
+	 * 
+	 * @param m
+	 *            the JumboRenderMode to be used
+	 * @see #render(JumboGraphicsObject obj)
+	 * @see #addRenderMode(JumboRenderMode m)
+	 * @see #setCurrentRenderMode(int index)
+	 */
+	public static void setCurrentRenderMode(JumboRenderMode m) {
+		if (m == null) {
+			throw new NullPointerException("Input is null!");
+		}
+		final int loc;
+		if (!modes.contains(m)) {
+			loc = addRenderMode(m);
+		} else {
+			loc = modes.indexOf(m);
+		}
+		currentmode = loc;
+		currentprep = m.getCustomPreparationAction();
+		currentinit = m.getCustomInitialization();
+		currentrender = m.getRenderAction();
+		currentinit.action();
+	}
+
+	/**
+	 * Sets the current {@link JumboRenderMode} to be used for rendering.
+	 * 
+	 * @param index
+	 *            the location of the desired mode in the internal buffer
+	 * @see #render(JumboGraphicsObject obj)
+	 * @see #addRenderMode(JumboRenderMode m)
+	 * @see #setCurrentRenderMode(JumboRenderMode m)
+	 */
+	public static void setCurrentRenderMode(int index) {
+		if (index < 0) {
+			throw new IllegalArgumentException("Input is less than 0!");
+		}
+		if (index >= modes.size()) {
+			throw new IndexOutOfBoundsException("Input is larger than the internal buffer size!");
+		}
+		setCurrentRenderMode(modes.get(index));
+	}
+
+	/**
+	 * Set the color that the screen is cleared to every frame.
+	 * 
+	 * @param r
+	 *            red value represented by 0.0 to 1.0
+	 * @param g
+	 *            green value represented by 0.0 to 1.0
+	 * @param b
+	 *            blue value represented by 0.0 to 1.0
+	 */
 	public static void setRefreshcolor(float r, float g, float b) {
+		if (r > 1) {
+			throw new IllegalArgumentException("Red cannot be greater than 1!");
+		}
+		if (g > 1) {
+			throw new IllegalArgumentException("Green cannot be greater than 1!");
+		}
+		if (b > 1) {
+			throw new IllegalArgumentException("Blue cannot be greater than 1!");
+		}
+		if (r < 0) {
+			throw new IllegalArgumentException("Red cannot be less than 1!");
+		}
+		if (g < 0) {
+			throw new IllegalArgumentException("Green cannot be less than 1!");
+		}
+		if (b < 0) {
+			throw new IllegalArgumentException("Blue cannot be less than 1!");
+		}
 		refreshcolor = new TripleFloat(r, g, b);
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}
 
 	/**
-	 * @return the displaywidth
+	 * The 'display width' is the width of the current area being rendered to.
+	 * 
+	 * @return the current bounds for rendering
+	 * @see #getDisplayheight()
+	 * @see #setDisplayheight(int displayheight)
+	 * @see #setDisplaywidth(int displaywidth)
 	 */
 	public static int getDisplaywidth() {
 		return renderwidth;
 	}
 
 	/**
+	 * Set the width of the area to render to. Pixels outside this width will
+	 * not be rendered.
+	 * <p>
+	 * <b>NOTE: DOESN'T ACTUALLY CHANGE THE SIZE OF THE WINDOW</b>
+	 * 
 	 * @param displaywidth
-	 *            the displaywidth to set
+	 *            the new width
+	 * @see #getDisplaywidth()
+	 * @see #setDisplayheight(int displayheight)
 	 */
 	public static void setDisplaywidth(int displaywidth) {
 		JumboRenderer.renderwidth = displaywidth;
 	}
 
 	/**
-	 * @return the displayheight
+	 * Returns the current height of the area being rendered to.
+	 * 
+	 * @return the display height
+	 * @see #setDisplayheight(int height)
 	 */
 	public static int getDisplayheight() {
 		return renderheight;
 	}
 
 	/**
+	 * Set the height of the area to render to. Pixels outside this height will
+	 * not be rendered.
+	 * <p>
+	 * <b>NOTE: DOESN'T ACTUALLY CHANGE THE SIZE OF THE WINDOW</b>
+	 * 
 	 * @param displayheight
-	 *            the displayheight to set
+	 *            the new height
+	 * @see #getDisplayheight()
+	 * @see #setDisplaywidth(int width)
 	 */
 	public static void setDisplayheight(int displayheight) {
 		JumboRenderer.renderheight = displayheight;
 	}
 
 	/**
+	 * Set the color OpenGL will clear to screen to.
+	 * 
 	 * @param c
+	 *            the new color
 	 */
 	public static void setRefreshcolor(Color c) {
+		if (c == null) {
+			throw new NullPointerException("Input is null!");
+		}
 		refreshcolor.x = c.getRed() / 255.0f;
 		refreshcolor.y = c.getGreen() / 255.0f;
 		refreshcolor.z = c.getBlue() / 255.0f;
@@ -79,24 +296,21 @@ public final class JumboRenderer {
 
 	/**
 	 * Specifies all the settings for OpenGL. Called automatically during the
-	 * Game.start() method.
+	 * {@link Jumbo#start(JumboLaunchConfig)} method. Should only be called
+	 * once.
 	 */
 	public static void init() {
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_FOG);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glCullFace(GL11.GL_FRONT);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glPolygonMode(GL11.GL_BACK, GL11.GL_FILL);
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		// the default mode
+		addRenderMode(new JumboRenderMode());
+		setCurrentRenderMode(0);
 		update();
 	}
 
 	/**
 	 * Prepares the screen for rendering, which includes clearing it.
+	 * <p>
+	 * Also does the current {@link JumboRenderMode}'s custom preparation
+	 * action.
 	 */
 	public static void prepare() {
 		if (JumboSettings.trippy) {
@@ -116,19 +330,34 @@ public final class JumboRenderer {
 			update();
 		}
 		wasResized = Display.wasResized();
+		currentprep.action();
 	}
 
 	/**
-	 * 
+	 * Called when the screen is resized, and sets some variables, like
+	 * {@link Maths#xmod} and {@link Maths#ymod}.
 	 */
 	public static void update() {
 		GL11.glLoadIdentity();
-		JumboLaunchConfig config = JumboSettings.launchConfig;
-		int width = Display.getWidth(), height = Display.getHeight();
-		Dimension dim = new Dimension(width, height);
-		// Dynamic resizing only works if its larger than the launch dimensions.
-		// If its not, it gets strectched, which looks a bit ugly. Because of
-		// this, developers should make their base window as small as possible.
+		// JumboLaunchConfig config = JumboSettings.launchConfig;
+		final int width, height;
+		final float factor;
+		if (JumboSettings.launchConfig.fullscreen) {
+			final DisplayMode current = Display.getDisplayMode();
+			factor = Display.getPixelScaleFactor();
+			width = current.getWidth();
+			height = current.getHeight();
+		} else {
+			width = Display.getWidth();
+			height = Display.getHeight();
+			factor = Display.getPixelScaleFactor();
+		}
+		// Dynamic resizing only works if its larger than the launch
+		// dimensions.
+		// If its not, it gets strectched, which looks a bit ugly. Because
+		// of
+		// this, developers should make their base window as small as
+		// possible.
 		// if (width < config.width || height < config.height) {
 		// renderwidth = config.width;
 		// renderheight = config.height;
@@ -137,15 +366,14 @@ public final class JumboRenderer {
 		// Maths.currentdim = new Dimension(config.width, config.height);
 		// } else {
 		// for high dpi modes
-		float factor = Display.getPixelScaleFactor();
-		renderwidth = (int) (dim.width * factor);
-		renderheight = (int) (dim.height * factor);
+		renderwidth = (int) (width * factor);
+		renderheight = (int) (height * factor);
+		Maths.currentdim = new Dimension(renderwidth, renderheight);
 		GL11.glOrtho(0.0f, renderwidth, 0, renderheight, 0.0f, 1.0f);
 		GL11.glViewport(0, 0, renderwidth, renderheight);
-		Maths.currentdim = dim;
 		// }
-		Maths.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width));
-		Maths.ymod = (renderheight / ((float) JumboSettings.launchConfig.height));
+		Maths.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
+		Maths.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
 		if (JumboSettings.wireframe) {
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		}
@@ -154,95 +382,113 @@ public final class JumboRenderer {
 		wasResized = false;
 	}
 
-	private static int previousid = 0;
-
 	/**
-	 * Renders the {@link JumboEntity} e as a quad, where the quad's properties
-	 * are decided by the Entities properties
+	 * Renders the {@link JumboGraphicsObject} paramater using the specified
+	 * {@link JumboRenderMode}, calling its initiation action, preparation
+	 * action, and finally the render action. Afterwards, reverts everything to
+	 * the default render mode.
+	 * <p>
+	 * This method is slower than the standard
+	 * {@link #render(JumboGraphicsObject e)}, as it has to switch render modes.
 	 * 
 	 * @param e
-	 *            Entity to be rendered
+	 *            GraphicsObject to be rendered
+	 * @param index
+	 *            location of the JumboRenderMode in the internal buffer to be
+	 *            used
+	 * @see #render(JumboGraphicsObject e)
 	 */
-	public static void render(JumboGraphicsObject e) {
+	public static void render(JumboGraphicsObject e, int index) {
 		try {
-			Rectangle rect = new Rectangle();
-			try {
-				rect = e.getInheritedOutbounds();
-			} catch (NullPointerException ex) {
-				System.err.println("Entity " + e + " has a null parent!");
-				ErrorHandler.handle(ex);
-			}
-			e.setRenderposition(new Position(rect.x, rect.y));
-			final boolean outofbounds = (rect.x + rect.width <= 0 || rect.x >= renderwidth || rect.y + rect.height <= 0
-					|| rect.y >= renderheight);
-			e.setOutofbounds(outofbounds);
-			if (e.isRenderable() && !outofbounds) {
-				// GL11.glLoadIdentity();
-				// check to make sure its not offscreen
-				// texture binding
-				final JumboTexture tex = e.getTexture();
-				// to prevent repeat method calls
-				int id = tex.getID();
-				if (previousid != id) {
-					tex.bind();
-					previousid = id;
-				}
-				// color
-				FloatRectangle c = tex.getColor();
-				final boolean trippy = JumboSettings.trippy;
-				if (trippy) {
-					Color c2 = Dice.randomColor();
-					c = new FloatRectangle(c2.getRed() / 255.0f, c2.getGreen() / 255.0f, c2.getBlue() / 255.0f,
-							c.height);
-				}
-				GL11.glColor4f(c.x, c.y, c.width, c.height);
-				final FloatRectangle texturecoords = tex.getTextureCoords();
-				// float texturex = e.getTexture().getTextureCoords().x,
-				// texturey =
-				// e
-				// .getTexture().getTextureCoords().y, texturew = e
-				// .getTexture().getTextureCoords().z, textureh = e
-				// .getTexture().getTextureCoords().w;
-				// GL20.glUseProgram(ShaderProgram.programID);
-				// GL20.glVertexAttrib4f(ShaderProgram.position, rect.x, rect.y,
-				// rect.width, rect.height);
-				// position transformations
-				final int shake = JumboSettings.shakeintensity;
-				// rendering is here
-				final Dimension topleft = e.getVectorTopLeft(), topright = e.getVectorTopRight(),
-						botleft = e.getVectorBotLeft(), botright = e.getVectorBotRight();
-				final int rotation = tex.getRotation();
-				GL11.glMatrixMode(5890);
-				GL11.glLoadIdentity();
-				if (rotation > 0) {
-					GL11.glRotatef(rotation, 0, 0, 1);
-				}
-				GL11.glTranslatef(texturecoords.x, texturecoords.y, 0);
-				GL11.glMatrixMode(5888);
-				GL11.glBegin(e.getRendertype());
-				GL11.glTexCoord2f(0, 0);
-				GL11.glVertex2f(rect.x + shake + topleft.width, rect.y + shake + rect.height + topleft.height + shake);
-				GL11.glTexCoord2f(texturecoords.width, 0);
-				GL11.glVertex2f(rect.x + shake + rect.width + topright.width + shake,
-						rect.y + shake + rect.height + topright.height + shake);
-				GL11.glTexCoord2f(texturecoords.width, texturecoords.height);
-				GL11.glVertex2f(rect.x + shake + rect.width + botright.width + shake, rect.y + shake + botright.height);
-				GL11.glTexCoord2f(0, texturecoords.height);
-				GL11.glVertex2f(rect.x + shake + botleft.width, rect.y + shake + botleft.height);
-				GL11.glEnd();
-				// GL20.glUseProgram(0);
-				// // e.getTexture().unbind();
-			}
+			final JumboRenderMode m = getMode(index);
+			m.init();
+			m.prepare();
+			m.render(e, renderwidth, renderheight);
+			currentinit.action();
+			currentprep.action();
 		} catch (NullPointerException ex) {
 			System.err.println("A parameter in the entity " + e + " is null!");
 			ErrorHandler.handle(ex);
+		} catch (Exception exc) {
+			System.err.println("Error rendering " + exc);
+			ErrorHandler.handle(exc);
 		}
 	}
 
+	/**
+	 * Renders the {@link JumboGraphicsObject} parameter using the specified
+	 * {@link JumboRenderMode}, calling its initiation action, preparation
+	 * action, and finally the render action. Afterwards, reverts everything to
+	 * the default render mode.
+	 * <p>
+	 * This method is slower than the standard
+	 * {@link #render(JumboGraphicsObject e)}, as it has to switch render modes
+	 * twice.
+	 * 
+	 * @param e
+	 *            GraphicsObject to be rendered
+	 * @param m
+	 *            the JumboRenderMode to use for rendering
+	 * @see #render(JumboGraphicsObject e)
+	 */
+	public static void render(JumboGraphicsObject e, JumboRenderMode m) {
+		try {
+			m.init();
+			m.prepare();
+			m.render(e, renderwidth, renderheight);
+			currentinit.action();
+			currentprep.action();
+		} catch (NullPointerException ex) {
+			System.err.println("A parameter in the entity " + e + " is null!");
+			ErrorHandler.handle(ex);
+		} catch (Exception exc) {
+			System.err.println("Error rendering " + exc);
+			ErrorHandler.handle(exc);
+		}
+	}
+
+	/**
+	 * Renders the {@link JumboGraphicsObject} parameter using the current
+	 * {@link JumboRenderMode}.
+	 * 
+	 * @param e
+	 *            GraphicsObject to be rendered
+	 * @see #render(JumboGraphicsObject e, JumboRenderMode m)
+	 * @see #setCurrentRenderMode(int index)
+	 */
+	public static void render(JumboGraphicsObject e) {
+		try {
+			currentrender.action(e, renderwidth, renderheight);
+		} catch (NullPointerException ex) {
+			System.err.println("A parameter in the entity " + e + " is null!");
+			ErrorHandler.handle(ex);
+		} catch (Exception exc) {
+			System.err.println("Error rendering " + exc);
+			ErrorHandler.handle(exc);
+		}
+	}
+
+	/**
+	 * Returns the current color that is being refreshed to as a
+	 * {@link TripleFloat}.
+	 * 
+	 * @return current refresh color
+	 * @see Color
+	 * @see #setRefreshcolor(TripleFloat c)
+	 */
 	public static TripleFloat getRefreshcolor() {
 		return refreshcolor;
 	}
 
+	/**
+	 * Set the current color that the screen will be cleared to.
+	 * 
+	 * @param c
+	 *            new color, as a {@link TripleFloat}
+	 * @see #getRefreshcolor()
+	 * @see #setRefreshcolor(Color c)
+	 * @see #setRefreshcolor(float r, float g, float b)
+	 */
 	public static void setRefreshcolor(TripleFloat c) {
 		refreshcolor = c;
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);

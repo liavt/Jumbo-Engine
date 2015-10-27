@@ -90,7 +90,7 @@ public abstract class JumboGraphicsObject extends JumboEntity {
 	 * 
 	 * @return Whether the entity is being rendered currently.
 	 * @see JumboRenderer
-	 * @see JumboViewport
+	 * @see JumboScene
 	 */
 	public boolean isRenderable() {
 		return renderable;
@@ -103,7 +103,7 @@ public abstract class JumboGraphicsObject extends JumboEntity {
 	 * @param renderable
 	 *            Whether the entity should be rendered.
 	 * @see JumboRenderer
-	 * @see JumboViewport
+	 * @see JumboScene
 	 */
 	public void setRenderable(boolean renderable) {
 		this.renderable = renderable;

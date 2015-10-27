@@ -1,7 +1,6 @@
 package com.jumbo.rendering;
 
 import java.awt.Canvas;
-import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 import javax.swing.JFrame;
@@ -20,20 +19,12 @@ class JumboDisplayManager {
 	// handles the frame
 	private static Canvas canvas = new Canvas();
 
-	public static void setFullscreen(boolean full) {
-		JumboSettings.fullscreen = full;
-		if (full) {
-			JumboRenderer.wasResized = true;
-		}
-		createDisplay();
-	}
-
 	public static int getWidth() {
-		return JumboSettings.launchConfig.width;
+		return JumboSettings.launchConfig.width();
 	}
 
 	public static int getHeight() {
-		return JumboSettings.launchConfig.height;
+		return JumboSettings.launchConfig.height();
 	}
 
 	public static Canvas getCanvas() {
@@ -54,30 +45,40 @@ class JumboDisplayManager {
 
 	private static JFrame frame;
 
+	static void closeInput() {
+		Keyboard.destroy();
+		Mouse.destroy();
+	}
+
+	static void closeDisplay() {
+		Display.destroy();
+		closeInput();
+	}
+
 	private static void createLWJGL() {
 		try {
+			final JumboLaunchConfig c = JumboSettings.launchConfig;
 			// Dimension size = frame.getSize();
 			// frame.add(canvas);
 			// canvas.setSize(size);
 			// Display.setParent(canvas);
 			// canvas.setMinimumSize(size);
 			// canvas.setVisible(true);
-			if (JumboSettings.fullscreen) {
-				Display.setDisplayMode(Display.getDesktopDisplayMode());
+			if (c.fullscreen) {
 				Display.setFullscreen(true);
+				Display.setDisplayMode(c.mode);
 			} else {
-				Display.setDisplayMode(
-						new DisplayMode(JumboSettings.launchConfig.width, JumboSettings.launchConfig.height));
+				Display.setDisplayMode(new DisplayMode(c.mode.getWidth(), c.mode.getHeight()));
 			}
-			Display.setTitle(JumboSettings.launchConfig.title);
-			Display.setResizable(true);
-			BufferedImage img = JumboSettings.launchConfig.icon;
-			if (img != null) {
-				ByteBuffer[] list = {
-						new ImageIOImageData().imageToByteBuffer(JumboSettings.launchConfig.icon, false, false, null) };
-				Display.setIcon(list);
+			Display.setTitle(c.title);
+			Display.setResizable(c.resizable);
+			final int iconnum = c.icon.length;
+			final ByteBuffer[] list = new ByteBuffer[iconnum];
+			for (int i = 0; i < iconnum; i++) {
+				list[i] = new ImageIOImageData().imageToByteBuffer(c.icon[i], false, false, null);
 			}
-			if (JumboSettings.fullscreen && JumboSettings.vsync) {
+			Display.setIcon(list);
+			if (c.fullscreen && c.vsync) {
 				Display.setVSyncEnabled(true);
 			}
 			if (!Display.isCreated()) {

@@ -7,7 +7,7 @@ import com.jumbo.components.entities.ui.JumboButton;
 /**
  * Required by a {@link JumboPaintClass} to render.
  */
-public class JumboViewport {
+public class JumboScene {
 	// holds entities similar to a graphics group
 	// the game displays one view at a time, and can change at any time
 	protected ArrayList<JumboEntity> entities = new ArrayList<>();

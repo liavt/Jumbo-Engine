@@ -99,10 +99,10 @@ public final class JumboAudioPlayer {
 		AL10.alSourcef(source.get(currentsounds), AL10.AL_PITCH, s.getPitch());
 		AL10.alSourcef(source.get(currentsounds), AL10.AL_GAIN, s.getGain());
 		FloatBuffer pos = BufferUtils.createFloatBuffer(5)
-				.put(new float[] { (float) s.getBounds().x / (float) JumboSettings.launchConfig.width,
-						(float) s.getBounds().y / (float) JumboSettings.launchConfig.height,
-						(float) s.getBounds().width / (float) JumboSettings.launchConfig.width,
-						(float) s.getBounds().height / (float) JumboSettings.launchConfig.height });
+				.put(new float[] { (float) s.getBounds().x / (float) JumboSettings.launchConfig.width(),
+						(float) s.getBounds().y / (float) JumboSettings.launchConfig.height(),
+						(float) s.getBounds().width / (float) JumboSettings.launchConfig.width(),
+						(float) s.getBounds().height / (float) JumboSettings.launchConfig.height() });
 		AL10.alSource(source.get(currentsounds), AL10.AL_POSITION, pos);
 		AL10.alSource(source.get(currentsounds), AL10.AL_VELOCITY, sourceVel);
 		AL10.alSourcei(source.get(currentsounds), AL10.AL_LOOPING, s.isLooping() ? AL10.AL_TRUE : AL10.AL_FALSE);

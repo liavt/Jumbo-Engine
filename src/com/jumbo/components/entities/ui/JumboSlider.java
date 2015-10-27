@@ -44,16 +44,18 @@ public class JumboSlider extends JumboProgressBar {
 	@Override
 	public void setProgress(int progress) {
 		super.setProgress(progress);
-		if (valuebox != null && this.progress > 0) {
+		if (valuebox != null && this.progress > min) {
 			Rectangle bounds = valuebox.getOutbounds();
 			if (!vertical) {
-				bounds.x = (int) ((((float) this.progress / (float) (max)) * (getOutbounds().width - 20)));
+				bounds.x = (int) (((((float) (this.progress - min) / (float) (max - min)))
+						* (getOutbounds().width - 20)));
 				bounds.x -= 5;
 				bounds.y = 0;
 				bounds.width = 10;
 				bounds.height = overlayarea.getOutbounds().height;
 			} else {
-				bounds.y = (int) ((((float) this.progress / (float) (max)) * (getOutbounds().height - 20)));
+				bounds.y = (int) (((((float) (this.progress - min) / (float) (max - min)))
+						* (getOutbounds().height - 20)));
 				bounds.y -= 5;
 				bounds.x = 0;
 				bounds.height = 10;
@@ -90,12 +92,16 @@ public class JumboSlider extends JumboProgressBar {
 			if (active) {
 				if (!vertical) {
 					x -= rx;
-					x = (int) (((((float) x / (float) outbounds.width) * max)));
-					setProgress(x);
+					x = (int) (((((float) x / (float) outbounds.width) * (max - min))));
+					if (x != progress) {
+						setProgress(x + min);
+					}
 				} else {
 					y -= ry;
-					y = (int) (((((float) y / (float) outbounds.height) * max)));
-					setProgress(y);
+					y = (int) (((((float) y / (float) outbounds.height) * (max - min))));
+					if (y != progress) {
+						setProgress(y + min);
+					}
 				}
 			}
 		} else {

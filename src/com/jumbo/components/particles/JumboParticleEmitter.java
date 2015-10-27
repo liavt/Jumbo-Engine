@@ -191,10 +191,8 @@ public class JumboParticleEmitter extends JumboEntity {
 
 		@Override
 		public void tick() {
-			Rectangle pos = this.outbounds;
-			pos.x += x;
-			pos.y += y;
-			super.tick();
+			increasePosition(x, y);
+			Position pos = getRenderposition();
 			if ((pos.x < 0 || pos.x > Jumbo.getFrameWidth() || pos.y < 0 || pos.y > Jumbo.getFrameHeight())) {
 				if (spawner) {
 					resetPos();
@@ -202,6 +200,7 @@ public class JumboParticleEmitter extends JumboEntity {
 					destroy();
 				}
 			}
+			super.tick();
 			// System.out.println(fieldbounds + " " + outbounds);
 		}
 
@@ -215,6 +214,7 @@ public class JumboParticleEmitter extends JumboEntity {
 			this.rate = speed.roll() / 10.0f;
 			reset();
 			setDelay(delaytime.roll());
+			setBounds(bounds);
 		}
 	}
 

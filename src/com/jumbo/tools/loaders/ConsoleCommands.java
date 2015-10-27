@@ -46,7 +46,11 @@ public final class ConsoleCommands {
 				}
 			}), new Command("vysnc", "Set vsync on or off.", "[true/false]", (String[] args) -> {
 				if (args.length > 1) {
-					JumboSettings.vsync = Boolean.parseBoolean(args[1]);
+					try {
+						Jumbo.setVSync(Boolean.parseBoolean(args[1]));
+					} catch (Exception e) {
+						ErrorHandler.handle(e);
+					}
 				} else {
 					System.err.println("Invalid usage! Refer to /help for proper usage");
 				}
