@@ -2,8 +2,6 @@ package com.jumbo.rendering;
 
 import java.util.ArrayList;
 
-import com.jumbo.components.entities.ui.JumboButton;
-
 /**
  * Required by a {@link JumboPaintClass} to render.
  */
@@ -12,11 +10,9 @@ public class JumboScene {
 	// the game displays one view at a time, and can change at any time
 	protected ArrayList<JumboEntity> entities = new ArrayList<>();
 
-	public void buttonsActive(boolean bool) {
+	public void setActive(boolean bool) {
 		for (JumboEntity e : entities) {
-			if (e instanceof JumboButton) {
-				((JumboButton) e).setActive(bool);
-			}
+			e.setActive(bool);
 		}
 	}
 

@@ -78,7 +78,7 @@ public final class StringHandler {
 	}
 
 	public static String loadAsString(String file) {
-		File test = new File(file);
+		final File test = new File(file);
 
 		if (!test.exists() || !test.isFile() || !test.canRead()) {
 			return null;
@@ -86,18 +86,14 @@ public final class StringHandler {
 
 		final StringBuffer result = new StringBuffer();
 
-		try {
-			@SuppressWarnings("resource")
-			final BufferedReader reader = new BufferedReader(new FileReader(file));
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String buffer = "";
 			while ((buffer = reader.readLine()) != null) {
 				result.append(buffer).append(System.lineSeparator());
 			}
-			reader.close();
 		} catch (Exception e) {
 			ErrorHandler.handle(e);
 		}
-
 		return result.toString().intern();
 	}
 
@@ -113,6 +109,22 @@ public final class StringHandler {
 		writeString(path, text, "UTF-16");
 	}
 
+	public static boolean deleteDirectory(File directory) {
+		if (directory.exists()) {
+			final File[] files = directory.listFiles();
+			if (null != files) {
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].isDirectory()) {
+						deleteDirectory(files[i]);
+					} else {
+						files[i].delete();
+					}
+				}
+			}
+		}
+		return (directory.delete());
+	}
+
 	public static void writeString(String path, String text, String charset) {
 		File file = new File(path);
 		try {
@@ -122,10 +134,9 @@ public final class StringHandler {
 			}
 			// file.mkdirs();
 			file.createNewFile();
-			@SuppressWarnings("resource")
-			final PrintWriter writer = new PrintWriter(path, charset);
-			writer.print(text);
-			writer.close();
+			try (final PrintWriter writer = new PrintWriter(path, charset)) {
+				writer.print(text);
+			}
 		} catch (Exception e) {
 			ErrorHandler.handle(e);
 		}

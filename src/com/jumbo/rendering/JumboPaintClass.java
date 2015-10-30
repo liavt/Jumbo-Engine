@@ -91,6 +91,13 @@ final class JumboPaintClass {
 		}
 		System.runFinalization();
 		Display.update();
+		final int fps = JumboSettings.fps;
+		if (fps > 0) {
+			Display.sync(fps);
+		}
+		if (Display.isCloseRequested()) {
+			Jumbo.stop();
+		}
 	}
 
 	private static ExecutorService e;
@@ -138,13 +145,6 @@ final class JumboPaintClass {
 					consolefuture = e.submit(console);
 				}
 				update();
-				final int fps = JumboSettings.fps;
-				if (fps > 0) {
-					Display.sync(fps);
-				}
-				if (Display.isCloseRequested()) {
-					Jumbo.stop();
-				}
 			}
 		} catch (Throwable t) {
 			ErrorHandler.handle(t);

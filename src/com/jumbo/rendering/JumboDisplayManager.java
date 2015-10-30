@@ -9,7 +9,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
 import com.jumbo.tools.ErrorHandler;
@@ -68,7 +67,9 @@ class JumboDisplayManager {
 				Display.setFullscreen(true);
 				Display.setDisplayMode(c.mode);
 			} else {
-				Display.setDisplayMode(new DisplayMode(c.mode.getWidth(), c.mode.getHeight()));
+				System.out.println(c.mode.getWidth() + " " + c.mode.getHeight());
+				Display.setDisplayMode(c.mode);
+				Display.setFullscreen(false);
 			}
 			Display.setTitle(c.title);
 			Display.setResizable(c.resizable);
