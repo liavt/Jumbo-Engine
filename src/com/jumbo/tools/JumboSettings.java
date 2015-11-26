@@ -21,15 +21,15 @@ public final class JumboSettings {
 													// share textures, as they
 													// will both be the same
 													// color.
-	public static final boolean logerrors = true;// whether to write a log file
-													// to the disk explaining
-													// the error. turn this on
-													// for production, and off
-													// for when you are testing
-													// it. DONT FORGET ABOUT IT!
-													// IF YOU DO, YOU WILL
-													// PROBABLY HAVE LIKE 1000S
-													// OF LOGS
+	public static boolean logerrors = true;// whether to write a log file
+											// to the disk explaining
+											// the error. turn this on
+											// for production, and off
+											// for when you are testing
+											// it. DONT FORGET ABOUT IT!
+											// IF YOU DO, YOU WILL
+											// PROBABLY HAVE LIKE 1000S
+											// OF LOGS
 	public static boolean trippy = false;// smoke weed everyday!
 	public static boolean shaky = false;// like the drug mode, but less trippy
 	public static int shakeintensity = 0; // how much the screen shakes,

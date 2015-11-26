@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboTexture;
-import com.jumbo.tools.InputHandler;
+import com.jumbo.tools.JumboInputHandler;
 
 public class JumboInputBox extends JumboButton {
 	protected StringBuffer text = new StringBuffer();
@@ -102,14 +102,13 @@ public class JumboInputBox extends JumboButton {
 		return click;
 	}
 
-	@SuppressWarnings("boxing")
 	@Override
 	public void tick() {
 		if (clickaction != action) {
 			clickaction = action;
 		}
 		if (boxactive) {
-			final ArrayList<Character> keys = InputHandler.getTyped();
+			final ArrayList<Character> keys = JumboInputHandler.getTyped();
 			for (Character s : keys) {
 				final int id = s;
 				if (id == 8) {
@@ -125,15 +124,15 @@ public class JumboInputBox extends JumboButton {
 					}
 				}
 			}
-			if (k.clicked || InputHandler.isKeyDown(InputHandler.Key.RETURN)) {
-				setDescriptor(new JumboText(text.toString(), 16));
+			if (k.clicked || JumboInputHandler.isKeyDown(JumboInputHandler.Key.RETURN)) {
+				setDescriptor(new JumboText(text.toString()));
 				boxactive = false;
 				final TriggeredAction con = confirm;
 				if (con != null) {
 					con.action();
 				}
 			} else {
-				setDescriptor(new JumboText(text.toString() + "|", 16));
+				setDescriptor(new JumboText(text.toString() + "|"));
 			}
 		}
 		super.tick();

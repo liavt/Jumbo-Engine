@@ -18,7 +18,7 @@ import org.lwjgl.opencl.CLPlatform;
 import org.lwjgl.opencl.CLProgram;
 import org.lwjgl.opencl.Util;
 
-import com.jumbo.tools.loaders.StringHandler;
+import com.jumbo.tools.loaders.JumboStringHandler;
 
 @Deprecated
 class GPUCalculator {
@@ -89,7 +89,7 @@ class GPUCalculator {
 		queue = CL10.clCreateCommandQueue(context, devices.get(0), CL10.CL_QUEUE_PROFILING_ENABLE, errorBuff);
 		Util.checkCLError(errorBuff.get(0));
 		program = CL10.clCreateProgramWithSource(context,
-				StringHandler.loadAsString("src/com/jumbo/tools/calculations/kernel.txt"), errorBuff);
+				JumboStringHandler.loadAsString("src/com/jumbo/tools/calculations/kernel.txt"), errorBuff);
 		Util.checkCLError(errorBuff.get(0));
 		int error = CL10.clBuildProgram(program, devices.get(0), "", null);
 		Util.checkCLError(error);

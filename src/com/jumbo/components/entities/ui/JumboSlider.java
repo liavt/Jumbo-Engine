@@ -1,15 +1,15 @@
 package com.jumbo.components.entities.ui;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboTexture;
 import com.jumbo.tools.JumboInputListener;
-import com.jumbo.tools.calculations.Maths;
+import com.jumbo.tools.calculations.JumboMathHandler;
 
 public class JumboSlider extends JumboProgressBar {
 	/**
@@ -25,14 +25,14 @@ public class JumboSlider extends JumboProgressBar {
 		vertical = vert;
 		if (!vertical) {
 			valuebox = new JumboImage(new Rectangle(0, 0, 10, overlayarea.getBounds().height),
-					new JumboTexture(JumboTexture.solidcolor, Color.gray));
+					new JumboTexture(JumboTexture.solidcolor, JumboColor.LIGHT_GREY));
 		} else {
 			valuebox = new JumboImage(new Rectangle(0, 0, overlayarea.getBounds().width, 10),
-					new JumboTexture(JumboTexture.solidcolor, Color.gray));
+					new JumboTexture(JumboTexture.solidcolor, JumboColor.LIGHT_GREY));
 		}
 		valuebox.addParent(overlayarea);
 
-		this.disabledicon = new JumboImage(new JumboTexture(new Color(100, 100, 100, 125)),
+		this.disabledicon = new JumboImage(new JumboTexture(new JumboColor(100, 100, 100, 125)),
 				new Rectangle(0, 0, getBounds().width, getBounds().height));
 		this.disabledicon.addParent(this);
 	}
@@ -79,8 +79,8 @@ public class JumboSlider extends JumboProgressBar {
 		super.tick();
 		if (enabled) {
 			int x = k.mousex, y = k.mousey, rx = renderpos.x, ry = renderpos.y;
-			boolean clicked = Mouse.isButtonDown(0),
-					colliding = Maths.collides(x, y, new Rectangle(rx, ry, outbounds.width, outbounds.height));
+			boolean clicked = Mouse.isButtonDown(0), colliding = JumboMathHandler.collides(x, y,
+					new Rectangle(rx, ry, outbounds.width, outbounds.height));
 			if (colliding) {
 				// JumboDisplayManager.getFrame().setCursor(new
 				// Cursor(Cursor.HAND_CURSOR));

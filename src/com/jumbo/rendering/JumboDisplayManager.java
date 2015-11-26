@@ -11,7 +11,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 
 class JumboDisplayManager {
@@ -67,7 +67,6 @@ class JumboDisplayManager {
 				Display.setFullscreen(true);
 				Display.setDisplayMode(c.mode);
 			} else {
-				System.out.println(c.mode.getWidth() + " " + c.mode.getHeight());
 				Display.setDisplayMode(c.mode);
 				Display.setFullscreen(false);
 			}
@@ -92,7 +91,7 @@ class JumboDisplayManager {
 				Keyboard.create();
 			}
 		} catch (LWJGLException e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 
 	}
@@ -148,7 +147,7 @@ class JumboDisplayManager {
 			// JumboDisplayManager.frame = frame;
 			createLWJGL();
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 

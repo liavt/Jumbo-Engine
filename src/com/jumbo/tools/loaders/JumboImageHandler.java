@@ -5,17 +5,17 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 
-public final class ImageHandler {
-	private ImageHandler() {
+public final class JumboImageHandler {
+	private JumboImageHandler() {
 	}
 
 	public static void saveImage(BufferedImage img, String path, String format) {
 		try {
 			ImageIO.write(img, format, new File(path));
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 

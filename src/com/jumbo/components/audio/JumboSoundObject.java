@@ -63,7 +63,7 @@ public class JumboSoundObject extends JumboEntity {
 	public JumboSoundObject(Rectangle bounds, String path) {
 		super(bounds);
 		data = WaveData.create(ResourceLoader.getResourceAsStream(path));
-		soundID = JumboAudioPlayer.addSound(this);
+		soundID = JumboAudioHandler.addSound(this);
 		data.dispose();
 	}
 
@@ -72,7 +72,7 @@ public class JumboSoundObject extends JumboEntity {
 	}
 
 	public void play() {
-		sourceID = JumboAudioPlayer.playSound(this);
+		sourceID = JumboAudioHandler.playSound(this);
 	}
 
 	@Override
@@ -85,14 +85,14 @@ public class JumboSoundObject extends JumboEntity {
 	}
 
 	public void pause() {
-		AL10.alSourcePause(JumboAudioPlayer.source.get(sourceID));
+		AL10.alSourcePause(JumboAudioHandler.source.get(sourceID));
 	}
 
 	public void rewind() {
-		AL10.alSourceRewind(JumboAudioPlayer.source.get(sourceID));
+		AL10.alSourceRewind(JumboAudioHandler.source.get(sourceID));
 	}
 
 	public void stop() {
-		AL10.alSourceStop(JumboAudioPlayer.source.get(sourceID));
+		AL10.alSourceStop(JumboAudioHandler.source.get(sourceID));
 	}
 }

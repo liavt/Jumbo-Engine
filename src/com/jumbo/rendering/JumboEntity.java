@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import com.jumbo.components.Position;
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Maths;
+import com.jumbo.tools.calculations.JumboMathHandler;
 
 /**
  * The superclass for anything related to the Jumbo engine
@@ -49,7 +49,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 			final ObjectInputStream in = new ObjectInputStream(bis);
 			return (JumboEntity) in.readObject();
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 		throw new AssertionError("[WARNING] Failed to serialize " + this);
 	}
@@ -151,7 +151,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * @see #getInheritedOutbounds()
 	 */
 	public void calculatePosition() {
-		this.outbounds = Maths.calculateEntityPosition(this);
+		this.outbounds = JumboMathHandler.calculateEntityPosition(this);
 	}
 
 	@SuppressWarnings("static-method")
@@ -229,7 +229,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 		try {
 			this.finalize();
 		} catch (Throwable e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 
@@ -379,6 +379,70 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	public void increasePosition(int x, int y) {
 		updaterequired = true;
 		bounds = new Rectangle(bounds.x + x, bounds.y + y, bounds.width, bounds.height);
+	}
+
+	public void increasePosition(Position p) {
+		increasePosition(p.x, p.y);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (dead ? 1231 : 1237);
+		result = prime * result + (maintainheight ? 1231 : 1237);
+		result = prime * result + (maintainwidth ? 1231 : 1237);
+		result = prime * result + (maintainx ? 1231 : 1237);
+		result = prime * result + (maintainy ? 1231 : 1237);
+		result = prime * result + ((outbounds == null) ? 0 : outbounds.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		JumboEntity other = (JumboEntity) obj;
+		if (dead != other.dead) {
+			return false;
+		}
+		if (maintainheight != other.maintainheight) {
+			return false;
+		}
+		if (maintainwidth != other.maintainwidth) {
+			return false;
+		}
+		if (maintainx != other.maintainx) {
+			return false;
+		}
+		if (maintainy != other.maintainy) {
+			return false;
+		}
+		if (outbounds == null) {
+			if (other.outbounds != null) {
+				return false;
+			}
+		} else if (!outbounds.equals(other.outbounds)) {
+			return false;
+		}
+		return true;
 	}
 
 	public void setPosition(Position p) {

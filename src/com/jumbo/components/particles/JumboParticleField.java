@@ -1,9 +1,9 @@
 package com.jumbo.components.particles;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.MinMaxVector;
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.components.entities.ui.JumboAnimation;
@@ -217,7 +217,7 @@ public class JumboParticleField extends JumboEntity {
 			bounds.y = Dice.roll(h);
 			x = xoffset.roll();
 			y = yoffset.roll();
-			setColor(new Color(red.roll(), green.roll(), blue.roll(), alpha.roll()));
+			setColor(new JumboColor(red.roll(), green.roll(), blue.roll(), alpha.roll()));
 			this.rate = speed.roll() / 10.0f;
 			reset();
 			setDelay(delaytime.roll());

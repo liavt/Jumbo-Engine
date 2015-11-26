@@ -1,6 +1,5 @@
 package com.jumbo.rendering;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
@@ -8,11 +7,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.LambdaInteger;
 import com.jumbo.components.Position;
 import com.jumbo.components.interfaces.RenderAction;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
 
@@ -34,7 +34,7 @@ import com.jumbo.tools.calculations.Dice;
  * @see TriggeredAction
  * @see JumboScene
  **/
-public final class JumboRenderMode {
+public class JumboRenderMode {
 	/**
 	 * Each render pass, when you bind a new texture, set this
 	 * {@link LambdaInteger} to be the new texture ID. This way, you can avoid
@@ -50,8 +50,7 @@ public final class JumboRenderMode {
 		} catch (NullPointerException ex)
 
 		{
-			System.err.println("Entity " + e + " has a null parent!");
-			ErrorHandler.handle(ex);
+			JumboErrorHandler.handle(ex, "Entity " + e + " has a null parent!");
 		}
 		e.setRenderposition(new Position(rect.x, rect.y));
 
@@ -71,11 +70,11 @@ public final class JumboRenderMode {
 				tex.bind();
 				previousid.setNum(id);
 			}
-			// color
+			// JumboColor
 			FloatRectangle c = tex.getColor();
 			final boolean trippy = JumboSettings.trippy;
 			if (trippy) {
-				Color c2 = Dice.randomColor();
+				JumboColor c2 = Dice.randomColor();
 				c = new FloatRectangle(c2.getRed() / 255.0f, c2.getGreen() / 255.0f, c2.getBlue() / 255.0f, c.height);
 			}
 			GL11.glColor4f(c.x, c.y, c.width, c.height);

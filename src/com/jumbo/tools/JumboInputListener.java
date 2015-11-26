@@ -5,16 +5,16 @@ public class JumboInputListener {
 	public boolean clicked, inputenabled, rightclicked, leftreleased, rightreleased;
 
 	public void destroy() {
-		InputHandler.listeners.remove(this);
+		JumboInputHandler.listeners.remove(this);
 		try {
 			finalize();
 		} catch (Throwable e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 
 	public JumboInputListener() {
-		InputHandler.listeners.add(this);
+		JumboInputHandler.listeners.add(this);
 	}
 
 }

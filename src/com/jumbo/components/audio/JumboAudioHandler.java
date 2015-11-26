@@ -9,9 +9,10 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 
 import com.jumbo.tools.JumboSettings;
+import com.jumbo.tools.console.JumboConsole;
 
-public final class JumboAudioPlayer {
-	private JumboAudioPlayer() {
+public final class JumboAudioHandler {
+	private JumboAudioHandler() {
 	}
 
 	private volatile static boolean init = false;
@@ -66,7 +67,7 @@ public final class JumboAudioPlayer {
 	private static void check() {
 		int err = AL10.alGetError();
 		if (AL10.alGetError() != AL10.AL_NO_ERROR) {
-			System.err.println("[WARNING] An OpenAL error has occured with an ID code of: " + err); //$NON-NLS-1$
+			JumboConsole.log("An OpenAL error has occured with an ID code of: " + err, 1);
 		}
 	}
 
@@ -129,7 +130,7 @@ public final class JumboAudioPlayer {
 	}
 
 	public static void destroy() {
-		JumboAudioPlayer.stopAllSound();
+		JumboAudioHandler.stopAllSound();
 		AL10.alDeleteSources(source);
 		AL10.alDeleteBuffers(buffer);
 		AL.destroy();

@@ -1,35 +1,28 @@
 package com.jumbo.rendering;
 
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
-
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-
-import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.FloatRectangle;
-import com.jumbo.tools.ImageUtility;
+import com.jumbo.components.JumboColor;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
-import com.jumbo.tools.calculations.Maths;
-import com.jumbo.tools.loaders.ImageHandler;
+import com.jumbo.tools.loaders.JumboImageHandler;
 
 public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private static JumboTextureBinder b = new JumboTextureBinder();
+
+	public static JumboTextureBinder getBinder() {
+		return b;
+	}
+
+	public static void setBinder(JumboTextureBinder t) {
+		b = t;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -97,7 +90,17 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		return t;
 	}
 
-	public static final JumboTexture solidcolor = new JumboTexture(ImageUtility.createColoredImage(Color.white));
+	public static JumboTexture solidcolor;
+
+	private static boolean init = false;
+
+	public static boolean isInit() {
+		return init;
+	}
+
+	public static void init() {
+		solidcolor = new JumboTexture(new int[] { JumboColor.WHITE.toByte() }, 1, 1);
+	}
 
 	private int ID = -1;
 
@@ -161,15 +164,15 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	/**
-	 * Constructor that copies every value of the argument Texture2D except for
-	 * the color value.
+	 * Constructor that copies every value of the argument {@link JumboTexture}
+	 * except for the color value.
 	 * 
 	 * @param t
 	 *            {@link JumboTexture} to be copied
 	 * 
 	 */
 	public JumboTexture(JumboTexture t) {
-		this(t, Color.WHITE);
+		this(t, JumboColor.WHITE);
 	}
 
 	public JumboTexture(BufferedImage img) {
@@ -181,21 +184,23 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	public JumboTexture(String path) {
-		this(ImageHandler.getImage(path));
+		this(JumboImageHandler.getImage(path));
 	}
 
-	public JumboTexture(JumboTexture t, Color c) {
+	public JumboTexture(JumboTexture t, JumboColor c) {
 		ID = t.getID();
-		FloatRectangle coords = t.getTextureCoords();
+		final FloatRectangle coords = t.getTextureCoords();
 		textureCoords = new FloatRectangle(coords.x, coords.y, coords.width, coords.height);
+		width = t.getWidth();
+		height = t.getHeight();
 		setColor(c);
 	}
 
 	public JumboTexture(JumboTexture t, FloatRectangle c) {
-		this(t, new Color(c.x, c.y, c.width, c.height));
+		this(t, new JumboColor(c.x, c.y, c.width, c.height));
 	}
 
-	public JumboTexture(Color c) {
+	public JumboTexture(JumboColor c) {
 		this(solidcolor);
 		setColor(c);
 	}
@@ -211,25 +216,23 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		setID(load(pix));
 	}
 
-	private int load(int[] inpixels) {
+	/**
+	 * @return the data
+	 */
+	public int[] getData() {
+		return b.getData(width, height, ID);
+	}
 
-		int tex = glGenTextures();
-		glBindTexture(GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	private int load(int[] inpixels) {
 		final int[] pixels;
 		if (JumboSettings.rectangle) {
-			pixels = new int[] { Maths.colorToByte(Dice.randomColor()) };
+			pixels = new int[] { Dice.randomColor().toByte() };
 			width = 1;
 			height = 1;
 		} else {
 			pixels = inpixels;
 		}
-		IntBuffer buffer = ByteBuffer.allocateDirect(pixels.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
-		buffer.put(pixels).flip();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		return tex;
+		return b.load(width, height, pixels);
 	}
 
 	private void load(BufferedImage img) {
@@ -287,18 +290,18 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	void bind() {
-		glBindTexture(GL_TEXTURE_2D, ID);
+		b.bind(ID);
 	}
 
 	static void unbind() {
-		glBindTexture(GL_TEXTURE_2D, 0);
+		b.unbind();
 	}
 
 	public void unload() {
-		GL11.glDeleteTextures(ID);
+		b.unload(ID);
 	}
 
-	public void setColor(Color col) {
+	public void setColor(JumboColor col) {
 		color.x = col.getRed() / 255.0f;
 		color.y = col.getGreen() / 255.0f;
 		color.width = col.getBlue() / 255.0f;

@@ -1,6 +1,5 @@
 package com.jumbo.tools.calculations;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
@@ -8,14 +7,18 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.JumboColor;
+import com.jumbo.components.Position;
 import com.jumbo.components.TripleFloat;
 import com.jumbo.rendering.Jumbo;
 import com.jumbo.rendering.JumboEntity;
+import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboRenderer;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
+import com.jumbo.tools.console.JumboConsole;
 
-public final class Maths {
+public final class JumboMathHandler {
 	private static int triph = 0, tripw = 0, rot = 0;// values for when its
 	// trippy
 
@@ -40,7 +43,7 @@ public final class Maths {
 		return true;
 	}
 
-	public static int rgbToSRGB(Color c) {
+	public static int rgbToSRGB(JumboColor c) {
 		return rgbToSRGB(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 
@@ -133,8 +136,8 @@ public final class Maths {
 	}
 
 	public static Vector2f log2(Vector2f vec) {
-		int result1 = Maths.log2((int) vec.x);
-		int result2 = Maths.log2((int) vec.y);
+		int result1 = JumboMathHandler.log2((int) vec.x);
+		int result2 = JumboMathHandler.log2((int) vec.y);
 		return new Vector2f(result1, result2);
 	}
 
@@ -151,12 +154,12 @@ public final class Maths {
 		return new Rectangle(rect.x - rect2.x, rect.y - rect2.y, rect.width - rect2.width, rect.height - rect2.height);
 	}
 
-	public static Color floatToColor(FloatRectangle v) {
-		return new Color((int) v.x, (int) v.y, (int) v.width, (int) v.height);
+	public static JumboColor floatToColor(FloatRectangle v) {
+		return new JumboColor((int) v.x, (int) v.y, (int) v.width, (int) v.height);
 	}
 
 	public static Rectangle calculateEntityPosition(JumboEntity e) {
-		Dimension entitydim = e.getOptimizedbounds(), currentdim = Maths.currentdim;
+		Dimension entitydim = e.getOptimizedbounds(), currentdim = JumboMathHandler.currentdim;
 		Rectangle bounds = e.getOutbounds();
 		if (entitydim != currentdim || e.isUpdaterequired()) {
 			int x = 0, y = 0, w = 0, h = 0;
@@ -183,7 +186,7 @@ public final class Maths {
 				e.setUpdaterequired(false);
 			} catch (NullPointerException i) {
 				System.err.println("ENTITY " + e + " IS NULL!");
-				ErrorHandler.handle(i);
+				JumboErrorHandler.handle(i);
 			}
 		}
 		return bounds;
@@ -200,17 +203,53 @@ public final class Maths {
 		return out;
 	}
 
-	public static int colorToByte(Color c) {
-		return rgbToByte(c.getRGB());
-	}
-
 	public static int rgbToByte(int pix) {
 		return ((pix & 0xff000000) >> 24) << 24 | (pix & 0xff) << 16 | ((pix & 0xff00) >> 8) << 8
 				| ((pix & 0xff0000) >> 16);
 	}
 
+	public static boolean collides(Rectangle r1, Rectangle r2) {
+		return r1.x + r1.width >= r2.x && r1.y + r1.height >= r2.y && r1.y < r2.y + r2.height && r1.x < r2.x + r2.width;
+	}
+
+	@Deprecated
+	public static boolean collisionPixelPerfect(JumboGraphicsObject a, JumboGraphicsObject b) {
+		final int[] adata = a.getTexture().getData(), bdata = b.getTexture().getData();
+		final int height, width;
+		final int awidth = a.getTexture().getWidth(), bwidth = b.getTexture().getWidth(),
+				aheight = a.getTexture().getHeight(), bheight = b.getTexture().getHeight();
+		if (aheight > bheight) {
+			height = bheight;
+		} else {
+			height = aheight;
+		}
+		if (awidth > bwidth) {
+			width = bwidth;
+		} else {
+			width = awidth;
+		}
+		System.err.println(awidth + " " + bwidth);
+		for (int y = 0; y < height; y++) {
+			if (y > bheight || y > aheight) {
+				break;
+			}
+			for (int x = 0; x < width; x++) {
+				if (x > bwidth || x > awidth) {
+					break;
+				}
+				final int apix = adata[x * y], bpix = bdata[x * y];
+				JumboConsole.log(((apix & 0xff000000) >> 24) + " " + ((bpix & 0xff000000) >> 24));
+			}
+		}
+		return false;
+	}
+
+	public static boolean collides(Position r1, Rectangle r2) {
+		return r1.x >= r2.x && r1.x <= r2.width + r2.x && r1.y >= r2.y && r1.y <= r2.height + r2.y;
+	}
+
 	public static boolean collides(int x, int y, Rectangle r2) {
-		return x >= r2.x && x <= r2.width + r2.x && y >= r2.y && y <= r2.height + r2.y;
+		return collides(new Position(x, y), r2);
 	}
 
 	public static FloatRectangle multiplyRectangle(FloatRectangle r, float f) {

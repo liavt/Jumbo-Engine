@@ -10,8 +10,8 @@ import org.lwjgl.input.Mouse;
  *
  * @author Liav
  */
-public final class InputHandler {
-	private InputHandler() {
+public final class JumboInputHandler {
+	private JumboInputHandler() {
 	}
 
 	public static int mousex, mousey, wheel;

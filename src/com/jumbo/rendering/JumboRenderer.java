@@ -1,6 +1,5 @@
 package com.jumbo.rendering;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -8,13 +7,14 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.TripleFloat;
 import com.jumbo.components.interfaces.RenderAction;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
-import com.jumbo.tools.calculations.Maths;
+import com.jumbo.tools.calculations.JumboMathHandler;
 
 /**
  * Class that handles all OpenGL rendering code.
@@ -192,7 +192,7 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Set the color that the screen is cleared to every frame.
+	 * Set the JumboColor that the screen is cleared to every frame.
 	 * 
 	 * @param r
 	 *            red value represented by 0.0 to 1.0
@@ -277,12 +277,12 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Set the color OpenGL will clear to screen to.
+	 * Set the JumboColor OpenGL will clear to screen to.
 	 * 
 	 * @param c
-	 *            the new color
+	 *            the new JumboColor
 	 */
-	public static void setRefreshcolor(Color c) {
+	public static void setRefreshcolor(JumboColor c) {
 		if (c == null) {
 			throw new NullPointerException("Input is null!");
 		}
@@ -335,7 +335,7 @@ public final class JumboRenderer {
 
 	/**
 	 * Called when the screen is resized, and sets some variables, like
-	 * {@link Maths#xmod} and {@link Maths#ymod}.
+	 * {@link JumboMathHandler#xmod} and {@link JumboMathHandler#ymod}.
 	 */
 	public static void update() {
 		GL11.glLoadIdentity();
@@ -368,12 +368,12 @@ public final class JumboRenderer {
 		// for high dpi modes
 		renderwidth = (int) (width * factor);
 		renderheight = (int) (height * factor);
-		Maths.currentdim = new Dimension(renderwidth, renderheight);
+		JumboMathHandler.currentdim = new Dimension(renderwidth, renderheight);
 		GL11.glOrtho(0.0f, renderwidth, 0, renderheight, 0.0f, 1.0f);
 		GL11.glViewport(0, 0, renderwidth, renderheight);
 		// }
-		Maths.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
-		Maths.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
+		JumboMathHandler.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
+		JumboMathHandler.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
 		if (JumboSettings.wireframe) {
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		}
@@ -399,19 +399,10 @@ public final class JumboRenderer {
 	 * @see #render(JumboGraphicsObject e)
 	 */
 	public static void render(JumboGraphicsObject e, int index) {
-		try {
-			final JumboRenderMode m = getMode(index);
-			m.init();
-			m.prepare();
-			m.render(e, renderwidth, renderheight);
-			currentinit.action();
-			currentprep.action();
-		} catch (NullPointerException ex) {
-			System.err.println("A parameter in the entity " + e + " is null!");
-			ErrorHandler.handle(ex);
-		} catch (Exception exc) {
-			System.err.println("Error rendering " + exc);
-			ErrorHandler.handle(exc);
+		if (index != currentmode) {
+			render(e, getMode(index));
+		} else {
+			render(e);
 		}
 	}
 
@@ -439,11 +430,9 @@ public final class JumboRenderer {
 			currentinit.action();
 			currentprep.action();
 		} catch (NullPointerException ex) {
-			System.err.println("A parameter in the entity " + e + " is null!");
-			ErrorHandler.handle(ex);
+			JumboErrorHandler.handle(ex, "A parameter in the entity " + e + " is null!");
 		} catch (Exception exc) {
-			System.err.println("Error rendering " + exc);
-			ErrorHandler.handle(exc);
+			JumboErrorHandler.handle(exc, "Error rendering " + exc);
 		}
 	}
 
@@ -460,20 +449,18 @@ public final class JumboRenderer {
 		try {
 			currentrender.action(e, renderwidth, renderheight);
 		} catch (NullPointerException ex) {
-			System.err.println("A parameter in the entity " + e + " is null!");
-			ErrorHandler.handle(ex);
+			JumboErrorHandler.handle(ex, "A parameter in the entity " + e + " is null!");
 		} catch (Exception exc) {
-			System.err.println("Error rendering " + exc);
-			ErrorHandler.handle(exc);
+			JumboErrorHandler.handle(exc, "Error rendering " + exc);
 		}
 	}
 
 	/**
-	 * Returns the current color that is being refreshed to as a
+	 * Returns the current JumboColor that is being refreshed to as a
 	 * {@link TripleFloat}.
 	 * 
-	 * @return current refresh color
-	 * @see Color
+	 * @return current refresh JumboColor
+	 * @see JumboColor
 	 * @see #setRefreshcolor(TripleFloat c)
 	 */
 	public static TripleFloat getRefreshcolor() {
@@ -481,12 +468,12 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Set the current color that the screen will be cleared to.
+	 * Set the current JumboColor that the screen will be cleared to.
 	 * 
 	 * @param c
-	 *            new color, as a {@link TripleFloat}
+	 *            new JumboColor, as a {@link TripleFloat}
 	 * @see #getRefreshcolor()
-	 * @see #setRefreshcolor(Color c)
+	 * @see #setRefreshcolor(JumboColor c)
 	 * @see #setRefreshcolor(float r, float g, float b)
 	 */
 	public static void setRefreshcolor(TripleFloat c) {
