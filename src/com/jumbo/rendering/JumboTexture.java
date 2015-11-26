@@ -100,6 +100,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	public static void init() {
 		solidcolor = new JumboTexture(new int[] { JumboColor.WHITE.toByte() }, 1, 1);
+		init=true;
 	}
 
 	private int ID = -1;
