@@ -37,6 +37,7 @@ public final class Jumbo {
 		// Maths.init();
 		JumboStringHandler.initFont();
 		JumboRenderer.init();
+		JumboTexture.init();
 		// JumboAudioPlayer.init();
 	}
 
