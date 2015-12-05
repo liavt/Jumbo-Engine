@@ -1,4 +1,4 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;

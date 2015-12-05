@@ -1,8 +1,8 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
-import com.jumbo.components.JumboColor;
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
@@ -23,72 +23,22 @@ public class JumboText extends JumboGraphicsObject {
 
 	public void setText(String text) {
 		this.text = text;
-		imgs.array = JumboStringHandler.getLetters(text); 
-		genText();
+		generateText();
 	}
 
 	public JumboText(String text) {
 		this(text, 0, 0);
 	}
 
-	public JumboText(String text, int size) {
-		this(text, 0, 0, size);
-	}
-
-	public JumboText(String text2, int i, int j, int size, JumboColor c, boolean italics) {
+	public JumboText(String text2, int i, int j) {
 		super(new Rectangle(i, j, 0, 0), new JumboTexture(JumboStringHandler.getBitmap()));
 		this.text = text2;
 		setRenderable(false);
-		imgs.array = JumboStringHandler.getLetters(text2);
-		setColor(c);
-		setItalics(italics);
-		setSize(size);
-	}
-
-	public JumboText(String text2, int i, int j, int size) {
-		this(text2, i, j, size, JumboColor.WHITE, false);
-	}
-
-	public JumboText(String text, int x, int y) {
-		this(text, x, y, JumboStringHandler.getSize());
-	}
-
-	public JumboText(String text, int x, int y, int size, JumboColor c) {
-		this(text, x, y, size, c, false);
-	}
-
-	public JumboText(String text, int x, int y, JumboColor c) {
-		this(text, x, y, JumboStringHandler.getSize(), c);
-	}
-
-	public JumboText(String text, JumboColor c) {
-		this(text, 0, 0, JumboStringHandler.getSize(), c, false);
+		generateText();
 	}
 
 	public JumboText() {
 		this("");
-	}
-
-	public void setSize(int size) {
-		for (JumboEntity e : imgs.array) {
-			final JumboLetter l = (JumboLetter) e;
-			l.setSize(size);
-		}
-		genText();
-	}
-
-	public void setItalics(boolean b) {
-		for (JumboEntity e : imgs.array) {
-			final JumboLetter l = (JumboLetter) e;
-			l.setItalics(b);
-		}
-	}
-
-	public void setColor(JumboColor c) {
-		for (JumboEntity e : imgs.array) {
-			final JumboLetter l = (JumboLetter) e;
-			l.setColor(c);
-		}
 	}
 
 	@Override
@@ -111,7 +61,16 @@ public class JumboText extends JumboGraphicsObject {
 		}
 	}
 
-	private void genText() {
+	public ArrayList<JumboEntity> getLetters() {
+		return imgs.array;
+	}
+
+	public void setLetters(ArrayList<JumboEntity> letters) {
+		imgs.array = letters;
+	}
+
+	public void generateText() {
+		imgs.array = JumboStringHandler.getLetters(text);
 		if (imgs.array.size() > 0) {
 			final JumboGraphicsGroup temparray = new JumboGraphicsGroup();
 			int xoffset = 0, offsetnum = 0, base = JumboStringHandler.getBase();

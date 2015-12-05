@@ -12,13 +12,16 @@ import com.jumbo.rendering.JumboRenderMode;
  */
 public class JumboNGRenderMode extends JumboRenderMode {
 
-	public JumboNGRenderMode() {
-		setCustomInitialization(() -> {
-		});
-		setCustomPreparationAction(() -> {
-		});
-		setRenderAction((JumboGraphicsObject o, int w, int h) -> {
-		});
+	@Override
+	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void prepare() {
 	}
 
 }

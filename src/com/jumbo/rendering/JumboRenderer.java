@@ -9,8 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.TripleFloat;
-import com.jumbo.components.interfaces.RenderAction;
-import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
@@ -30,11 +28,7 @@ public final class JumboRenderer {
 	public static boolean wasResized = Display.wasResized();
 	static int renderwidth, renderheight;
 	private static final ArrayList<JumboRenderMode> modes = new ArrayList<>();
-	private static RenderAction currentrender = (JumboGraphicsObject o, int w, int h) -> {
-	};
-	static TriggeredAction currentinit = () -> {
-	} , currentprep = () -> {
-	};
+	private static JumboRenderMode current;
 	private static int currentmode = 0;
 
 	private JumboRenderer() {
@@ -166,10 +160,8 @@ public final class JumboRenderer {
 			loc = modes.indexOf(m);
 		}
 		currentmode = loc;
-		currentprep = m.getCustomPreparationAction();
-		currentinit = m.getCustomInitialization();
-		currentrender = m.getRenderAction();
-		currentinit.action();
+		current = m;
+		current.init();
 	}
 
 	/**
@@ -330,7 +322,7 @@ public final class JumboRenderer {
 			update();
 		}
 		wasResized = Display.wasResized();
-		currentprep.action();
+		current.prepare();
 	}
 
 	/**
@@ -427,8 +419,8 @@ public final class JumboRenderer {
 			m.init();
 			m.prepare();
 			m.render(e, renderwidth, renderheight);
-			currentinit.action();
-			currentprep.action();
+			current.init();
+			current.prepare();
 		} catch (NullPointerException ex) {
 			JumboErrorHandler.handle(ex, "A parameter in the entity " + e + " is null!");
 		} catch (Exception exc) {
@@ -447,7 +439,7 @@ public final class JumboRenderer {
 	 */
 	public static void render(JumboGraphicsObject e) {
 		try {
-			currentrender.action(e, renderwidth, renderheight);
+			current.render(e, renderwidth, renderheight);
 		} catch (NullPointerException ex) {
 			JumboErrorHandler.handle(ex, "A parameter in the entity " + e + " is null!");
 		} catch (Exception exc) {

@@ -43,7 +43,7 @@ public class JumboRenderMode {
 	// TODO need to move this somewhere else
 	public LambdaInteger previousid = new LambdaInteger(-1);
 
-	private RenderAction render = (JumboGraphicsObject e, int renderwidth, int renderheight) -> {
+	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
 		Rectangle rect = new Rectangle();
 		try {
 			rect = e.getInheritedOutbounds();
@@ -117,7 +117,8 @@ public class JumboRenderMode {
 		}
 	};
 
-	private TriggeredAction init = () -> {
+	@SuppressWarnings("static-method")
+	public void init() {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
@@ -130,105 +131,7 @@ public class JumboRenderMode {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	};
 
-	private TriggeredAction customprepare = () -> {
-
-	};
-
-	/**
-	 * Returns the {@link RenderAction} used to render
-	 * {@link JumboGraphicsObject}s.
-	 * <p>
-	 * Each time {@link JumboRenderer#render(JumboGraphicsObject en)} is called,
-	 * the current {@link JumboRenderMode}'s {@link RenderAction} is called.
-	 * <p>
-	 * When overriding the default {@link RenderAction}, make sure to account
-	 * for all of a {@link JumboGraphicsObject}'s and {@link JumboTexture}
-	 * properties, like its dimensions, rotation, and tint.
-	 * 
-	 * @return What is used to render.
-	 * @see #setRenderAction(RenderAction action)
-	 */
-	public final RenderAction getRenderAction() {
-		return render;
-	}
-
-	/**
-	 * Set the {@link RenderAction} used to render {@link JumboGraphicsObject}s.
-	 * <p>
-	 * Each time {@link JumboRenderer#render(JumboGraphicsObject en)} is called,
-	 * the current {@link JumboRenderMode}'s {@link RenderAction} is called.
-	 * <p>
-	 * When overriding the default {@link RenderAction}, make sure to account
-	 * for all of a {@link JumboGraphicsObject}'s and {@link JumboTexture}
-	 * properties, like its dimensions, rotation, and tint.
-	 * 
-	 * @param action
-	 *            the new render action.
-	 * @see #getRenderAction()
-	 */
-	public final void setRenderAction(RenderAction action) {
-		if (action == null) {
-			throw new NullPointerException("Input is null!");
-		}
-		render = action;
-	}
-
-	/**
-	 * Get the custom {@link TriggeredAction} called for graphics initialization
-	 * when this {@link JumboRenderMode} is set.
-	 * 
-	 * @return TriggeredAction called during Jumbo.start()
-	 * @see TriggeredAction
-	 */
-	public final TriggeredAction getCustomInitialization() {
-		return init;
-	}
-
-	/**
-	 * Override the default OpenGL graphics initialization called when this
-	 * {@link JumboRenderMode} is set.
-	 * <p>
-	 * If you are doing your own OpenGL implemenation, use this method to set
-	 * static properties for OpenGL.
-	 * 
-	 * @param action
-	 *            the new initialization action.
-	 * @see TriggeredAction
-	 */
-	public final void setCustomInitialization(TriggeredAction action) {
-		if (action == null) {
-			throw new NullPointerException("Input is null!");
-		}
-		init = action;
-	}
-
-	/**
-	 * Get the current {@link TriggeredAction} getting called each frame to
-	 * prepare graphics rendering.
-	 * 
-	 * @return Action being called each frame
-	 * @see #setCustomPreparationAction(TriggeredAction action)
-	 */
-	public final TriggeredAction getCustomPreparationAction() {
-		return customprepare;
-	}
-
-	/**
-	 * Set a custom {@link TriggeredAction} to prepare graphics for rendering
-	 * each frame.
-	 * <p>
-	 * If you have custom OpenGL code, use this method. It gets called each
-	 * frame before graphics rendering starts.
-	 * 
-	 * @param action
-	 *            a custom graphics preparation action
-	 * @see #getCustomPreparationAction()
-	 */
-	public final void setCustomPreparationAction(TriggeredAction action) {
-		if (action == null) {
-			throw new NullPointerException("Input is null!");
-		}
-		customprepare = action;
+	public void prepare() {
 	}
 
 	/**
@@ -239,73 +142,4 @@ public class JumboRenderMode {
 	public JumboRenderMode() {
 	}
 
-	/**
-	 * Constructor for {@link JumboRenderMode}.
-	 * 
-	 * @param prep
-	 *            custom graphics preparation action called before graphics
-	 *            rendering
-	 * @param init
-	 *            custom graphics initiation called when this JumboRenderMode is
-	 *            used for the first time.
-	 * @param render
-	 *            custom {@link RenderAction}
-	 * @see TriggeredAction
-	 * @see RenderAction
-	 * @see JumboRenderer
-	 * @see JumboScene
-	 **/
-	public JumboRenderMode(TriggeredAction prep, TriggeredAction init, RenderAction render) {
-		if (init == null) {
-			throw new NullPointerException("Initiation is null!");
-		}
-		if (prep == null) {
-			throw new NullPointerException("Preperation action is null!");
-		}
-		if (render == null) {
-			throw new NullPointerException("Render action is null!");
-		}
-		customprepare = prep;
-		this.init = init;
-		this.render = render;
-	}
-
-	/**
-	 * Calls this {@link JumboRenderMode}'s prepare action.
-	 * 
-	 * @see #getCustomPreparationAction()
-	 **/
-	public final void prepare() {
-		customprepare.action();
-	}
-
-	/**
-	 * Calls this
-	 * 
-	 * {@link JumboRenderMode}'s
-	 * 
-	 * initialization action.
-	 * 
-	 * @see #getCustomInitialization()
-	 **/
-
-	public final void init() {
-		init.action();
-	}
-
-	/**
-	 * Calls this {@link JumboRenderMode}'s {@link RenderAction}.
-	 * 
-	 * @param e
-	 *            the object to be rendered
-	 * @param width
-	 *            the width of the area being rendered to
-	 * @param height
-	 *            the height of the area being rendered to
-	 * 
-	 * @see #getRenderAction()
-	 **/
-	public final void render(JumboGraphicsObject e, int width, int height) {
-		render.action(e, width, height);
-	}
 }

@@ -1,6 +1,8 @@
 package com.jumbo.components;
 
-public class JumboColor {
+import java.awt.Color;
+
+public class JumboColor implements java.lang.Cloneable {
 	private int r = 255, g = 255, b = 255, a = 255;
 
 	public static final JumboColor RED = new JumboColor(255, 0, 0), GREEN = new JumboColor(0, 255, 0),
@@ -44,6 +46,20 @@ public class JumboColor {
 		result = prime * result + g;
 		result = prime * result + r;
 		return result;
+	}
+
+	public int getRGB() {
+		return new Color(r, g, b, a).getRGB();
+	}
+
+	public String getHexcode() {
+		return String.format("#%02x%02x%02x", r, g, b);
+	}
+
+	@Override
+	public Object clone() {
+		final int r = this.r, g = this.g, b = this.b, a = this.a;
+		return new JumboColor(r, g, b, a);
 	}
 
 	/*
@@ -117,6 +133,10 @@ public class JumboColor {
 
 	public JumboColor() {
 		this(255, 255, 255, 255);
+	}
+
+	public JumboColor(JumboColor c) {
+		this(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 
 	/**

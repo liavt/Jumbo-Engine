@@ -12,7 +12,6 @@ import com.jumbo.components.Position;
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.JumboMathHandler;
 
 /**
@@ -84,8 +83,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	// entity
 	private boolean updaterequired = true;
 	protected TriggeredAction customaction;
-	private Dimension optimizedbounds = new Dimension(JumboSettings.launchConfig.width(),
-			JumboSettings.launchConfig.height());
+	private Dimension optimizedbounds = new Dimension(1, 1);
 
 	public boolean isActive() {
 		return active;

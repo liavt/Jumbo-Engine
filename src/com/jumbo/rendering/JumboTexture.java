@@ -90,7 +90,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		return t;
 	}
 
-	public static JumboTexture solidcolor;
+	public static JumboTexture solidcolor, fade;
 
 	private static boolean init = false;
 
@@ -98,9 +98,19 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		return init;
 	}
 
+	public static final short FADE_WIDTH = 100;
+
 	public static void init() {
 		solidcolor = new JumboTexture(new int[] { JumboColor.WHITE.toByte() }, 1, 1);
-		init=true;
+		final int[] pixels = new int[(FADE_WIDTH * 2)];
+		for (int i = 0; i < FADE_WIDTH; i++) {
+			pixels[i] = new JumboColor(1.0f, 1.0f, 1.0f, i / (float) FADE_WIDTH).toByte();
+		}
+		for (int i = 0; i < FADE_WIDTH; i++) {
+			pixels[i + FADE_WIDTH] = new JumboColor(1.0f, 1.0f, 1.0f, 1.0f - ((i) / (float) FADE_WIDTH)).toByte();
+		}
+		fade = new JumboTexture(pixels, FADE_WIDTH * 2, 1);
+		init = true;
 	}
 
 	private int ID = -1;
@@ -139,7 +149,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		ID = iD;
 	}
 
-	public void replaceImg(BufferedImage img) {
+	public void fromBufferedImage(BufferedImage img) {
 		unload();
 		load(img);
 	}
@@ -177,7 +187,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	public JumboTexture(BufferedImage img) {
-		replaceImg(img);
+		fromBufferedImage(img);
 	}
 
 	public JumboTexture(int[] array, int width, int height) {

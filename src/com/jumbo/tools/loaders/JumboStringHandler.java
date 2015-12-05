@@ -13,7 +13,7 @@ import java.util.List;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.entities.ui.JumboLetter;
+import com.jumbo.components.entities.graphics.JumboLetter;
 import com.jumbo.rendering.Jumbo;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboTexture;
@@ -29,6 +29,7 @@ import com.jumbo.tools.console.JumboConsole;
  * @author Liav
  */
 public final class JumboStringHandler {
+
 	public enum vowels {
 		A, E, I, O, U, Y;
 
@@ -229,7 +230,6 @@ public final class JumboStringHandler {
 		}
 		tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
 		currentsize = JumboStringHandler.size;
-		defaultSize = currentsize;
 	}
 
 	public static int getSize() {
@@ -317,16 +317,12 @@ public final class JumboStringHandler {
 		}
 	}
 
-	public static JumboColor defaultColor = JumboColor.BLACK;
-	public static int defaultSize = currentsize;
-	public static boolean defaultItalics = false;
+	private static String defaultprefix = "";
 
-	public final static ArrayList<JumboEntity> getLetters(String s) {
+	public final static ArrayList<JumboEntity> getLetters(String string) {
+		final String s = defaultprefix + string;
 		final int length = s.length();
 		final ArrayList<JumboEntity> results = new ArrayList<>(length);
-		italics = defaultItalics;
-		currentsize = defaultSize;
-		col = defaultColor;
 		CommandType commandtype = CommandType.FALSE;
 		final StringBuilder command = new StringBuilder();
 		for (int i = 0; i < length; i++) {
@@ -383,11 +379,26 @@ public final class JumboStringHandler {
 				let.setItalics(italics);
 				results.add(let);
 			} else {
-				System.err.println("UNICODE ID " + id + " NOT FOUND IN FONT FILE");
+				JumboConsole.log("UNICODE ID " + id + " NOT FOUND IN FONT FILE", 1);
 				results.add(new JumboLetter(new Rectangle(0, 0, 0, 0), JumboStringHandler.unknownchar));
 			}
 		}
 		return results;
+	}
+
+	/**
+	 * @return the defaultprefix
+	 */
+	public static String getDefaultPrefix() {
+		return defaultprefix;
+	}
+
+	/**
+	 * @param defaultprefix
+	 *            the defaultprefix to set
+	 */
+	public static void setDefaultSrefix(String defaultprefix) {
+		JumboStringHandler.defaultprefix = defaultprefix;
 	}
 
 	public final static String capitalize(String s) {
