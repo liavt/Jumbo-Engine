@@ -1,14 +1,15 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.entities.JumboGraphicsGroup;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
+import com.jumbo.tools.console.JumboConsole;
 
 public class JumboAnimation extends JumboImage {
 	/**
@@ -159,7 +160,7 @@ public class JumboAnimation extends JumboImage {
 					f.tick();
 					setRenderposition(((JumboGraphicsObject) f).getRenderposition());
 				} else {
-					System.err.println("[" + this + "]: Error displaying animation frame!");
+					JumboConsole.log("[" + this + "]: Error displaying animation frame!", 1);
 				}
 			}
 		}
@@ -179,7 +180,7 @@ public class JumboAnimation extends JumboImage {
 		this.action = action;
 	}
 
-	public void setColor(Color c) {
+	public void setColor(JumboColor c) {
 		for (JumboEntity e : frames.array) {
 			((JumboGraphicsObject) e).getTexture().setColor(c);
 		}

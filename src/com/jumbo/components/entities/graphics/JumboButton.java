@@ -1,17 +1,16 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.components.interfaces.TriggeredEvent;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboTexture;
-import com.jumbo.tools.ImageUtility;
 import com.jumbo.tools.JumboInputListener;
 
 public class JumboButton extends JumboGraphicsObject {
@@ -19,10 +18,8 @@ public class JumboButton extends JumboGraphicsObject {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected static final JumboTexture hovertex = new JumboTexture(
-			ImageUtility.createColoredImage(new Color(0, 0, 255, 125)));
-	protected static final JumboTexture disabledtex = new JumboTexture(
-			ImageUtility.createColoredImage(new Color(100, 100, 100, 125)));
+	protected static final JumboTexture hovertex = new JumboTexture(new JumboColor(0, 0, 255, 125));
+	protected static final JumboTexture disabledtex = new JumboTexture(new JumboColor(100, 100, 100, 125));
 
 	protected boolean triggered = false;
 
@@ -83,7 +80,7 @@ public class JumboButton extends JumboGraphicsObject {
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 					new Rectangle(0, 0, getBounds().width, getBounds().height));
-			this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		if (hovericon != null) {
@@ -99,7 +96,7 @@ public class JumboButton extends JumboGraphicsObject {
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 					new Rectangle(0, 0, getBounds().width, getBounds().height));
-			this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		this.hovericon.addParent(this);
@@ -114,7 +111,7 @@ public class JumboButton extends JumboGraphicsObject {
 			this.hovericon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 					new Rectangle(0, 0, getBounds().width, getBounds().height));
-			this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 	}
@@ -125,7 +122,7 @@ public class JumboButton extends JumboGraphicsObject {
 		this.icon.addParent(this);
 		this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 				new Rectangle(0, 0, getBounds().width, getBounds().height));
-		this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+		this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 		this.disabledicon.addParent(this);
 		this.hovericon.addParent(this);
 	}
@@ -137,7 +134,7 @@ public class JumboButton extends JumboGraphicsObject {
 			this.icon = new JumboImage(new Rectangle(0, 0, rectangle.width, rectangle.height), new JumboTexture(tex2));
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 					new Rectangle(0, 0, getBounds().width, getBounds().height));
-			this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		this.hovericon.addParent(this);
@@ -153,7 +150,7 @@ public class JumboButton extends JumboGraphicsObject {
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 					new Rectangle(0, 0, getBounds().width, getBounds().height));
-			this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		if (hover != null) {
@@ -167,7 +164,7 @@ public class JumboButton extends JumboGraphicsObject {
 		this.icon = img;
 		this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
 				new Rectangle(0, 0, getBounds().width, getBounds().height));
-		this.disabledicon.getTexture().setColor(new Color(100, 100, 100, 125));
+		this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 		this.disabledicon.addParent(this);
 		this.hovericon.addParent(this);
 		this.hovericon.setBounds(new Rectangle(0, 0, rect.width, rect.height));

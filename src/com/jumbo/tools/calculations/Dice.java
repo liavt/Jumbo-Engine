@@ -1,11 +1,11 @@
 package com.jumbo.tools.calculations;
 
-import java.awt.Color;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import com.jumbo.tools.loaders.StringHandler.consonants;
-import com.jumbo.tools.loaders.StringHandler.vowels;
+import com.jumbo.components.JumboColor;
+import com.jumbo.tools.loaders.JumboStringHandler.consonants;
+import com.jumbo.tools.loaders.JumboStringHandler.vowels;
 
 public final class Dice {
 	// static class for calling random numbers.
@@ -104,7 +104,7 @@ public final class Dice {
 		return Dice.rollPercent(i, 0);
 	}
 
-	public static Color randomColor() {
-		return new Color(Dice.roll(255), Dice.roll(255), Dice.roll(255));
+	public static JumboColor randomColor() {
+		return new JumboColor(Dice.roll(255), Dice.roll(255), Dice.roll(255));
 	}
 }

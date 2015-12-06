@@ -78,6 +78,10 @@ public class FloatRectangle implements java.lang.Cloneable, java.io.Serializable
 		height = height2;
 	}
 
+	public FloatRectangle() {
+		this(0, 0, 0, 0);
+	}
+
 	/**
 	 * @return the x
 	 */

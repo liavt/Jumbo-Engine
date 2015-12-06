@@ -1,12 +1,15 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboRenderer;
 import com.jumbo.rendering.JumboTexture;
-
-import java.awt.*;
+import com.jumbo.tools.console.JumboConsole;
 
 @Deprecated
 public class JumboLine extends JumboGraphicsObject {
@@ -62,7 +65,7 @@ public class JumboLine extends JumboGraphicsObject {
 		setVectorBotLeft(new Dimension(xdifference, height));
 		setVectorTopRight(new Dimension(0, height));
 		setVectorTopRight(new Dimension(0, height / 2));
-		System.out.println(getBounds());
+		JumboConsole.log(getBounds());
 	}
 
 	private Position pos1, pos2;
@@ -74,7 +77,7 @@ public class JumboLine extends JumboGraphicsObject {
 
 	public JumboLine(Position pos1, Position pos2, int width) {
 		super(new Rectangle(pos1.x, pos1.y, width, pos1.y - pos2.y),
-				new JumboTexture(JumboTexture.solidcolor, Color.white));
+				new JumboTexture(JumboTexture.solidcolor, JumboColor.WHITE));
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.width = width;
@@ -84,12 +87,14 @@ public class JumboLine extends JumboGraphicsObject {
 
 	@Override
 	public void tick() {
-		if (isUpdaterequired())
+		if (isUpdaterequired()) {
 			refreshPosition();
+		}
 		JumboRenderer.render(this);
 		TriggeredAction action = customaction;
-		if (action != null)
+		if (action != null) {
 			action.action();
+		}
 	}
 
 }

@@ -1,8 +1,8 @@
-package com.jumbo.tools.loaders;
+package com.jumbo.tools.console;
 
 import com.jumbo.components.interfaces.ParametrizedAction;
 
-public class Command {
+public class JumboCommand {
 	private final String input, desc, usage;
 	private final ParametrizedAction<String[]> action;
 
@@ -20,7 +20,7 @@ public class Command {
 		return action;
 	}
 
-	public Command(String command, String help, String usage, ParametrizedAction<String[]> action) {
+	public JumboCommand(String command, String help, String usage, ParametrizedAction<String[]> action) {
 		this.desc = help;
 		this.usage = usage;
 		this.input = command;

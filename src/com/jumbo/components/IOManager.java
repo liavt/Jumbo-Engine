@@ -1,6 +1,6 @@
 package com.jumbo.components;
 
-import com.jumbo.tools.loaders.StringHandler;
+import com.jumbo.tools.loaders.JumboStringHandler;
 
 /**
  * Abstract class that provides the ability for statically defined classes (like
@@ -12,7 +12,7 @@ import com.jumbo.tools.loaders.StringHandler;
  * saves space, and looks neater.
  * 
  * @author Liav
- * @see StringHandler
+ * @see JumboStringHandler
  */
 public abstract class IOManager {
 	public abstract String save();

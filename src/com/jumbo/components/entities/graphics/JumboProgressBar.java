@@ -1,9 +1,9 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
@@ -54,11 +54,11 @@ public class JumboProgressBar extends JumboGraphicsObject {
 	}
 
 	protected JumboImage overlayarea = new JumboImage(new Rectangle(),
-			new JumboTexture(JumboTexture.solidcolor, Color.RED));
+			new JumboTexture(JumboTexture.solidcolor, JumboColor.RED));
 	protected TriggeredAction progresschangeaction;
 
 	public JumboProgressBar(Rectangle bounds) {
-		super(bounds, new JumboTexture(JumboTexture.solidcolor, Color.DARK_GRAY));
+		super(bounds, new JumboTexture(JumboTexture.solidcolor, JumboColor.DARK_GREY));
 		overlayarea.setBounds(new Rectangle(10, 10, bounds.width - 20, bounds.height - 20));
 		setProgress(progress);
 		overlayarea.setMaintainingPosition(true);

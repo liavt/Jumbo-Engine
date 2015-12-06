@@ -1,6 +1,5 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -9,7 +8,6 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboTexture;
-import com.jumbo.tools.loaders.StringHandler;
 
 public class JumboTextBox extends JumboGraphicsObject {
 	/**
@@ -25,6 +23,7 @@ public class JumboTextBox extends JumboGraphicsObject {
 		text = t;
 		offset = t.getPosition();
 		calculatePosition();
+		t.setRenderable(true);
 	}
 
 	@Override
@@ -107,8 +106,8 @@ public class JumboTextBox extends JumboGraphicsObject {
 	@Override
 	public Rectangle additionalCalculations(Rectangle bounds) {
 		int x = 0, y = 0;
-		Rectangle tbounds = text.getBounds();
-		// System.out.println(bounds + " " + basebounds);
+		final Rectangle tbounds = text.getBounds();
+		// JumboConsole.log(bounds + " " + basebounds);
 		if (centerwidth) {
 			x = (int) ((((bounds.width / 2.0f) - (tbounds.width / 2.0f))));
 		}
@@ -121,7 +120,20 @@ public class JumboTextBox extends JumboGraphicsObject {
 		tbounds.x = x + offset.x;
 		tbounds.y = y + offset.y;
 		if (tbounds.width >= bounds.width) {
-			setSize((int) (StringHandler.getSize() * ((float) bounds.width / (float) (tbounds.width))) + 1);
+			// TODO fix word wrap
+			// final int size = (int) (JumboStringHandler.getSize() * ((float)
+			// bounds.width / (float) (tbounds.width)))
+			// + 1;
+			// final ArrayList<JumboEntity> imgs = text.getLetters();
+			// for (JumboEntity e : imgs) {
+			// final Rectangle newbounds = e.getBounds();
+			// final float mod = (float) size / ((JumboLetter) e).getSize();
+			// System.out.println(mod);
+			// e.setOutbounds(new Rectangle((int) (newbounds.x * mod),
+			// newbounds.y, (int) (newbounds.width * mod),
+			// (int) (newbounds.height * mod)));
+			// }
+			// text.setLetters(imgs);
 		}
 		text.setMaintainingPosition(true);
 		text.calculatePosition();
@@ -133,23 +145,6 @@ public class JumboTextBox extends JumboGraphicsObject {
 		setUpdaterequired(true);
 	}
 
-	public void setColor(Color c) {
-		text.setColor(c);
-	}
-
-	public Color getColor() {
-		return text.getColor();
-	}
-
-	public void setSize(int i) {
-		text.setSize(i);
-		setUpdaterequired(true);
-	}
-
-	public int getSize() {
-		return text.getSize();
-	}
-
 	@Override
 	public void setRenderable(boolean r) {
 		text.setRenderable(r);
@@ -159,15 +154,6 @@ public class JumboTextBox extends JumboGraphicsObject {
 	@Override
 	public boolean isRenderable() {
 		return text.isRenderable();
-	}
-
-	public void setItalics(boolean b) {
-		text.setItalics(b);
-		setUpdaterequired(true);
-	}
-
-	public boolean isItalics() {
-		return text.isItalics();
 	}
 
 }

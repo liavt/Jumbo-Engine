@@ -1,4 +1,4 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
 
 import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboRenderer;

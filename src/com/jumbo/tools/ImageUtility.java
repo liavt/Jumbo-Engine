@@ -11,7 +11,7 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
 import com.jumbo.components.FloatRectangle;
-import com.jumbo.components.entities.ui.JumboAnimationFrame;
+import com.jumbo.components.entities.graphics.JumboAnimationFrame;
 import com.jumbo.rendering.JumboTexture;
 
 public class ImageUtility {

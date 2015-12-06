@@ -1,12 +1,12 @@
-package com.jumbo.components.entities.ui;
+package com.jumbo.components.entities.graphics;
+
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboGraphicsObject;
 import com.jumbo.rendering.JumboTexture;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class JumboChooser extends JumboGraphicsObject {
 
@@ -112,7 +112,7 @@ public class JumboChooser extends JumboGraphicsObject {
 		left = new JumboButton(tex, hover, new Rectangle(0, 0, 50, 50));
 		right = new JumboButton(tex, hover, new Rectangle(bounds.width - 50, 0, 50, 50));
 		left.setMaintainingPosition(true);
-		left.setDescriptor(new JumboText("<"));
+		left.setDescriptor(new JumboText("$<"));
 		left.addParent(this);
 		left.setClickAction(() -> {
 			final short size = (short) this.options.length;
@@ -139,7 +139,7 @@ public class JumboChooser extends JumboGraphicsObject {
 			current = next;
 			refreshText();
 		});
-		desc = new JumboTextBox(new Rectangle(50, 0, bounds.width - 50, 50), new JumboText("", 16));
+		desc = new JumboTextBox(new Rectangle(50, 0, bounds.width - 50, 50), new JumboText(""));
 		desc.setMaintainingPosition(true);
 		desc.addParent(this);
 		refreshText();
@@ -147,10 +147,12 @@ public class JumboChooser extends JumboGraphicsObject {
 
 	private void refreshText() {
 		if (options != null) {
-			if (current >= options.length)
+			if (current >= options.length) {
 				current = (short) (options.length - 1);
-			if (current < 0)
+			}
+			if (current < 0) {
 				current = 0;
+			}
 			desc.setText(options[current]);
 		}
 		if (changeaction != null) {
@@ -186,8 +188,9 @@ public class JumboChooser extends JumboGraphicsObject {
 		}
 		if (active) {
 			final TriggeredAction action = customaction;
-			if (action != null)
+			if (action != null) {
 				action.action();
+			}
 		}
 	}
 

@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jumbo.components.FloatRectangle;
-import com.jumbo.components.entities.ui.JumboImage;
+import com.jumbo.components.JumboColor;
+import com.jumbo.components.entities.graphics.JumboLetter;
 import com.jumbo.rendering.Jumbo;
+import com.jumbo.rendering.JumboEntity;
 import com.jumbo.rendering.JumboTexture;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
+import com.jumbo.tools.console.JumboConsole;
 
 /**
  * Static class that provides various methods concerning Strings. Also provides
@@ -25,7 +28,8 @@ import com.jumbo.tools.JumboSettings;
  *
  * @author Liav
  */
-public final class StringHandler {
+public final class JumboStringHandler {
+
 	public enum vowels {
 		A, E, I, O, U, Y;
 
@@ -47,16 +51,14 @@ public final class StringHandler {
 	}
 
 	/**
-	 * Returns the textual suffi for the number given.
+	 * Returns the textual suffix for the number given.
 	 * <p>
 	 * For example:
-	 * <p>
-	 * 1 will return 1st
-	 * <p>
-	 * 2 will return 2nd
-	 * <p>
-	 * 3 will return 3rd
-	 * <p>
+	 * <ul>
+	 * <li>1 will return 1st
+	 * <li>2 will return 2nd
+	 * <li>3 will return 3rd
+	 * </ul>
 	 * The rest of the the numbers return with -th, with the exception of 0.
 	 *
 	 * @param num
@@ -78,7 +80,7 @@ public final class StringHandler {
 	}
 
 	public static String loadAsString(String file) {
-		File test = new File(file);
+		final File test = new File(file);
 
 		if (!test.exists() || !test.isFile() || !test.canRead()) {
 			return null;
@@ -86,18 +88,14 @@ public final class StringHandler {
 
 		final StringBuffer result = new StringBuffer();
 
-		try {
-			@SuppressWarnings("resource")
-			final BufferedReader reader = new BufferedReader(new FileReader(file));
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String buffer = "";
 			while ((buffer = reader.readLine()) != null) {
 				result.append(buffer).append(System.lineSeparator());
 			}
-			reader.close();
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
-
 		return result.toString().intern();
 	}
 
@@ -106,11 +104,27 @@ public final class StringHandler {
 		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
 			return fileName.substring(fileName.lastIndexOf(".") + 1);
 		}
-		return "";
+		return null;
 	}
 
 	public static void writeString(String path, String text) {
 		writeString(path, text, "UTF-16");
+	}
+
+	public static boolean deleteDirectory(File directory) {
+		if (directory.exists()) {
+			final File[] files = directory.listFiles();
+			if (null != files) {
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].isDirectory()) {
+						deleteDirectory(files[i]);
+					} else {
+						files[i].delete();
+					}
+				}
+			}
+		}
+		return (directory.delete());
 	}
 
 	public static void writeString(String path, String text, String charset) {
@@ -122,12 +136,11 @@ public final class StringHandler {
 			}
 			// file.mkdirs();
 			file.createNewFile();
-			@SuppressWarnings("resource")
-			final PrintWriter writer = new PrintWriter(path, charset);
-			writer.print(text);
-			writer.close();
+			try (final PrintWriter writer = new PrintWriter(path, charset)) {
+				writer.print(text);
+			}
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 
@@ -152,7 +165,7 @@ public final class StringHandler {
 	}
 
 	public static void setUnknownchar(JumboTexture unknownchar) {
-		StringHandler.unknownchar = unknownchar;
+		JumboStringHandler.unknownchar = unknownchar;
 	}
 
 	private static int base, size;
@@ -175,7 +188,7 @@ public final class StringHandler {
 			}
 		} catch (IOException e) {
 			System.err.println("ERROR READING FONT FILE!");
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 		base = Integer.valueOf(
 				lines.get(1).substring(lines.get(1).lastIndexOf("base=") + 5, lines.get(1).lastIndexOf(" scaleW=")));
@@ -215,7 +228,8 @@ public final class StringHandler {
 			}
 			chars[i] = new CharInfo(id, rect);
 		}
-		tex = new JumboTexture(ImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
+		tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
+		currentsize = JumboStringHandler.size;
 	}
 
 	public static int getSize() {
@@ -230,10 +244,87 @@ public final class StringHandler {
 		return chars;
 	}
 
-	public final static JumboImage[] getLetters(String s) {
+	private enum CommandType {
+		FALSE, TRUE, IGNORED
+	}
+
+	private enum ParseType {
+		PROBING, COLOR, SIZE
+	}
+
+	// for letter by letter stuff
+	private static boolean italics = false;
+	private static int currentsize = JumboStringHandler.size;
+	private static JumboColor col = JumboColor.BLACK;
+	private static ParseType type = ParseType.PROBING;
+
+	private static void parseCommand(char[] letters) {
+		type = ParseType.PROBING;
+		for (int i = 0; i < letters.length; i++) {
+			final char c = letters[i];
+			if (type == ParseType.COLOR) {
+				// this is the only way i could think of doing this
+				final StringBuffer hex = new StringBuffer();
+				while (type == ParseType.COLOR) {
+					if (i < letters.length) {
+						final char character = letters[i];
+						checkParseType(character);
+						if (type == ParseType.COLOR) {
+							i++;
+							hex.append(character);
+						} else {
+							break;
+						}
+					} else {
+						type = ParseType.PROBING;
+					}
+
+				}
+				col = JumboColor.fromHex(hex.toString());
+			} else if (type == ParseType.SIZE) {
+				// this is the only way i could think of doing this
+				final StringBuffer size = new StringBuffer();
+				while (type == ParseType.SIZE) {
+					if (i < letters.length) {
+						final char character = letters[i];
+						checkParseType(character);
+						if (type == ParseType.SIZE) {
+							i++;
+							size.append(character);
+						} else {
+							break;
+						}
+					} else {
+						type = ParseType.PROBING;
+					}
+
+				}
+				JumboStringHandler.currentsize = Integer.parseUnsignedInt((size.toString()));
+				JumboConsole.log(currentsize);
+			}
+			checkParseType(c);
+		}
+	}
+
+	private static void checkParseType(char c) {
+		if (c == 'i') {
+			italics = !italics;
+			type = ParseType.PROBING;
+		} else if (c == '#') {
+			type = ParseType.COLOR;
+		} else if (c == 's') {
+			type = ParseType.SIZE;
+		}
+	}
+
+	private static String defaultprefix = "";
+
+	public final static ArrayList<JumboEntity> getLetters(String string) {
+		final String s = defaultprefix + string;
 		final int length = s.length();
-		final JumboImage[] result = new JumboImage[length];
-		final JumboTexture[] tex = new JumboTexture[length];
+		final ArrayList<JumboEntity> results = new ArrayList<>(length);
+		CommandType commandtype = CommandType.FALSE;
+		final StringBuilder command = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			final int id = s.codePointAt(i);
 			CharInfo out = null;
@@ -246,26 +337,68 @@ public final class StringHandler {
 				out = new CharInfo(id, new Rectangle(0, 0, -id, 0));
 			}
 			if (out != null) {
-				Rectangle outbounds = out.rect;
-				JumboTexture texture = StringHandler.tex;
-				float width = texture.getWidth(), height = texture.getHeight();
-				FloatRectangle outpos = new FloatRectangle(outbounds.x / width, outbounds.y / height,
+				final Rectangle outbounds = out.rect;
+				final JumboTexture texture = JumboStringHandler.tex;
+				final float width = texture.getWidth(), height = texture.getHeight();
+				final FloatRectangle outpos = new FloatRectangle(outbounds.x / width, outbounds.y / height,
 						outbounds.width / width, outbounds.height / height);
-				tex[i] = new JumboTexture();
-				tex[i].setID(texture.getID());
-				tex[i].setTextureCoords(outpos);
+				final JumboTexture tex = new JumboTexture();
+				tex.setID(texture.getID());
+				tex.setTextureCoords(outpos);
+				tex.setColor(col);
+				if (commandtype == CommandType.TRUE) {
+					if (id == 62) {
+						commandtype = CommandType.FALSE;
+						// parsing the commands
+						parseCommand(command.toString().toCharArray());
+						command.delete(0, command.length());
+					} else {
+						command.append((char) id);
+					}
+					continue;
+				}
 				if (id == 32) {
 					outbounds.width = 9;
-				} else if (id == 10) {
-					outbounds.height = -1;
+				} else if (id == 36) {
+					commandtype = CommandType.IGNORED;
+				} else if (id == 60) {
+					if (commandtype == CommandType.IGNORED) {
+						commandtype = CommandType.FALSE;
+						results.remove(results.size() - 1);
+					} else {
+						commandtype = CommandType.TRUE;
+						continue;
+					}
+				} else if (commandtype == CommandType.IGNORED) {
+					commandtype = CommandType.FALSE;
 				}
-				result[i] = new JumboImage(new Rectangle(0, 0, outbounds.width, outbounds.height), tex[i]);
+				final JumboLetter let = new JumboLetter(new Rectangle(0, 0, (outbounds.width), (outbounds.height)),
+						tex);
+				let.setId(id);
+				let.setSize(currentsize);
+				let.setItalics(italics);
+				results.add(let);
 			} else {
-				System.err.println("UNICODE ID " + id + " NOT FOUND IN FONT FILE");
-				result[i] = new JumboImage(new Rectangle(0, 0, 0, 0), StringHandler.unknownchar);
+				JumboConsole.log("UNICODE ID " + id + " NOT FOUND IN FONT FILE", 1);
+				results.add(new JumboLetter(new Rectangle(0, 0, 0, 0), JumboStringHandler.unknownchar));
 			}
 		}
-		return result;
+		return results;
+	}
+
+	/**
+	 * @return the defaultprefix
+	 */
+	public static String getDefaultPrefix() {
+		return defaultprefix;
+	}
+
+	/**
+	 * @param defaultprefix
+	 *            the defaultprefix to set
+	 */
+	public static void setDefaultSrefix(String defaultprefix) {
+		JumboStringHandler.defaultprefix = defaultprefix;
 	}
 
 	public final static String capitalize(String s) {
@@ -275,7 +408,7 @@ public final class StringHandler {
 	public final static void deleteStringIfExists(String path) {
 		File f = new File(path);
 		if (!f.exists()) {
-			ErrorHandler.handle(new IllegalArgumentException(path + " leads to a file that doesn't exist!"));
+			JumboErrorHandler.handle(new IllegalArgumentException(path + " leads to a file that doesn't exist!"));
 		}
 		f.delete();
 	}

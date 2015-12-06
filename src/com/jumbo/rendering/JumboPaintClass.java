@@ -6,13 +6,13 @@ import java.util.concurrent.Future;
 
 import org.lwjgl.opengl.Display;
 
-import com.jumbo.components.audio.JumboAudioPlayer;
+import com.jumbo.components.audio.JumboAudioHandler;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.tools.ErrorHandler;
-import com.jumbo.tools.InputHandler;
+import com.jumbo.tools.JumboErrorHandler;
+import com.jumbo.tools.JumboInputHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Maths;
-import com.jumbo.tools.loaders.ConsoleCommands;
+import com.jumbo.tools.calculations.JumboMathHandler;
+import com.jumbo.tools.console.JumboConsole;
 
 final class JumboPaintClass {
 	boolean running = false;
@@ -78,12 +78,12 @@ final class JumboPaintClass {
 	}
 
 	static void update() {
-		// System.out.println(Jumbo.getFrameWidth() + " " +
+		// JumboConsole.log(Jumbo.getFrameWidth() + " " +
 		// Jumbo.getFrameHeight());
-		InputHandler.refresh();
+		JumboInputHandler.refresh();
 		// JumboAudioPlayer.tick();
 		JumboRenderer.prepare();
-		Maths.refresh();
+		JumboMathHandler.refresh();
 		v.tick();
 		final TriggeredAction a = customaction;
 		if (a != null) {
@@ -91,6 +91,13 @@ final class JumboPaintClass {
 		}
 		System.runFinalization();
 		Display.update();
+		final int fps = JumboSettings.fps;
+		if (fps > 0) {
+			Display.sync(fps);
+		}
+		if (Display.isCloseRequested()) {
+			Jumbo.stop();
+		}
 	}
 
 	private static ExecutorService e;
@@ -100,15 +107,15 @@ final class JumboPaintClass {
 			e = Executors.newFixedThreadPool(2);
 			running = true;
 			final Runnable input = () -> {
-				if (!JumboAudioPlayer.isInit()) {
+				if (!JumboAudioHandler.isInit()) {
 					try {
-						JumboAudioPlayer.init();
+						JumboAudioHandler.init();
 					} catch (Exception e1) {
-						ErrorHandler.handle(e1);
+						JumboErrorHandler.handle(e1);
 					}
 				}
-				JumboAudioPlayer.tick();
-			} , console = System.console() != null ? ConsoleCommands::tick : () -> {
+				JumboAudioHandler.tick();
+			} , console = System.console() != null ? JumboConsole::tick : () -> {
 			};
 			Future<?> inputfuture = e.submit(input);
 			Future<?> consolefuture = e.submit(console);
@@ -118,7 +125,7 @@ final class JumboPaintClass {
 			// sometimes the program will start before the audio player is init,
 			// causing a crash.
 			while (true) {
-				if (JumboAudioPlayer.isInit()) {
+				if (JumboAudioHandler.isInit()) {
 					break;
 				}
 			}
@@ -138,16 +145,9 @@ final class JumboPaintClass {
 					consolefuture = e.submit(console);
 				}
 				update();
-				final int fps = JumboSettings.fps;
-				if (fps > 0) {
-					Display.sync(fps);
-				}
-				if (Display.isCloseRequested()) {
-					Jumbo.stop();
-				}
 			}
 		} catch (Throwable t) {
-			ErrorHandler.handle(t);
+			JumboErrorHandler.handle(t);
 		}
 	}
 

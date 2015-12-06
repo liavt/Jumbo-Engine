@@ -7,6 +7,9 @@ import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
+import com.jumbo.tools.JumboErrorHandler;
+import com.jumbo.tools.console.JumboConsole;
+
 @Deprecated
 public class ShaderProgram {
 	private static final String vertexMainPath = "src/com/jumbo/rendering/shaders/vertexShaderMain.txt",
@@ -24,18 +27,17 @@ public class ShaderProgram {
 			}
 			reader.close();
 		} catch (IOException e) {
-			System.err.println("Could not read file!");
-			e.printStackTrace();
-			System.exit(-1);
+			JumboErrorHandler.handle(e, "Problem reading shader file!");
 		}
 		GL20.glShaderSource(shader, shaderSource);
 		GL20.glCompileShader(shader);
-		if (GL11.glGetError() != 0)
-			System.err.println("ERROR COMPILING SHADERS, ERROR CODE: " + GL11.glGetError());
+		if (GL11.glGetError() != 0) {
+			JumboConsole.log("ERROR COMPILING SHADERS, ERROR CODE: " + GL11.glGetError(), 1);
+		}
 
 		if (GL20.glGetShaderi(shader, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-			System.err.println("Shader of type " + type + " wasn't able to be compiled correctly. Error log:");
-			System.err.println(GL20.glGetShaderInfoLog(shader, 1024));
+			JumboConsole.log("Shader of type " + type + " wasn't able to be compiled correctly. Error log:", 1);
+			JumboConsole.log(GL20.glGetShaderInfoLog(shader, 1024), 1);
 		}
 		return shader;
 	}

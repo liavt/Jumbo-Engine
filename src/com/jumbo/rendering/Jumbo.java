@@ -5,12 +5,14 @@ import java.io.IOException;
 import org.lwjgl.opengl.Display;
 
 import com.jumbo.components.JumboException;
-import com.jumbo.components.audio.JumboAudioPlayer;
+import com.jumbo.components.audio.JumboAudioHandler;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.tools.ErrorHandler;
+import com.jumbo.rendering.ng.JumboNGRenderMode;
+import com.jumbo.rendering.ng.JumboNGTextureBinder;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Maths;
-import com.jumbo.tools.loaders.StringHandler;
+import com.jumbo.tools.calculations.JumboMathHandler;
+import com.jumbo.tools.loaders.JumboStringHandler;
 
 public final class Jumbo {
 	// main engine class, gets called to start the engine
@@ -21,7 +23,7 @@ public final class Jumbo {
 	/**
 	 * Sets up the display, font render, and renderer by calling
 	 * {@link JumboDisplayManager#createDisplay()},
-	 * {@link StringHandler#initFont()}, and {@link JumboRenderer#init()}
+	 * {@link JumboStringHandler#initFont()}, and {@link JumboRenderer#init()}
 	 * respectively.
 	 * 
 	 * @see #start
@@ -33,8 +35,9 @@ public final class Jumbo {
 		// Mouse.setNativeCursor(c);
 		// ShaderProgram.init();
 		// Maths.init();
-		StringHandler.initFont();
+		JumboStringHandler.initFont();
 		JumboRenderer.init();
+		JumboTexture.init();
 		// JumboAudioPlayer.init();
 	}
 
@@ -68,7 +71,7 @@ public final class Jumbo {
 			setPreviousScene(prev);
 			paint.run();
 		} catch (Exception e) {
-			ErrorHandler.handle(e);
+			JumboErrorHandler.handle(e);
 		}
 	}
 
@@ -110,10 +113,10 @@ public final class Jumbo {
 
 	/**
 	 * Stops everything, closing the display, calling {@link #closeDisplay()},
-	 * {@link Jumbo#getCloseaction()}, {@link Maths#destroy()},
-	 * {@link JumboAudioPlayer#destroy()},flushing {@link System#out} and
-	 * {@link System#err}, and finally calling {@link System#exit} with an error
-	 * code of 0.
+	 * {@link Jumbo#getCloseaction()}, {@link JumboMathHandler#destroy()},
+	 * {@link JumboAudioHandler#destroy()},flushing {@link System#out} and
+	 * {@link System#err}, and finally calling {@link System#exit} with the
+	 * specified exit code.
 	 * <P>
 	 * This is automatically called from the main loop when
 	 * {@link Display#isCloseRequested()} is true.
@@ -122,22 +125,29 @@ public final class Jumbo {
 	 * simply wish the close the graphical window, use {@link #closeDisplay()}
 	 * instead.
 	 * 
+	 * @param id
+	 *            exit code given to {@link System#exit(int)}
+	 * 
 	 * @see System
 	 * @see Display
 	 */
-	public static void stop() {
+	public static void stop(int id) {
 		TriggeredAction close = Jumbo.getCloseaction();
 		if (close != null) {
 			close.action();
 		}
 		closeDisplay();
-		JumboAudioPlayer.destroy();
-		Maths.destroy();
+		JumboAudioHandler.destroy();
+		JumboMathHandler.destroy();
 		System.out.flush();
 		System.err.flush();
 		// Display.destroy();
 		// frame.dispose();
-		System.exit(0);
+		System.exit(id);
+	}
+
+	public static void stop() {
+		stop(0);
 	}
 
 	public static void closeDisplay() {
@@ -188,5 +198,25 @@ public final class Jumbo {
 		JumboLaunchConfig c = JumboSettings.launchConfig;
 		c.vsync = b;
 		setNewLaunchConfig(c);
+	}
+
+	/**
+	 * <b>Be aware that this changes the current {@link JumboRenderMode} and
+	 * {@link JumboTextureBinder}</b>
+	 * <p>
+	 * Set whether graphics should be enabled.
+	 * 
+	 * @param b
+	 * @see JumboNGRenderMode
+	 * @see JumboNGTextureBinder
+	 */
+	public static void setGraphicsEnabled(boolean b) {
+		if (b) {
+			JumboRenderer.setCurrentRenderMode(new JumboRenderMode());
+			JumboTexture.setBinder(new JumboTextureBinder());
+		} else {
+			JumboRenderer.setCurrentRenderMode(new JumboNGRenderMode());
+			JumboTexture.setBinder(new JumboNGTextureBinder());
+		}
 	}
 }

@@ -9,7 +9,7 @@ import org.lwjgl.opengl.DisplayMode;
 public final class JumboLaunchConfig {
 	public final BufferedImage[] icon;
 	public final String fontpath, title;
-	public final Dimension dim;
+	public final int width, height;
 
 	public boolean fullscreen = false, vsync = false, resizable = false;
 	public DisplayMode mode = Display.getDesktopDisplayMode();
@@ -18,11 +18,11 @@ public final class JumboLaunchConfig {
 	// JumboSettings.launchConfig.width() instead of
 	// JumboSettings.launchConfig.mode.getWidth().
 	public int width() {
-		return dim.width;
+		return width;
 	}
 
 	public int height() {
-		return dim.height;
+		return height;
 	}
 
 	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon, String fontpath) {
@@ -30,14 +30,17 @@ public final class JumboLaunchConfig {
 		this.icon = icon;
 		this.mode = mode;
 		this.title = name;
-		this.dim = new Dimension(mode.getWidth(), mode.getHeight());
+		this.width = mode.getWidth();
+		this.height = mode.getHeight();
 	}
 
 	public JumboLaunchConfig(String name, Dimension dim, BufferedImage[] icon, String fontpath) {
 		this.fontpath = fontpath;
 		this.icon = icon;
 		this.title = name;
-		this.dim = dim;
+		this.mode = new DisplayMode(dim.width, dim.height);
+		this.width = mode.getWidth();
+		this.height = mode.getHeight();
 	}
 
 }

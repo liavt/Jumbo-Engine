@@ -1,14 +1,14 @@
 package com.jumbo.components.particles;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import com.jumbo.components.JumboColor;
 import com.jumbo.components.MinMaxVector;
 import com.jumbo.components.Position;
 import com.jumbo.components.entities.JumboGraphicsGroup;
-import com.jumbo.components.entities.ui.JumboAnimation;
-import com.jumbo.components.entities.ui.JumboAnimationFrame;
+import com.jumbo.components.entities.graphics.JumboAnimation;
+import com.jumbo.components.entities.graphics.JumboAnimationFrame;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.rendering.Jumbo;
 import com.jumbo.rendering.JumboEntity;
@@ -201,7 +201,7 @@ public class JumboParticleEmitter extends JumboEntity {
 				}
 			}
 			super.tick();
-			// System.out.println(fieldbounds + " " + outbounds);
+			// JumboConsole.log(fieldbounds + " " + outbounds);
 		}
 
 		public void resetPos() {
@@ -210,7 +210,7 @@ public class JumboParticleEmitter extends JumboEntity {
 			bounds.y = Dice.roll(fieldbounds.height) + fieldbounds.y;
 			x = xoffset.roll();
 			y = yoffset.roll();
-			setColor(new Color(red.roll(), green.roll(), blue.roll(), alpha.roll()));
+			setColor(new JumboColor(red.roll(), green.roll(), blue.roll(), alpha.roll()));
 			this.rate = speed.roll() / 10.0f;
 			reset();
 			setDelay(delaytime.roll());
