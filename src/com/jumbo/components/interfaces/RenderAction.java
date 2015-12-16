@@ -1,9 +1,9 @@
 
 package com.jumbo.components.interfaces;
 
-import com.jumbo.rendering.JumboGraphicsObject;
-import com.jumbo.rendering.JumboRenderMode;
-import com.jumbo.rendering.JumboRenderer;
+import com.jumbo.core.JumboGraphicsObject;
+import com.jumbo.core.JumboRenderMode;
+import com.jumbo.core.JumboRenderer;
 
 /**
  * Used in {@link JumboRenderMode}. Called by {@link JumboRenderer} when

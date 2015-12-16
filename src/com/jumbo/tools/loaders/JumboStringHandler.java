@@ -13,10 +13,10 @@ import java.util.List;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.entities.graphics.JumboLetter;
-import com.jumbo.rendering.Jumbo;
-import com.jumbo.rendering.JumboEntity;
-import com.jumbo.rendering.JumboTexture;
+import com.jumbo.core.Jumbo;
+import com.jumbo.core.JumboEntity;
+import com.jumbo.core.JumboTexture;
+import com.jumbo.entities.graphics.JumboLetter;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.console.JumboConsole;
@@ -157,6 +157,9 @@ public final class JumboStringHandler {
 	private static JumboTexture tex, unknownchar;
 
 	public static JumboTexture getBitmap() {
+		if (tex == null) {
+			throw new IllegalStateException("Font was not iniliazed! Call JumboStringHandler.init()!");
+		}
 		return tex;
 	}
 
@@ -178,58 +181,61 @@ public final class JumboStringHandler {
 	 *
 	 * @throws IOException
 	 */
-	@SuppressWarnings("boxing")
 	public final static void initFont() throws IOException {
 		unknownchar = new JumboTexture();
-		List<String> lines = new ArrayList<>();
-		try {
-			for (String s : Files.readAllLines(Paths.get(JumboSettings.launchConfig.fontpath + ".fnt"))) {
-				lines.add(s);
-			}
-		} catch (IOException e) {
-			System.err.println("ERROR READING FONT FILE!");
-			JumboErrorHandler.handle(e);
-		}
-		base = Integer.valueOf(
-				lines.get(1).substring(lines.get(1).lastIndexOf("base=") + 5, lines.get(1).lastIndexOf(" scaleW=")));
-		size = Integer.valueOf(
-				lines.get(0).substring(lines.get(0).lastIndexOf("size=") + 5, lines.get(0).lastIndexOf(" bold=")));
-		if (Integer.valueOf(lines.get(1).substring(lines.get(1).lastIndexOf("pages=") + 6,
-				lines.get(1).lastIndexOf(" packed="))) != 1) {
-			throw new IOException("FONT HAS MORE THAN 1 TEXTURE PAGE, CAN'T LOAD!",
-					new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
-		}
-		if (Integer.valueOf(lines.get(0).substring(lines.get(0).lastIndexOf("unicode=") + 8,
-				lines.get(0).lastIndexOf(" stretchH="))) != 1) {
-			throw new IOException("FONT IS NOT UNICODE, CAN'T LOAD!",
-					new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
-		}
-		if (!lines.get(0).contains("bold=0 italic=0")) {
-			throw new IOException("FONT IS BE BOLD OR ITALICS, CAN'T LOAD!",
-					new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
-		}
-		chars = new CharInfo[Integer.valueOf(lines.get(3).replace("chars count=", ""))];
-		for (int i = 0; i < chars.length; i++) {
-			String line = lines.get(3 + i);
-			int id = 0;
-			Rectangle rect = new Rectangle(0, 0, 0, 0);
-			for (String part : line.split(" ")) {
-				if (part.contains("id=")) {
-					id = Integer.valueOf(part.substring(3));
-				} else if (part.contains("x=")) {
-					rect.x = Integer.valueOf(part.substring(2));
-				} else if (part.contains("y=")) {
-					rect.y = Integer.valueOf(part.substring(2));
-				} else if (part.contains("width=")) {
-					rect.width = Integer.valueOf(part.substring(6));
-				} else if (part.contains("height=")) {
-					rect.height = Integer.valueOf(part.substring(7));
+		final List<String> lines = new ArrayList<>();
+		if (JumboSettings.launchConfig.fontpath != "") {
+			try {
+				for (String s : Files.readAllLines(Paths.get(JumboSettings.launchConfig.fontpath + ".fnt"))) {
+					lines.add(s);
 				}
+			} catch (IOException e) {
+				System.err.println("ERROR READING FONT FILE!");
+				JumboErrorHandler.handle(e);
 			}
-			chars[i] = new CharInfo(id, rect);
+			base = Integer.valueOf(lines.get(1).substring(lines.get(1).lastIndexOf("base=") + 5,
+					lines.get(1).lastIndexOf(" scaleW=")));
+			size = Integer.valueOf(
+					lines.get(0).substring(lines.get(0).lastIndexOf("size=") + 5, lines.get(0).lastIndexOf(" bold=")));
+			if (Integer.valueOf(lines.get(1).substring(lines.get(1).lastIndexOf("pages=") + 6,
+					lines.get(1).lastIndexOf(" packed="))) != 1) {
+				throw new IOException("FONT HAS MORE THAN 1 TEXTURE PAGE, CAN'T LOAD!",
+						new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
+			}
+			if (Integer.valueOf(lines.get(0).substring(lines.get(0).lastIndexOf("unicode=") + 8,
+					lines.get(0).lastIndexOf(" stretchH="))) != 1) {
+				throw new IOException("FONT IS NOT UNICODE, CAN'T LOAD!",
+						new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
+			}
+			if (!lines.get(0).contains("bold=0 italic=0")) {
+				throw new IOException("FONT IS BE BOLD OR ITALICS, CAN'T LOAD!",
+						new IllegalArgumentException("FONT PATH LEADS TO INVALID FONT!"));
+			}
+			chars = new CharInfo[Integer.valueOf(lines.get(3).replace("chars count=", ""))];
+			for (int i = 0; i < chars.length; i++) {
+				String line = lines.get(3 + i);
+				int id = 0;
+				Rectangle rect = new Rectangle(0, 0, 0, 0);
+				for (String part : line.split(" ")) {
+					if (part.contains("id=")) {
+						id = Integer.valueOf(part.substring(3));
+					} else if (part.contains("x=")) {
+						rect.x = Integer.valueOf(part.substring(2));
+					} else if (part.contains("y=")) {
+						rect.y = Integer.valueOf(part.substring(2));
+					} else if (part.contains("width=")) {
+						rect.width = Integer.valueOf(part.substring(6));
+					} else if (part.contains("height=")) {
+						rect.height = Integer.valueOf(part.substring(7));
+					}
+				}
+				chars[i] = new CharInfo(id, rect);
+			}
+			tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
+			resetSettings();
+		} else {
+			JumboConsole.log("No font was initialized;  text-based classes will raise errors", 1);
 		}
-		tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
-		currentsize = JumboStringHandler.size;
 	}
 
 	public static int getSize() {
@@ -257,6 +263,12 @@ public final class JumboStringHandler {
 	private static int currentsize = JumboStringHandler.size;
 	private static JumboColor col = JumboColor.BLACK;
 	private static ParseType type = ParseType.PROBING;
+
+	private static void resetSettings() {
+		currentsize = size;
+		col = JumboColor.BLACK;
+		type = ParseType.PROBING;
+	}
 
 	private static void parseCommand(char[] letters) {
 		type = ParseType.PROBING;
@@ -300,7 +312,6 @@ public final class JumboStringHandler {
 
 				}
 				JumboStringHandler.currentsize = Integer.parseUnsignedInt((size.toString()));
-				JumboConsole.log(currentsize);
 			}
 			checkParseType(c);
 		}
@@ -320,6 +331,7 @@ public final class JumboStringHandler {
 	private static String defaultprefix = "";
 
 	public final static ArrayList<JumboEntity> getLetters(String string) {
+		resetSettings();
 		final String s = defaultprefix + string;
 		final int length = s.length();
 		final ArrayList<JumboEntity> results = new ArrayList<>(length);
@@ -344,7 +356,8 @@ public final class JumboStringHandler {
 						outbounds.width / width, outbounds.height / height);
 				final JumboTexture tex = new JumboTexture();
 				tex.setID(texture.getID());
-				tex.setTextureCoords(outpos);
+				// tex.setTextureCoords(outpos);
+				tex.setTextureCoords(new FloatRectangle(0, 0, 1, 1));
 				tex.setColor(col);
 				if (commandtype == CommandType.TRUE) {
 					if (id == 62) {
@@ -397,7 +410,7 @@ public final class JumboStringHandler {
 	 * @param defaultprefix
 	 *            the defaultprefix to set
 	 */
-	public static void setDefaultSrefix(String defaultprefix) {
+	public static void setDefaultPrefix(String defaultprefix) {
 		JumboStringHandler.defaultprefix = defaultprefix;
 	}
 

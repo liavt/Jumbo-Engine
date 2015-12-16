@@ -11,8 +11,8 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
 import com.jumbo.components.FloatRectangle;
-import com.jumbo.components.entities.graphics.JumboAnimationFrame;
-import com.jumbo.rendering.JumboTexture;
+import com.jumbo.core.JumboTexture;
+import com.jumbo.entities.graphics.JumboAnimationFrame;
 
 public class ImageUtility {
 	private static AffineTransform tx = null;

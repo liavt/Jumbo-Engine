@@ -1,0 +1,145 @@
+package com.jumbo.core;
+
+import java.awt.Dimension;
+import java.awt.Rectangle;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+
+import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.JumboColor;
+import com.jumbo.components.LambdaInteger;
+import com.jumbo.components.Position;
+import com.jumbo.components.interfaces.RenderAction;
+import com.jumbo.components.interfaces.TriggeredAction;
+import com.jumbo.tools.JumboErrorHandler;
+import com.jumbo.tools.JumboSettings;
+import com.jumbo.tools.calculations.Dice;
+
+/**
+ * Class that contains various interfaces to be used for renderring by the
+ * {@link JumboRenderer}.
+ * <p>
+ * Contains default interfaces that can be overridden to provide a custom OpenGL
+ * implementation.
+ * <p>
+ * The JumboRenderer can have multiple JumboRenderModes at once, and can switch
+ * between them easily.
+ * <p>
+ * Additionally, each {@link JumboScene} has a default JumboRenderMode, for
+ * {@link JumboGraphicsObject}s that dont want to override it.
+ * 
+ * @see JumboRenderer
+ * @see RenderAction
+ * @see TriggeredAction
+ * @see JumboScene
+ **/
+public class JumboRenderMode {
+	/**
+	 * Each render pass, when you bind a new texture, set this
+	 * {@link LambdaInteger} to be the new texture ID. This way, you can avoid
+	 * repeat texture rebindings.
+	 **/
+	// TODO need to move this somewhere else
+	public LambdaInteger previousid = new LambdaInteger(-1);
+
+	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
+		Rectangle rect = new Rectangle();
+		try {
+			rect = e.getInheritedOutbounds();
+		} catch (NullPointerException ex)
+
+		{
+			JumboErrorHandler.handle(ex, "Entity " + e + " has a null parent!");
+		}
+		e.setRenderposition(new Position(rect.x, rect.y));
+
+		final boolean outofbounds = (rect.x + rect.width <= 0 || rect.x >= renderwidth || rect.y + rect.height <= 0
+				|| rect.y >= renderheight);
+		e.setOutofbounds(outofbounds);
+		if (e.isRenderable() && !outofbounds)
+
+		{
+			// GL11.glLoadIdentity();
+			// check to make sure its not offscreen
+			// texture binding
+			final JumboTexture tex = e.getTexture();
+			// to prevent repeat method calls
+			int id = tex.getID();
+			if (previousid.getNum() != id) {
+				tex.bind();
+				previousid.setNum(id);
+			}
+			// JumboColor
+			FloatRectangle c = tex.getColor();
+			final boolean trippy = JumboSettings.trippy;
+			if (trippy) {
+				JumboColor c2 = Dice.randomColor();
+				c = new FloatRectangle(c2.getRed() / 255.0f, c2.getGreen() / 255.0f, c2.getBlue() / 255.0f, c.height);
+			}
+			GL11.glColor4f(c.x, c.y, c.width, c.height);
+			final FloatRectangle texturecoords = tex.getTextureCoords();
+			// float texturex = e.getTexture().getTextureCoords().x,
+			// texturey =
+			// e
+			// .getTexture().getTextureCoords().y, texturew = e
+			// .getTexture().getTextureCoords().z, textureh = e
+			// .getTexture().getTextureCoords().w;
+			// GL20.glUseProgram(ShaderProgram.programID);
+			// GL20.glVertexAttrib4f(ShaderProgram.position, rect.x, rect.y,
+			// rect.width, rect.height);
+			// position transformations
+			final int shake = JumboSettings.shakeintensity;
+			// rendering is here
+			final Dimension topleft = e.getVectorTopLeft(), topright = e.getVectorTopRight(),
+					botleft = e.getVectorBotLeft(), botright = e.getVectorBotRight();
+			final int rotation = tex.getRotation();
+			GL11.glMatrixMode(5890);
+			GL11.glLoadIdentity();
+			if (rotation > 0) {
+				GL11.glRotatef(rotation, 0, 0, 1);
+			}
+			GL11.glTranslatef(texturecoords.x, texturecoords.y, 0);
+			GL11.glMatrixMode(5888);
+			GL11.glBegin(e.getRendertype());
+			GL11.glTexCoord2f(0, 0);
+			GL11.glVertex2f(rect.x + shake + topleft.width, rect.y + shake + rect.height + topleft.height + shake);
+			GL11.glTexCoord2f(texturecoords.width, 0);
+			GL11.glVertex2f(rect.x + shake + rect.width + topright.width + shake,
+					rect.y + shake + rect.height + topright.height + shake);
+			GL11.glTexCoord2f(texturecoords.width, texturecoords.height);
+			GL11.glVertex2f(rect.x + shake + rect.width + botright.width + shake, rect.y + shake + botright.height);
+			GL11.glTexCoord2f(0, texturecoords.height);
+			GL11.glVertex2f(rect.x + shake + botleft.width, rect.y + shake + botleft.height);
+			GL11.glEnd();
+			// GL20.glUseProgram(0);
+			// // e.getTexture().unbind();
+		}
+	};
+
+	@SuppressWarnings("static-method")
+	public void init() {
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_FOG);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glCullFace(GL11.GL_FRONT);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glPolygonMode(GL11.GL_BACK, GL11.GL_FILL);
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+	};
+
+	public void prepare() {
+	}
+
+	/**
+	 * Default constructor for {@link JumboRenderMode}.
+	 * <p>
+	 * Contains the default rendering implemenations.
+	 **/
+	public JumboRenderMode() {
+	}
+
+}

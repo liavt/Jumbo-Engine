@@ -1,6 +1,6 @@
 package com.jumbo.tools;
 
-import com.jumbo.rendering.JumboLaunchConfig;
+import com.jumbo.core.JumboLaunchConfig;
 
 public final class JumboSettings {
 	private JumboSettings() {
@@ -37,7 +37,7 @@ public final class JumboSettings {
 											// in pixels
 	public static boolean inputEnabled = true;// for user input
 	// for
-	public static int fps = 0;
+	public static int fps = 0, tickdelay = 33;
 	// graphics
 
 	public static float musicvolume = 0.0f, fxvolume = -6.0f, totalvolume = 8.0f;// guess
