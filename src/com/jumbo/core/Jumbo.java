@@ -37,9 +37,9 @@ public final class Jumbo {
 		// Mouse.setNativeCursor(c);
 		// ShaderProgram.init();
 		// Maths.init();
-		JumboStringHandler.initFont();
 		JumboRenderer.init();
 		JumboTexture.init();
+		JumboStringHandler.initFont();
 		// JumboAudioPlayer.init();
 	}
 

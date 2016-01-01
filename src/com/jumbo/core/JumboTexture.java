@@ -82,9 +82,9 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	@Override
 	public Object clone() {
-		JumboTexture t = new JumboTexture();
+		final JumboTexture t = new JumboTexture();
 		t.setID(ID);
-		FloatRectangle coords = getTextureCoords();
+		final FloatRectangle coords = getTextureCoords();
 		t.setTextureCoords(new FloatRectangle(coords.x, coords.y, coords.width, coords.height));
 		t.setColor(color);
 		return t;

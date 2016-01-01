@@ -25,8 +25,6 @@ import com.jumbo.tools.console.JumboConsole;
  * Static class that provides various methods concerning Strings. Also provides
  * IO actions for Strings, and the underlying framework for bitmap text
  * rendering.
- *
- * @author Liav
  */
 public final class JumboStringHandler {
 
@@ -158,7 +156,7 @@ public final class JumboStringHandler {
 
 	public static JumboTexture getBitmap() {
 		if (tex == null) {
-			throw new IllegalStateException("Font was not iniliazed! Call JumboStringHandler.init()!");
+			throw new IllegalStateException("Font was not initialiazed! Call JumboStringHandler.init()!");
 		}
 		return tex;
 	}
@@ -175,21 +173,37 @@ public final class JumboStringHandler {
 
 	private static CharInfo[] chars;
 
+	// private static void createTruetypeFont() {
+	// // tex, size, base, chardata(x,y,id,width,height)
+	// try {
+	// final GraphicsEnvironment ge =
+	// GraphicsEnvironment.getLocalGraphicsEnvironment();
+	// final Font font = Font.createFont(Font.TRUETYPE_FONT,
+	// new File(JumboSettings.launchConfig.fontpath + ".ttf"));
+	// ge.registerFont(font);
+	//
+	// size = font.getSize();
+	// } catch (Exception e) {
+	// System.err.println("ERROR CREATING TRUETYPE FONT!");
+	// JumboErrorHandler.handle(e);
+	// }
+	// }
+
 	/**
 	 * Creates a bitmap texture for the specified font file. Called via the
 	 * {@link Jumbo#start} method automatically.
 	 *
 	 * @throws IOException
 	 */
-	public final static void initFont() throws IOException {
+	public static void initFont() throws IOException {
 		unknownchar = new JumboTexture();
 		final List<String> lines = new ArrayList<>();
-		if (JumboSettings.launchConfig.fontpath != "") {
+		if (JumboSettings.launchConfig != null && JumboSettings.launchConfig.fontpath != "") {
 			try {
 				for (String s : Files.readAllLines(Paths.get(JumboSettings.launchConfig.fontpath + ".fnt"))) {
 					lines.add(s);
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				System.err.println("ERROR READING FONT FILE!");
 				JumboErrorHandler.handle(e);
 			}
@@ -232,6 +246,7 @@ public final class JumboStringHandler {
 				chars[i] = new CharInfo(id, rect);
 			}
 			tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
+
 			resetSettings();
 		} else {
 			JumboConsole.log("No font was initialized;  text-based classes will raise errors", 1);
@@ -255,7 +270,7 @@ public final class JumboStringHandler {
 	}
 
 	private enum ParseType {
-		PROBING, COLOR, SIZE
+		PROBING, COLOR, SIZE, ITALICS
 	}
 
 	// for letter by letter stuff
@@ -312,6 +327,33 @@ public final class JumboStringHandler {
 
 				}
 				JumboStringHandler.currentsize = Integer.parseUnsignedInt((size.toString()));
+			} else if (type == ParseType.ITALICS) {
+				// this is the only way i could think of doing this
+				final StringBuffer bool = new StringBuffer();
+				while (type == ParseType.ITALICS) {
+					if (i < letters.length) {
+						final char character = letters[i];
+						checkParseType(character);
+						if (type == ParseType.ITALICS) {
+							i++;
+							bool.append(character);
+						} else {
+							break;
+						}
+					} else {
+						type = ParseType.PROBING;
+					}
+
+				}
+				final String out = bool.toString();
+				if (out != null) {
+					if (out.equals("")) {
+						italics = !italics;
+					} else {
+						final int outbool = Integer.parseInt(bool.toString());
+						italics = outbool > 0;
+					}
+				}
 			}
 			checkParseType(c);
 		}
@@ -319,8 +361,7 @@ public final class JumboStringHandler {
 
 	private static void checkParseType(char c) {
 		if (c == 'i') {
-			italics = !italics;
-			type = ParseType.PROBING;
+			type = ParseType.ITALICS;
 		} else if (c == '#') {
 			type = ParseType.COLOR;
 		} else if (c == 's') {
@@ -349,16 +390,8 @@ public final class JumboStringHandler {
 				out = new CharInfo(id, new Rectangle(0, 0, -id, 0));
 			}
 			if (out != null) {
-				final Rectangle outbounds = out.rect;
-				final JumboTexture texture = JumboStringHandler.tex;
-				final float width = texture.getWidth(), height = texture.getHeight();
-				final FloatRectangle outpos = new FloatRectangle(outbounds.x / width, outbounds.y / height,
-						outbounds.width / width, outbounds.height / height);
-				final JumboTexture tex = new JumboTexture();
-				tex.setID(texture.getID());
-				// tex.setTextureCoords(outpos);
-				tex.setTextureCoords(new FloatRectangle(0, 0, 1, 1));
-				tex.setColor(col);
+
+				// check for commands
 				if (commandtype == CommandType.TRUE) {
 					if (id == 62) {
 						commandtype = CommandType.FALSE;
@@ -370,6 +403,14 @@ public final class JumboStringHandler {
 					}
 					continue;
 				}
+
+				final Rectangle outbounds = out.rect;
+				final JumboTexture texture = JumboStringHandler.tex;
+				final float width = texture.getWidth(), height = texture.getHeight();
+				final FloatRectangle outpos = new FloatRectangle(outbounds.x / width, outbounds.y / height,
+						outbounds.width / width, outbounds.height / height);
+
+				// check for special characters
 				if (id == 32) {
 					outbounds.width = 9;
 				} else if (id == 36) {
@@ -385,6 +426,12 @@ public final class JumboStringHandler {
 				} else if (commandtype == CommandType.IGNORED) {
 					commandtype = CommandType.FALSE;
 				}
+
+				final JumboTexture tex = new JumboTexture();
+				tex.setID(texture.getID());
+				tex.setTextureCoords(outpos);
+				tex.setColor(col);
+
 				final JumboLetter let = new JumboLetter(new Rectangle(0, 0, (outbounds.width), (outbounds.height)),
 						tex);
 				let.setId(id);

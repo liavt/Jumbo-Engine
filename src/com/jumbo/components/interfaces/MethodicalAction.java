@@ -1,5 +1,6 @@
 package com.jumbo.components.interfaces;
 
+@FunctionalInterface
 public interface MethodicalAction<T> extends java.io.Serializable {
-	public T action(T obj);
+	public abstract T action(T obj);
 }

@@ -6,7 +6,19 @@ import java.util.Iterator;
 /**
  * Required by a {@link JumboPaintClass} to render.
  */
-public class JumboScene {
+public class JumboScene implements Cloneable {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public JumboScene clone() {
+		final JumboScene out = new JumboScene();
+		out.setEntities(entities);
+		return out;
+	}
+
 	// holds entities similar to a graphics group
 	// the game displays one view at a time, and can change at any time
 	protected ArrayList<JumboEntity> entities = new ArrayList<>();
@@ -47,6 +59,46 @@ public class JumboScene {
 			}
 		}
 		customRender();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((entities == null) ? 0 : entities.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		JumboScene other = (JumboScene) obj;
+		if (entities == null) {
+			if (other.entities != null) {
+				return false;
+			}
+		} else if (!entities.equals(other.entities)) {
+			return false;
+		}
+		return true;
 	}
 
 	public void tick() {
