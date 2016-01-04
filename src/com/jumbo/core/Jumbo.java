@@ -86,7 +86,7 @@ public final class Jumbo {
 	}
 
 	public static void setScene(JumboScene v) {
-		JumboPaintClass.setView(v);
+		JumboPaintClass.setScene(v);
 	}
 
 	public static void setCustomTickAction(TriggeredAction action) {
@@ -98,11 +98,11 @@ public final class Jumbo {
 	}
 
 	public static JumboScene getScene() {
-		return JumboPaintClass.getView();
+		return JumboPaintClass.getScene();
 	}
 
 	public static JumboScene getPreviousScene() {
-		return JumboPaintClass.getPreviousView();
+		return JumboPaintClass.getPreviousScene();
 	}
 
 	public static void update() {
@@ -110,7 +110,7 @@ public final class Jumbo {
 	}
 
 	public static void setPreviousScene(JumboScene v) {
-		JumboPaintClass.setPreviousView(v);
+		JumboPaintClass.setPreviousScene(v);
 	}
 
 	/**

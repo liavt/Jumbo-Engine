@@ -26,13 +26,13 @@ import com.jumbo.tools.calculations.Dice;
  * The JumboRenderer can have multiple JumboRenderModes at once, and can switch
  * between them easily.
  * <p>
- * Additionally, each {@link JumboScene} has a default JumboRenderMode, for
+ * Additionally, each {@link JumboLayer} has a default JumboRenderMode, for
  * {@link JumboGraphicsObject}s that dont want to override it.
  * 
  * @see JumboRenderer
  * @see RenderAction
  * @see TriggeredAction
- * @see JumboScene
+ * @see JumboLayer
  **/
 public class JumboRenderMode {
 	/**

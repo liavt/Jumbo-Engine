@@ -369,8 +369,8 @@ public final class JumboRenderer {
 		if (JumboSettings.wireframe) {
 			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		}
-		JumboPaintClass.getView().update();
-		JumboPaintClass.getPreviousView().update();
+		JumboPaintClass.getScene().onWindowUpdate();
+		JumboPaintClass.getPreviousScene().onWindowUpdate();
 		wasResized = false;
 	}
 

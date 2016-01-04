@@ -41,25 +41,25 @@ final class JumboPaintClass {
 	 * @param previousView
 	 *            the previousView to set
 	 */
-	public static void setPreviousView(JumboScene previousView) {
+	public static void setPreviousScene(JumboScene previousView) {
 		JumboPaintClass.previousView = previousView;
 	}
 
 	/**
 	 * @return the v
 	 */
-	static JumboScene getView() {
+	static JumboScene getScene() {
 		return v;
 	}
 
 	/**
 	 * @return the previousView
 	 */
-	static JumboScene getPreviousView() {
+	static JumboScene getPreviousScene() {
 		return previousView;
 	}
 
-	static void setView(JumboScene ve) {
+	static void setScene(JumboScene ve) {
 		previousView = v;
 		v = ve;
 	}
