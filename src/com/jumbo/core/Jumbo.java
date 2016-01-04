@@ -13,7 +13,7 @@ import com.jumbo.entities.audio.JumboAudioHandler;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.JumboMathHandler;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 import com.jumbo.tools.loaders.JumboStringHandler;
 
 public final class Jumbo {

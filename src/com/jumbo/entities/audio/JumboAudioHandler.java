@@ -9,7 +9,7 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 
 public final class JumboAudioHandler {
 	private JumboAudioHandler() {

@@ -1,4 +1,6 @@
-package com.jumbo.tools;
+package com.jumbo.tools.input;
+
+import com.jumbo.tools.JumboErrorHandler;
 
 public class JumboInputListener {
 	public int mousex, mousey, wheel;

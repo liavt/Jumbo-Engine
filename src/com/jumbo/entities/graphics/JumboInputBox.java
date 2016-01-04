@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboTexture;
-import com.jumbo.tools.JumboInputHandler;
+import com.jumbo.tools.input.JumboInputHandler;
+import com.jumbo.tools.input.JumboKey;
 
 public class JumboInputBox extends JumboButton {
 	protected StringBuffer text = new StringBuffer();
@@ -144,7 +145,7 @@ public class JumboInputBox extends JumboButton {
 					}
 				}
 			}
-			if (k.clicked || JumboInputHandler.isKeyDown(JumboInputHandler.Key.RETURN)) {
+			if (k.clicked || JumboInputHandler.isKeyDown(JumboKey.RETURN)) {
 				setDescriptor(new JumboText(prefix + text.toString()));
 				boxactive = false;
 				final TriggeredAction con = confirm;

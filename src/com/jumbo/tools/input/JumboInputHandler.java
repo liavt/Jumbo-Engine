@@ -1,9 +1,11 @@
-package com.jumbo.tools;
+package com.jumbo.tools.input;
 
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import com.jumbo.tools.JumboSettings;
 
 /**
  * A class meant to replace the {@link Keyboard} class from LWJGL.
@@ -18,12 +20,6 @@ public final class JumboInputHandler {
 	public static boolean clicked, right, leftreleased, rightreleased;
 	public static final ArrayList<JumboInputListener> listeners = new ArrayList<>();
 	private static final ArrayList<Character> released = new ArrayList<>(), typed = new ArrayList<>();
-
-	public enum Key {
-		NONE, ESCAPE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, ZERO, MINUS, EQUALS, BACK, TAB, Q, W, E, R, T, Y, U, I, O, P, LBRACKET, RBRACKET, RETURN, LCONTROL, A, S, D, F, G, H, J, K, L, SEMICOLON, APOSTROPHE, GRAVE, LSHIFT, BACKSLASH, Z, X, C, V, B, N, M, COMMA, PERIOD, SLASH, RSHIFT, MULTIPLY, LMENU, SPACE, CAPSLOCK, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, NUMLOCK, SCROLL, NUMPAD7, NUMPAD8, NUMPAD9, SUBTRACT, NUMPAD4, NUMPAD5, NUMPAD6, ADD, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD0, DECIMAL, F11, F12, F13, F14, F15, F16, F17, F18, KANA, F19, CONVERT, NOCONVERT, YEN, NUMPADEQUALS, CIRCUMFLEX, AT, COLON, UNDERLINE, KANJI, STOP, AX, UNLABELED, NUMPADENTER, RCONTROL, SECTION, NUMPADCOMMA, DIVIDE, SYSRQ, RMENU, FUNCTION, PAUSE, HOME, UP, PAGEUP, LEFT, RIGHT, END, DOWN, PAGEDOWN, INSERT, LMETA, RMETA, APPS, POWER, SLEEP;
-
-		boolean down = false;
-	}
 
 	@SuppressWarnings("boxing")
 	public static void refresh() {
@@ -71,20 +67,20 @@ public final class JumboInputHandler {
 				typed.add(key);
 			}
 		}
-		for (Key k : Key.values()) {
+		for (JumboKey k : JumboKey.values()) {
 			k.down = Keyboard.isKeyDown(k.ordinal());
 		}
 	}
 
 	public static boolean isKeyDown(int key) {
-		return Key.values()[key].down;
+		return JumboKey.values()[key].down;
 	}
 
-	public static boolean isKeyDown(Key k) {
+	public static boolean isKeyDown(JumboKey k) {
 		return k.down;
 	}
 
-	public static boolean isKeyReleased(Key k) {
+	public static boolean isKeyReleased(JumboKey k) {
 		return isKeyReleased(k.ordinal());
 	}
 
@@ -93,7 +89,7 @@ public final class JumboInputHandler {
 		return released.contains((char) key);
 	}
 
-	public static boolean isKeyTyped(Key k) {
+	public static boolean isKeyTyped(JumboKey k) {
 		return isKeyTyped(k.ordinal());
 	}
 

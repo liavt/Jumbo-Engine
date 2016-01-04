@@ -19,7 +19,7 @@ import com.jumbo.core.JumboTexture;
 import com.jumbo.entities.graphics.JumboLetter;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 
 /**
  * Static class that provides various methods concerning Strings. Also provides

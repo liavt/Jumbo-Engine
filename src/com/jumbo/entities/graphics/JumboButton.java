@@ -11,7 +11,7 @@ import com.jumbo.components.interfaces.TriggeredEvent;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.JumboTexture;
-import com.jumbo.tools.JumboInputListener;
+import com.jumbo.tools.input.JumboInputListener;
 
 public class JumboButton extends JumboGraphicsObject {
 	/**

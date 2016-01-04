@@ -23,6 +23,12 @@ public class JumboLayer implements Cloneable {
 	// the game displays one view at a time, and can change at any time
 	protected ArrayList<JumboEntity> entities = new ArrayList<>();
 
+	public JumboLayer(JumboEntity... e) {
+		for (JumboEntity l : e) {
+			entities.add(l);
+		}
+	}
+
 	public void setActive(boolean bool) {
 		for (JumboEntity e : entities) {
 			e.setActive(bool);

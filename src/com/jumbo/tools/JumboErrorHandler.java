@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import com.jumbo.core.Jumbo;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 import com.jumbo.tools.loaders.JumboStringHandler;
 
 public class JumboErrorHandler {

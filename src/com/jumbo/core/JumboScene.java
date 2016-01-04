@@ -5,6 +5,19 @@ import java.util.ArrayList;
 public class JumboScene {
 	private final ArrayList<JumboLayer> layers = new ArrayList<>(4);
 
+	public JumboScene(JumboLayer... arr) {
+		for (JumboLayer l : arr) {
+			layers.add(l);
+		}
+	}
+
+	public JumboScene() {
+	}
+
+	public void clearLayers() {
+		layers.clear();
+	}
+
 	protected void customRender() {
 	}
 

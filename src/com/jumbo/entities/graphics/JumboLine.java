@@ -8,7 +8,7 @@ import com.jumbo.components.Position;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.JumboRenderer;
 import com.jumbo.core.JumboTexture;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 
 @Deprecated
 public class JumboLine extends JumboGraphicsObject {

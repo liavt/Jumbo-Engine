@@ -1,4 +1,4 @@
-package com.jumbo.tools.console;
+package com.jumbo.tools.input.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
