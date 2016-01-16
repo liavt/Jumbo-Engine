@@ -55,13 +55,11 @@ public class JumboLayer implements Cloneable {
 		entities = e;
 	}
 
-	public void render() {
+	public final void render() {
 		for (Iterator<JumboEntity> iterator = entities.iterator(); iterator.hasNext();) {
 			final JumboEntity e = iterator.next();
 			if (e != null) {
 				e.render();
-			} else {
-				deleteEntity(e);
 			}
 		}
 		customRender();
@@ -107,17 +105,28 @@ public class JumboLayer implements Cloneable {
 		return true;
 	}
 
-	public void tick() {
+	public final void tick() {
+		checkForDead();
 		for (JumboEntity e : entities) {
+			// i still have to check to see if they are null and dead, because
+			// an entity's tick() can add some null entities to the layer.
 			if (e != null && !e.isDead()) {
 				if (e.active) {
 					e.tick();
 				}
-			} else {
-				deleteEntity(e);
 			}
 		}
 		customTick();
+	}
+
+	private void checkForDead() {
+		for (int i = 0; i < entities.size(); i++) {
+			final JumboEntity e = entities.get(i);
+			if (e == null || e.isDead()) {
+				entities.remove(i);
+				i--;
+			}
+		}
 	}
 
 	protected void customTick() {
@@ -129,8 +138,10 @@ public class JumboLayer implements Cloneable {
 
 	public void onWindowUpdate() {
 		for (JumboEntity e : entities) {
-			e.setUpdaterequired(true);
-			e.calculatePosition();
+			if (e != null && !e.isDead()) {
+				e.setUpdaterequired(true);
+				e.calculatePosition();
+			}
 		}
 	}
 }

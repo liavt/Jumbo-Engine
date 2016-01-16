@@ -41,7 +41,7 @@ public class JumboNumberWheel extends JumboInputBox {
 
 	@Override
 	protected boolean filter(char c) {
-		return (c >= '0' && c <= '9');
+		return (c >= '0' && c <= '9') && super.filter(c);
 	}
 
 	public long getNumber() {

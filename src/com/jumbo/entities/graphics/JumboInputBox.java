@@ -73,16 +73,22 @@ public class JumboInputBox extends JumboButton {
 	}
 
 	/**
-	 * When a character is inputted, this method is called. By default, it
-	 * always returns 'true.' If you want certain characters not to be inputed,
-	 * override this method.
+	 * When a character is inputted, this method is called. By default, it does
+	 * not allow for backslashes '\' as the user should not be able to input
+	 * control characters. If you want other certain characters not to be
+	 * inputed, override this method.
 	 * 
 	 * @param c
 	 *            Character to be filtered.
 	 */
 	@SuppressWarnings("static-method")
 	protected boolean filter(char c) {
-		return true;
+		return c != '\\';
+	}
+
+	public void clear() {
+		text.replace(0, text.length(), "");
+		((JumboTextBox) descriptor).setText(prefix + text.toString());
 	}
 
 	protected TriggeredAction click, confirm;

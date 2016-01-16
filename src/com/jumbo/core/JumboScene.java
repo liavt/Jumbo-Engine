@@ -30,6 +30,7 @@ public class JumboScene {
 
 	public void addLayer(JumboLayer l) {
 		layers.add(l);
+		checkLayer(l);
 	}
 
 	public void removeLayer(JumboLayer l) {
@@ -38,25 +39,47 @@ public class JumboScene {
 
 	public void setLayer(int index, JumboLayer l) {
 		layers.set(index, l);
+		checkLayer(l);
 	}
 
 	public void render() {
 		customRender();
-		for (JumboLayer l : layers) {
-			l.render();
+		for (int i = 0; i < layers.size(); i++) {
+			final JumboLayer l = layers.get(i);
+			if (l != null) {
+				l.render();
+			} else {
+				layers.remove(i);
+			}
+		}
+	}
+
+	private final void checkLayer(JumboLayer l) {
+		if (l == null) {
+			throw new NullPointerException("Layer " + layers.indexOf(l) + " is null!");
 		}
 	}
 
 	public void onWindowUpdate() {
-		for (JumboLayer l : layers) {
-			l.onWindowUpdate();
+		for (int i = 0; i < layers.size(); i++) {
+			final JumboLayer l = layers.get(i);
+			if (l != null) {
+				l.onWindowUpdate();
+			} else {
+				layers.remove(i);
+			}
 		}
 	}
 
 	public void tick() {
 		customTick();
-		for (JumboLayer l : layers) {
-			l.tick();
+		for (int i = 0; i < layers.size(); i++) {
+			final JumboLayer l = layers.get(i);
+			if (l != null) {
+				l.tick();
+			} else {
+				layers.remove(i);
+			}
 		}
 	}
 }
