@@ -330,7 +330,7 @@ public final class JumboRenderer {
 	 * {@link JumboMathHandler#xmod} and {@link JumboMathHandler#ymod}.
 	 */
 	public static void update() {
-		GL11.glLoadIdentity();
+		
 		// JumboLaunchConfig config = JumboSettings.launchConfig;
 		final int width, height;
 		final float factor;
@@ -361,7 +361,10 @@ public final class JumboRenderer {
 		renderwidth = (int) (width * factor);
 		renderheight = (int) (height * factor);
 		JumboMathHandler.currentdim = new Dimension(renderwidth, renderheight);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
 		GL11.glOrtho(0.0f, renderwidth, 0, renderheight, 0.0f, 1.0f);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glViewport(0, 0, renderwidth, renderheight);
 		// }
 		JumboMathHandler.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
