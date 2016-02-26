@@ -134,17 +134,21 @@ public final class Jumbo {
 	 * @see Display
 	 */
 	public static void stop(int id) {
-		final TriggeredAction close = Jumbo.getCloseaction();
-		if (close != null) {
-			close.action();
-		}
 		try {
-			closeDisplay();
+			if (Display.isCurrent()) {
+				final TriggeredAction close = Jumbo.getCloseaction();
+				if (close != null) {
+					close.action();
+				}
+				closeDisplay();
+			}
 		} catch (LWJGLException e) {
 			JumboConsole.log(e, 2);
 			// just continue with the forced shutdown
 		}
-		JumboAudioHandler.destroy();
+		if (JumboAudioHandler.isInit()) {
+			JumboAudioHandler.destroy();
+		}
 		JumboMathHandler.destroy();
 		System.out.flush();
 		System.err.flush();
