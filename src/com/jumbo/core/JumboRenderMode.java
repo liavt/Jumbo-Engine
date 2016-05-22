@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL13;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.LambdaInteger;
 import com.jumbo.components.Position;
 import com.jumbo.components.interfaces.RenderAction;
 import com.jumbo.components.interfaces.TriggeredAction;
@@ -25,9 +24,6 @@ import com.jumbo.tools.calculations.Dice;
  * <p>
  * The JumboRenderer can have multiple JumboRenderModes at once, and can switch
  * between them easily.
- * <p>
- * Additionally, each {@link JumboLayer} has a default JumboRenderMode, for
- * {@link JumboGraphicsObject}s that dont want to override it.
  * 
  * @see JumboRenderer
  * @see RenderAction
@@ -35,13 +31,6 @@ import com.jumbo.tools.calculations.Dice;
  * @see JumboLayer
  **/
 public class JumboRenderMode {
-	/**
-	 * Each render pass, when you bind a new texture, set this
-	 * {@link LambdaInteger} to be the new texture ID. This way, you can avoid
-	 * repeat texture rebindings.
-	 **/
-	// TODO need to move this somewhere else
-	public LambdaInteger previousid = new LambdaInteger(-1);
 
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
 		Rectangle rect = new Rectangle();
@@ -65,11 +54,7 @@ public class JumboRenderMode {
 			// texture binding
 			final JumboTexture tex = e.getTexture();
 			// to prevent repeat method calls
-			int id = tex.getID();
-			if (previousid.getNum() != id) {
-				tex.bind();
-				previousid.setNum(id);
-			}
+			tex.bind();
 			// JumboColor
 			FloatRectangle c = tex.getColor();
 			final boolean trippy = JumboSettings.trippy;

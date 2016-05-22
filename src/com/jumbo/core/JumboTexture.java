@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
+import com.jumbo.components.LambdaInteger;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.Dice;
 import com.jumbo.tools.loaders.JumboImageHandler;
@@ -15,6 +16,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private static JumboTextureBinder b = new JumboTextureBinder();
+	private final static LambdaInteger previousid = new LambdaInteger(-1);
 
 	public static JumboTextureBinder getBinder() {
 		return b;
@@ -301,7 +303,10 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	void bind() {
-		b.bind(ID);
+		if (previousid.getNum() != ID) {
+			b.bind(ID);
+			previousid.setNum(ID);
+		}
 	}
 
 	static void unbind() {
