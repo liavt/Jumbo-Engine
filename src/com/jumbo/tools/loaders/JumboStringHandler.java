@@ -198,7 +198,8 @@ public final class JumboStringHandler {
 	public static void initFont() throws IOException {
 		unknownchar = new JumboTexture();
 		final List<String> lines = new ArrayList<>();
-		if (JumboSettings.launchConfig != null && JumboSettings.launchConfig.fontpath != "") {
+		if (JumboSettings.launchConfig != null && JumboSettings.launchConfig.fontpath != ""
+				&& JumboSettings.launchConfig.fontpath != null) {
 			try {
 				for (String s : Files.readAllLines(Paths.get(JumboSettings.launchConfig.fontpath + ".fnt"))) {
 					lines.add(s);

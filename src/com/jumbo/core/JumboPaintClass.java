@@ -148,7 +148,7 @@ final class JumboPaintClass {
 			}
 			if (!Jumbo.init) {
 				Jumbo.init();
-				final TriggeredAction action = Jumbo.getMainaction();
+				final TriggeredAction action = Jumbo.getLaunchAction();
 				if (action != null) {
 					action.action();
 				}

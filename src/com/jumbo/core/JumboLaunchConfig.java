@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import com.jumbo.tools.JumboSettings;
+
 public final class JumboLaunchConfig {
 	public final BufferedImage[] icon;
 	public final String fontpath, title;
@@ -25,6 +27,86 @@ public final class JumboLaunchConfig {
 		return height;
 	}
 
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(DisplayMode mode, BufferedImage[] icon, String fontpath) {
+		this("LWJGL Window", mode, icon, fontpath);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, DisplayMode mode, String fontpath) {
+		this(name, mode, null, fontpath);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(DisplayMode mode) {
+		this(mode, null, "");
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, DisplayMode mode) {
+		this(name, mode, "");
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon) {
+		this(name, mode, icon, "");
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(Dimension mode, BufferedImage[] icon, String fontpath) {
+		this("LWJGL Window", mode, icon, fontpath);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, Dimension mode, String fontpath) {
+		this(name, mode, null, fontpath);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(Dimension mode) {
+		this(mode, null, "");
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, Dimension mode) {
+		this(name, mode, "");
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(String name, Dimension mode, BufferedImage[] icon) {
+		this(name, mode, icon, "");
+	}
+
 	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon, String fontpath) {
 		this.fontpath = fontpath;
 		this.icon = icon;
@@ -41,6 +123,10 @@ public final class JumboLaunchConfig {
 		this.mode = new DisplayMode(dim.width, dim.height);
 		this.width = mode.getWidth();
 		this.height = mode.getHeight();
+	}
+
+	public static JumboLaunchConfig getCurrent() {
+		return JumboSettings.launchConfig;
 	}
 
 }

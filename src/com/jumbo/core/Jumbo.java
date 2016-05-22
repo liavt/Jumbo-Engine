@@ -43,21 +43,21 @@ public final class Jumbo {
 		// JumboAudioPlayer.init();
 	}
 
-	public static TriggeredAction getCloseaction() {
+	public static TriggeredAction getCloseListener() {
 		return closeaction;
 	}
 
-	public static void setCloseaction(TriggeredAction closeaction) {
+	public static void setCloseListener(TriggeredAction closeaction) {
 		Jumbo.closeaction = closeaction;
 	}
 
 	private static TriggeredAction mainaction, closeaction;
 
-	public static TriggeredAction getMainaction() {
+	public static TriggeredAction getLaunchAction() {
 		return mainaction;
 	}
 
-	public static void setMainaction(TriggeredAction mainaction) {
+	public static void setLaunchAction(TriggeredAction mainaction) {
 		Jumbo.mainaction = mainaction;
 	}
 
@@ -115,7 +115,7 @@ public final class Jumbo {
 
 	/**
 	 * Stops everything, closing the display, calling {@link #closeDisplay()},
-	 * {@link Jumbo#getCloseaction()}, {@link JumboMathHandler#destroy()},
+	 * {@link Jumbo#getCloseListener()}, {@link JumboMathHandler#destroy()},
 	 * {@link JumboAudioHandler#destroy()},flushing {@link System#out} and
 	 * {@link System#err}, and finally calling {@link System#exit} with the
 	 * specified exit code.
@@ -135,8 +135,8 @@ public final class Jumbo {
 	 */
 	public static void stop(int id) {
 		try {
-			if (Display.isCurrent()) {
-				final TriggeredAction close = Jumbo.getCloseaction();
+			if (Display.isCreated() && Display.isCurrent()) {
+				final TriggeredAction close = Jumbo.getCloseListener();
 				if (close != null) {
 					close.action();
 				}
@@ -178,13 +178,13 @@ public final class Jumbo {
 	 * @see JumboDisplayManager
 	 */
 	public static void setNewLaunchConfig(JumboLaunchConfig c) {
-		final TriggeredAction prev = getMainaction();
+		final TriggeredAction prev = getLaunchAction();
 		JumboDisplayManager.closeInput();
 		init = false;
 		// to make sure that the mainaction doesn't get called twice, making for
 		// some weird effects.
-		setMainaction(() -> {
-			Jumbo.setMainaction(prev);
+		setLaunchAction(() -> {
+			Jumbo.setLaunchAction(prev);
 		});
 		start(c, Jumbo.getScene(), Jumbo.getPreviousScene());
 	}
@@ -202,6 +202,16 @@ public final class Jumbo {
 		setNewLaunchConfig(c);
 	}
 
+	/**
+	 * 
+	 * Vertical sync locks the FPS at the monitor's refresh rate, so no screen
+	 * tearing will occur. However, this increases input lag.
+	 * 
+	 * @param b
+	 *            true for vertical sync; false for not.
+	 * @throws JumboException
+	 *             If {@linkplain JumboLaunchConfig#fullscreen} is false
+	 */
 	public static void setVSync(boolean b) throws JumboException {
 		if (!JumboSettings.launchConfig.fullscreen) {
 			throw new JumboException("Can't turn on VSync when fullscreen isn't enabled!");
@@ -216,8 +226,14 @@ public final class Jumbo {
 	 * {@link JumboTextureBinder}</b>
 	 * <p>
 	 * Set whether graphics should be enabled.
+	 * <p>
+	 * Disabled graphics allows for {@linkplain Jumbo#start(JumboLaunchConfig)}
+	 * to be called, but no window will appear. Other features in the Jumbo
+	 * Engine will still work, like audio, and entities will still be ticked and
+	 * updated.
 	 * 
 	 * @param b
+	 *            Whether graphical rendering should occur
 	 * @see JumboNGRenderMode
 	 * @see JumboNGTextureBinder
 	 */

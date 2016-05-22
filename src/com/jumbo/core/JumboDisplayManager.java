@@ -78,12 +78,14 @@ class JumboDisplayManager {
 			}
 			Display.setTitle(c.title);
 			Display.setResizable(c.resizable);
-			final int iconnum = c.icon.length;
-			final ByteBuffer[] list = new ByteBuffer[iconnum];
-			for (int i = 0; i < iconnum; i++) {
-				list[i] = new ImageIOImageData().imageToByteBuffer(c.icon[i], false, false, null);
+			if (c.icon != null) {
+				final int iconnum = c.icon.length;
+				final ByteBuffer[] list = new ByteBuffer[iconnum];
+				for (int i = 0; i < iconnum; i++) {
+					list[i] = new ImageIOImageData().imageToByteBuffer(c.icon[i], false, false, null);
+				}
+				Display.setIcon(list);
 			}
-			Display.setIcon(list);
 			if (c.fullscreen && c.vsync) {
 				Display.setVSyncEnabled(true);
 			}
