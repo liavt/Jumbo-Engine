@@ -53,3 +53,6 @@ Do you have any plans to switch the default implentations to Vulkan when it come
 
 How long have you been working on it?
 * Since May 2015.
+
+Why use the old LWJGL 2.0 and not the new and improved LWJGL 3.0?
+* Well, LWJGL 3.0 is currently in alpha. We don't find it worth the work to rewrite a lot of the engine to an alpha build, and change it every month. When it finally releases, of course we will change to it, as by then, all the major bugs will be sorted out, the main API will be decided, and we will have access to all of it's major features, like VR support, Vulkan, GLFW, and other cool APIs.

@@ -17,6 +17,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Eclipse projects
+/.project/
 # =========================
 # Operating System Files
 # =========================
