@@ -38,7 +38,6 @@ public final class Jumbo {
 		// ShaderProgram.init();
 		// Maths.init();
 		JumboRenderer.init();
-		JumboTexture.init();
 		JumboStringHandler.initFont();
 		// JumboAudioPlayer.init();
 	}

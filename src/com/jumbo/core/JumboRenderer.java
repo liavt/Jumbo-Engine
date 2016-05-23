@@ -286,11 +286,6 @@ public final class JumboRenderer {
 
 	private static TripleFloat refreshcolor = new TripleFloat(0, 0, 0);
 
-	/**
-	 * Specifies all the settings for OpenGL. Called automatically during the
-	 * {@link Jumbo#start(JumboLaunchConfig)} method. Should only be called
-	 * once.
-	 */
 	public static void init() {
 		// the default mode
 		addRenderMode(new JumboRenderMode());
