@@ -1,9 +1,9 @@
 
 package com.jumbo.components.interfaces;
 
-import com.jumbo.rendering.JumboGraphicsObject;
-import com.jumbo.rendering.JumboRenderMode;
-import com.jumbo.rendering.JumboRenderer;
+import com.jumbo.core.JumboGraphicsObject;
+import com.jumbo.core.JumboRenderMode;
+import com.jumbo.core.JumboRenderer;
 
 /**
  * Used in {@link JumboRenderMode}. Called by {@link JumboRenderer} when
@@ -11,6 +11,7 @@ import com.jumbo.rendering.JumboRenderer;
  * 
  * @see TriggeredAction
  */
+@FunctionalInterface
 public interface RenderAction extends java.io.Serializable {
 	/**
 	 * Used to render entities by {@link JumboRenderer}. Stored in a
@@ -25,5 +26,5 @@ public interface RenderAction extends java.io.Serializable {
 	 * @see JumboRenderer#getDisplaywidth()
 	 * @see JumboRenderer#getDisplayheight()
 	 */
-	public void action(JumboGraphicsObject e, int width, int height);
+	public abstract void action(JumboGraphicsObject e, int width, int height);
 }

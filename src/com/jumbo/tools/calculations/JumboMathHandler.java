@@ -10,13 +10,13 @@ import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.components.TripleFloat;
-import com.jumbo.rendering.Jumbo;
-import com.jumbo.rendering.JumboEntity;
-import com.jumbo.rendering.JumboGraphicsObject;
-import com.jumbo.rendering.JumboRenderer;
+import com.jumbo.core.Jumbo;
+import com.jumbo.core.JumboEntity;
+import com.jumbo.core.JumboGraphicsObject;
+import com.jumbo.core.JumboRenderer;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.console.JumboConsole;
+import com.jumbo.tools.input.console.JumboConsole;
 
 public final class JumboMathHandler {
 	private static int triph = 0, tripw = 0, rot = 0;// values for when its

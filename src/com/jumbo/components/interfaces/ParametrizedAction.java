@@ -1,5 +1,6 @@
 package com.jumbo.components.interfaces;
 
+@FunctionalInterface
 public interface ParametrizedAction<T> extends java.io.Serializable {
-	public void action(T obj);
+	public abstract void action(T obj);
 }

@@ -139,6 +139,10 @@ public class JumboColor implements java.lang.Cloneable {
 		this(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 
+	public JumboColor(int[] color) {
+		this(color[0], color[1], color[2], color[3]);
+	}
+
 	/**
 	 * @return the r
 	 */
