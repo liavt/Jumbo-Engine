@@ -10,7 +10,6 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.entities.audio.JumboAudioHandler;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.JumboMathHandler;
 import com.jumbo.tools.input.JumboInputHandler;
 import com.jumbo.tools.input.console.JumboConsole;
 
@@ -90,7 +89,6 @@ final class JumboPaintClass {
 	}
 
 	static void tick() {
-		JumboMathHandler.refresh();
 		v.tick();
 		final TriggeredAction a = customaction;
 		if (a != null) {

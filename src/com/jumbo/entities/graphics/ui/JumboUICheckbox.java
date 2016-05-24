@@ -3,8 +3,8 @@ package com.jumbo.entities.graphics.ui;
 import java.awt.Rectangle;
 
 import com.jumbo.entities.graphics.JumboCheckbox;
-import com.jumbo.entities.graphics.JumboText;
-import com.jumbo.entities.graphics.JumboTextBox;
+import com.jumbo.entities.graphics.text.JumboText;
+import com.jumbo.entities.graphics.text.JumboTextBox;
 
 public class JumboUICheckbox extends JumboCheckbox {
 

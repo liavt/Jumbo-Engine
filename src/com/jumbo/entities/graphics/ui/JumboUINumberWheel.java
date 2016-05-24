@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import com.jumbo.core.JumboTexture;
 import com.jumbo.entities.graphics.JumboImage;
 import com.jumbo.entities.graphics.JumboNumberWheel;
-import com.jumbo.entities.graphics.JumboText;
+import com.jumbo.entities.graphics.text.JumboText;
 
 public class JumboUINumberWheel extends JumboNumberWheel {
 

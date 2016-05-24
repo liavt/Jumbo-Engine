@@ -12,6 +12,7 @@ public final class JumboLaunchConfig {
 	public final BufferedImage[] icon;
 	public final String fontpath, title;
 	public final int width, height;
+	private static final String defaultName = "LWJGL", defaultFont = "";
 
 	public boolean fullscreen = false, vsync = false, resizable = false;
 	public DisplayMode mode = Display.getDesktopDisplayMode();
@@ -32,7 +33,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(DisplayMode mode, BufferedImage[] icon, String fontpath) {
-		this("LWJGL Window", mode, icon, fontpath);
+		this(defaultName, mode, icon, fontpath);
 	}
 
 	/**
@@ -48,7 +49,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(DisplayMode mode) {
-		this(mode, null, "");
+		this(mode, null, defaultFont);
 	}
 
 	/**
@@ -56,7 +57,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(String name, DisplayMode mode) {
-		this(name, mode, "");
+		this(name, mode, defaultFont);
 	}
 
 	/**
@@ -64,7 +65,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon) {
-		this(name, mode, icon, "");
+		this(name, mode, icon, defaultFont);
 	}
 
 	/**
@@ -72,7 +73,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(Dimension mode, BufferedImage[] icon, String fontpath) {
-		this("LWJGL Window", mode, icon, fontpath);
+		this(defaultName, mode, icon, fontpath);
 	}
 
 	/**
@@ -88,7 +89,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(Dimension mode) {
-		this(mode, null, "");
+		this(mode, null, defaultFont);
 	}
 
 	/**
@@ -96,7 +97,7 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(String name, Dimension mode) {
-		this(name, mode, "");
+		this(name, mode, defaultFont);
 	}
 
 	/**
@@ -104,7 +105,23 @@ public final class JumboLaunchConfig {
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
 	 */
 	public JumboLaunchConfig(String name, Dimension mode, BufferedImage[] icon) {
-		this(name, mode, icon, "");
+		this(name, mode, icon, defaultFont);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(DisplayMode mode, String font) {
+		this(defaultName, mode, font);
+	}
+
+	/**
+	 * Overloaded constructor for
+	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 */
+	public JumboLaunchConfig(Dimension mode, String font) {
+		this(defaultName, mode, font);
 	}
 
 	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon, String fontpath) {

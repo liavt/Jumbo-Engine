@@ -1,4 +1,4 @@
-package com.jumbo.entities.graphics;
+package com.jumbo.entities.graphics.text;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;

@@ -7,13 +7,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import com.jumbo.components.FloatRectangle;
-import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.components.interfaces.RenderAction;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Dice;
 
 /**
  * Class that contains various interfaces to be used for renderring by the
@@ -57,11 +54,6 @@ public class JumboRenderMode {
 			tex.bind();
 			// JumboColor
 			FloatRectangle c = tex.getColor();
-			final boolean trippy = JumboSettings.trippy;
-			if (trippy) {
-				JumboColor c2 = Dice.randomColor();
-				c = new FloatRectangle(c2.getRed() / 255.0f, c2.getGreen() / 255.0f, c2.getBlue() / 255.0f, c.height);
-			}
 			GL11.glColor4f(c.x, c.y, c.width, c.height);
 			final FloatRectangle texturecoords = tex.getTextureCoords();
 			// float texturex = e.getTexture().getTextureCoords().x,
@@ -74,7 +66,6 @@ public class JumboRenderMode {
 			// GL20.glVertexAttrib4f(ShaderProgram.position, rect.x, rect.y,
 			// rect.width, rect.height);
 			// position transformations
-			final int shake = JumboSettings.shakeintensity;
 			// rendering is here
 			final Dimension topleft = e.getVectorTopLeft(), topright = e.getVectorTopRight(),
 					botleft = e.getVectorBotLeft(), botright = e.getVectorBotRight();
@@ -88,14 +79,13 @@ public class JumboRenderMode {
 			GL11.glMatrixMode(5888);
 			GL11.glBegin(e.getRendertype());
 			GL11.glTexCoord2f(0, 0);
-			GL11.glVertex2f(rect.x + shake + topleft.width, rect.y + shake + rect.height + topleft.height + shake);
+			GL11.glVertex2f(rect.x + topleft.width, rect.y + rect.height + topleft.height);
 			GL11.glTexCoord2f(texturecoords.width, 0);
-			GL11.glVertex2f(rect.x + shake + rect.width + topright.width + shake,
-					rect.y + shake + rect.height + topright.height + shake);
+			GL11.glVertex2f(rect.x + rect.width + topright.width, rect.y + rect.height + topright.height);
 			GL11.glTexCoord2f(texturecoords.width, texturecoords.height);
-			GL11.glVertex2f(rect.x + shake + rect.width + botright.width + shake, rect.y + shake + botright.height);
+			GL11.glVertex2f(rect.x + rect.width + botright.width, rect.y + botright.height);
 			GL11.glTexCoord2f(0, texturecoords.height);
-			GL11.glVertex2f(rect.x + shake + botleft.width, rect.y + shake + botleft.height);
+			GL11.glVertex2f(rect.x + botleft.width, rect.y + botleft.height);
 			GL11.glEnd();
 			// GL20.glUseProgram(0);
 			// // e.getTexture().unbind();

@@ -3,17 +3,14 @@ package com.jumbo.tools.calculations;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
-import com.jumbo.components.TripleFloat;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboRenderer;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.input.console.JumboConsole;
@@ -53,47 +50,6 @@ public final class JumboMathHandler {
 
 	public static int rgbToSRGB(int r, int g, int b, int a) {
 		return ((a)) << 24 | (g) << 16 | ((b)) << 8 | ((r));
-	}
-
-	public static void refresh() {
-		if (JumboSettings.shaky || JumboSettings.trippy) {
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glLoadIdentity();
-			rot++;
-			GL11.glRotatef(rot + (triph / (tripw + 1)), 0, 0, 1);
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-			if (JumboSettings.trippy) {
-				tripw -= Dice.rollBool() && tripw > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
-				triph -= Dice.rollBool() && triph > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
-				if (tripw <= 0) {
-					tripw = 0;
-				}
-				if (triph <= 0) {
-					triph = 0;
-				}
-				if (tripw >= 50) {
-					tripw = 50;
-				}
-				if (triph >= 50) {
-					triph = 50;
-				}
-				;
-				boolean negative = Dice.rollBool();
-				JumboSettings.shakeintensity = Dice.roll(tripw + triph);
-				if (negative) {
-					JumboSettings.shakeintensity = -JumboSettings.shakeintensity;
-				}
-			}
-			if (JumboSettings.shakeintensity <= 0) {
-				JumboSettings.shakeintensity = 1;
-			}
-		} else if (JumboSettings.shakeintensity > 0) {
-			JumboSettings.shakeintensity -= (Dice.roll(2) - 1);
-			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-			TripleFloat c = JumboRenderer.getRefreshcolor();
-			JumboRenderer.setRefreshcolor(new TripleFloat(c.x / JumboSettings.shakeintensity,
-					c.y / JumboSettings.shakeintensity, c.z / JumboSettings.shakeintensity));
-		}
 	}
 
 	public static void init() {

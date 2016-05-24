@@ -11,7 +11,6 @@ import com.jumbo.components.JumboColor;
 import com.jumbo.components.TripleFloat;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Dice;
 import com.jumbo.tools.calculations.JumboMathHandler;
 
 /**
@@ -300,19 +299,7 @@ public final class JumboRenderer {
 	 * action.
 	 */
 	public static void prepare() {
-		if (JumboSettings.trippy) {
-			if (Dice.rollPercent(42)) {
-				if (Dice.rollBool()) {
-					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-					GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-				} else {
-					GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-				}
-				GL11.glClearColor(Dice.roll(10) / 10, Dice.roll(10) / 10, Dice.roll(10) / 10, 1);
-			}
-		} else {
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		}
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		if (wasResized) {
 			update();
 		}

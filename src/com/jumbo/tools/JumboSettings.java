@@ -30,11 +30,7 @@ public final class JumboSettings {
 											// IF YOU DO, YOU WILL
 											// PROBABLY HAVE LIKE 1000S
 											// OF LOGS
-	public static boolean trippy = false;// smoke weed everyday!
-	public static boolean shaky = false;// like the drug mode, but less trippy
-	public static int shakeintensity = 0; // how much the screen shakes,
-											// measured
-											// in pixels
+
 	public static boolean inputEnabled = true;// for user input
 	// for
 	public static int fps = 0, tickdelay = 33;

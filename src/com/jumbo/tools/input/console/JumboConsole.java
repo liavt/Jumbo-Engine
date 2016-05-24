@@ -28,19 +28,7 @@ public final class JumboConsole {
 							help("");
 						}
 					}),
-			new JumboCommand("trip", "Set trip mode on or off.", "[true/false]", (String[] args) -> {
-				if (args.length > 1) {
-					JumboSettings.trippy = Boolean.parseBoolean(args[1]);
-				} else {
-					log("Invalid usage! Refer to /help for proper usage", 1);
-				}
-			}), new JumboCommand("shake", "Set shaky mode on or off.", "[true/false]", (String[] args) -> {
-				if (args.length > 1) {
-					JumboSettings.shaky = Boolean.parseBoolean(args[1]);
-				} else {
-					log("Invalid usage! Refer to /help for proper usage", 1);
-				}
-			}), new JumboCommand("fullscreen", "Set fullscreen on or off.", "[true/false]", (String[] args) -> {
+			new JumboCommand("fullscreen", "Set fullscreen on or off.", "[true/false]", (String[] args) -> {
 				if (args.length > 1) {
 					Jumbo.setFullscreen(Boolean.parseBoolean(args[1]));
 				} else {
@@ -56,12 +44,6 @@ public final class JumboConsole {
 				} else {
 					log("Invalid usage! Refer to /help for proper usage", 1);
 				}
-			}), new JumboCommand("shakiness", "Set the intensity of shakiness.", "[intensity]", (String[] args) -> {
-				if (args.length > 1) {
-					JumboSettings.shakeintensity = Integer.parseInt(args[1]);
-				} else {
-					log("Invalid usage! Refer to /help for proper usage", 1);
-				}
 			}), new JumboCommand("volume", "Set the master volume.", "[volume]", (String[] args) -> {
 				if (args.length > 1) {
 					JumboSettings.totalvolume = Integer.parseInt(args[1]);
@@ -74,7 +56,7 @@ public final class JumboConsole {
 				} else {
 					log("Invalid usage! Refer to /help for proper usage", 1);
 				}
-			}), new JumboCommand("musicvolume", "Set the volume of music.", "[volume]", (String[] args) -> {
+			}), new JumboCommand("mvolume", "Set the volume of music.", "[volume]", (String[] args) -> {
 				if (args.length > 1) {
 					JumboSettings.musicvolume = Integer.parseInt(args[1]);
 				} else {
