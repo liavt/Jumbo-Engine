@@ -145,7 +145,7 @@ public class JumboAnimation extends JumboImage {
 	public void customRender() {
 		if (delay <= 0) {
 			final JumboEntity f = frames.array.get((int) currentframe);
-			if (this.frames != null && f != null) {
+			if (f != null) {
 				final ArrayList<JumboEntity> parents = f.getParents(), thisparents = getParents();
 				if (parents != thisparents) {
 					f.setParents(thisparents);
@@ -190,7 +190,7 @@ public class JumboAnimation extends JumboImage {
 		}
 		if (delay <= 0) {
 			final JumboEntity f = frames.array.get((int) currentframe);
-			if (this.frames != null && f != null) {
+			if (f != null) {
 				f.tick();
 			} else {
 				JumboConsole.log("[" + this + "]: Error displaying animation frame!", 1);
