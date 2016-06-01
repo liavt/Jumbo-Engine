@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.LambdaInteger;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Dice;
 import com.jumbo.tools.loaders.JumboImageHandler;
 
 public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
@@ -231,13 +229,8 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	private int load(int[] inpixels) {
 		final int[] pixels;
-		if (JumboSettings.rectangle) {
-			pixels = new int[] { Dice.randomColor().toByte() };
-			width = 1;
-			height = 1;
-		} else {
-			pixels = inpixels;
-		}
+
+		pixels = inpixels;
 		return b.load(width, height, pixels);
 	}
 
@@ -295,7 +288,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		this.height = height;
 	}
 
-	void bind() {
+	public void bind() {
 		if (previousid.getNum() != ID) {
 			b.bind(ID);
 			previousid.setNum(ID);

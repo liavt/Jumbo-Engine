@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
 import com.jumbo.tools.JumboErrorHandler;
@@ -90,7 +92,9 @@ class JumboDisplayManager {
 				Display.setVSyncEnabled(true);
 			}
 			if (!Display.isCreated()) {
-				Display.create();
+				final PixelFormat pixelFormat = new PixelFormat();
+				final ContextAttribs contextAtrributes = new ContextAttribs(3, 3).withProfileCompatibility(true);
+				Display.create(pixelFormat, contextAtrributes);
 			}
 			if (!Mouse.isCreated()) {
 				Mouse.create();

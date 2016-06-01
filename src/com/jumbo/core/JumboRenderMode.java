@@ -106,7 +106,9 @@ public class JumboRenderMode {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	};
 
+	@SuppressWarnings("static-method")
 	public void prepare() {
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 
 	/**

@@ -64,8 +64,8 @@ public final class JumboRenderer {
 		if (m < 0) {
 			throw new IllegalArgumentException("Input can't be less than 0!");
 		}
-		if (modes.size() >= m) {
-			throw new IndexOutOfBoundsException(m + " is larger than the internal buffer size@");
+		if (modes.size() < m) {
+			throw new IndexOutOfBoundsException(m + " is larger than the internal buffer size!");
 		}
 		if (currentmode == m) {
 			throw new IllegalArgumentException("Can't remove the current JumboRenderMode!");
@@ -348,9 +348,6 @@ public final class JumboRenderer {
 		// }
 		JumboMathHandler.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
 		JumboMathHandler.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
-		if (JumboSettings.wireframe) {
-			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-		}
 		JumboPaintClass.getScene().onWindowUpdate();
 		JumboPaintClass.getPreviousScene().onWindowUpdate();
 		wasResized = false;
