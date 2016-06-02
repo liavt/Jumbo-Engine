@@ -12,7 +12,6 @@ import com.jumbo.core.ng.JumboNGTextureBinder;
 import com.jumbo.entities.audio.JumboAudioHandler;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.JumboMathHandler;
 import com.jumbo.tools.input.console.JumboConsole;
 import com.jumbo.tools.loaders.JumboStringHandler;
 
@@ -114,10 +113,9 @@ public final class Jumbo {
 
 	/**
 	 * Stops everything, closing the display, calling {@link #closeDisplay()},
-	 * {@link Jumbo#getCloseListener()}, {@link JumboMathHandler#destroy()},
-	 * {@link JumboAudioHandler#destroy()},flushing {@link System#out} and
-	 * {@link System#err}, and finally calling {@link System#exit} with the
-	 * specified exit code.
+	 * {@link Jumbo#getCloseListener()}, {@link JumboAudioHandler#destroy()}
+	 * ,flushing {@link System#out} and {@link System#err}, and finally calling
+	 * {@link System#exit} with the specified exit code.
 	 * <P>
 	 * This is automatically called from the main loop when
 	 * {@link Display#isCloseRequested()} is true.
@@ -148,7 +146,6 @@ public final class Jumbo {
 		if (JumboAudioHandler.isInit()) {
 			JumboAudioHandler.destroy();
 		}
-		JumboMathHandler.destroy();
 		System.out.flush();
 		System.err.flush();
 		// Display.destroy();

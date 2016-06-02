@@ -29,6 +29,7 @@ import com.jumbo.tools.JumboErrorHandler;
  **/
 public class JumboRenderMode {
 
+	@SuppressWarnings("static-method")
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
 		Rectangle rect = new Rectangle();
 		try {
@@ -106,9 +107,7 @@ public class JumboRenderMode {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	};
 
-	@SuppressWarnings("static-method")
 	public void prepare() {
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 
 	/**

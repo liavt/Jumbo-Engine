@@ -299,10 +299,10 @@ public final class JumboRenderer {
 	 * action.
 	 */
 	public static void prepare() {
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		if (wasResized) {
 			update();
 		}
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		wasResized = Display.wasResized();
 		current.prepare();
 	}

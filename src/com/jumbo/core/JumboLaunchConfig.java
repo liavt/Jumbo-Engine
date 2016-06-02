@@ -39,6 +39,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
+	 * @param fontpath
 	 */
 	public JumboLaunchConfig(String name, DisplayMode mode, String fontpath) {
 		this(name, mode, null, fontpath);
@@ -47,6 +51,8 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 * 
+	 * @param mode
 	 */
 	public JumboLaunchConfig(DisplayMode mode) {
 		this(mode, null, defaultFont);

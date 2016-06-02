@@ -16,15 +16,17 @@ public class LambdaInteger implements java.io.Serializable {
 
 	/**
 	 * Creates a new {@link LambdaInteger} with a specified value
-	 * @param num starting value
+	 * 
+	 * @param num
+	 *            starting value
 	 **/
 	public LambdaInteger(int num) {
 		this.num = num;
 	}
 
 	/**
-	 * Creates a new {@link LamdbaInteger} with value of 0 
-	 * */
+	 * Creates a new {@link LambdaInteger} with value of 0
+	 */
 	public LambdaInteger() {
 		this(0);
 	}
@@ -55,39 +57,44 @@ public class LambdaInteger implements java.io.Serializable {
 	}
 
 	/**
-	 * Increments the current number stored by this {@link LambdaInteger} by 1. 
+	 * Increments the current number stored by this {@link LambdaInteger} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}++.
+	 * 
 	 * @see #reduce
-	 *@see #getNum()
+	 * @see #getNum()
 	 * @see #setNum(int num)
-	 * */
+	 */
 	public void increment() {
 		num++;
 	}
 
-		/**
-	 * Reduces the current number stored by this {@link LambdaInteger} by 1. 
+	/**
+	 * Reduces the current number stored by this {@link LambdaInteger} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}--.
+	 * 
 	 * @see #increment()
 	 * @see #getNum()
 	 * @see #setNum(int num)
-	 * */
+	 */
 	public void reduce() {
 		num--;
 	}
 
 	/**
-	 * Adds a specified integer to the number represented by this {@link LambdaInteger}.
+	 * Adds a specified integer to the number represented by this
+	 * {@link LambdaInteger}.
 	 * <p>
 	 * Same as {@link #getNum()}+=parameter.
-	 * @param num the number to add
+	 * 
+	 * @param num
+	 *            the number to add
 	 * @see #increment()
 	 * @see #getNum()
 	 * @see #setNum(int num)
 	 * @see #reduce()
-	 * */
+	 */
 	public void add(int num) {
 		this.num += num;
 	}
