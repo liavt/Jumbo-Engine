@@ -1,20 +1,21 @@
 # Jumbo-Engine
 
-A Java 2D engine that uses LWJGL.
+A Java engine that uses LWJGL.
 
-# Features
-* Fast and easy hardware-accelerated [OpenGL](https://www.opengl.org/) rendering. Don't like OpenGL? Override it, without changing the style of the engine and touching the source code at all!
+## Features
+* Fast and easy hardware-accelerated [OpenGL](https://www.opengl.org/) rendering.
+* Completely modular core, allowing you to write your own implementation of texture binding, entity rendering, audio playback, and more.
 * Versatile object heirarchy.
 * Simple String IO.
 * High-quality [OpenAL](https://www.openal.org/) audio player.
 * Input handling system to provides fast and easy mouse, key, and joystick support, anywhere.
 * Image editing and loading library.
-* Built-in drug trip mode!
-* Developer tools, like error handling, console logger, and wireframe mode.
-* Bitmap text renderer, using [Angelcode's BMFont](http://www.angelcode.com/products/bmfont/), with support for italics and colors.
+* Developer tools, like error handling, commands, and logger.
+* Bitmap text renderer, using [Angelcode's BMFont](http://www.angelcode.com/products/bmfont/), with support for italics, colors, kerning, multi-lines, and different sizes.
 * Easy and flexible particle generation, with support for anything from fire effects, to rain, to sparkles.
+* Optional texture generator for dynamic sizing.
 
-# FAQ
+## FAQ
 Why is it called ´Jumbo?´
 * Jumbo means big, and this library is supposed to handle everything! The idea behind it is that this is a versatile library - and thus it is jumbo.
 
