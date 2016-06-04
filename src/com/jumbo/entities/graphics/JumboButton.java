@@ -35,11 +35,11 @@ public class JumboButton extends JumboGraphicsObject {
 	protected TriggeredEvent trigger;
 	protected TriggeredAction clickaction;
 
-	public JumboGraphicsObject getHovericon() {
+	public JumboImage getHoverIcon() {
 		return this.hovericon;
 	}
 
-	public void setHovericon(BufferedImage hovericon) {
+	public void setHoverIcon(BufferedImage hovericon) {
 		this.hovericon = new JumboImage(hovericon, getBounds());
 	}
 
@@ -416,6 +416,22 @@ public class JumboButton extends JumboGraphicsObject {
 			}
 			this.descriptor.render();
 		}
+	}
+
+	/**
+	 * @param hovericon
+	 *            the hovericon to set
+	 */
+	public void setHoverIcon(JumboImage hovericon) {
+		this.hovericon = hovericon;
+	}
+
+	/**
+	 * @param hovericon
+	 *            the hovericon to set
+	 */
+	public void setHoverIcon(JumboTexture hovericon) {
+		this.hovericon.setTexture(hovericon);
 	}
 
 	@Override

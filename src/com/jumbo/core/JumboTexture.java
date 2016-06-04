@@ -295,7 +295,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		}
 	}
 
-	static void unbind() {
+	public static void unbind() {
 		b.unbind();
 	}
 

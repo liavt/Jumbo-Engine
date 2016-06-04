@@ -104,29 +104,31 @@ public final class JumboMathHandler {
 	public static Rectangle calculateEntityPosition(JumboEntity e) {
 		Dimension entitydim = e.getOptimizedbounds(), currentdim = JumboMathHandler.currentdim;
 		Rectangle bounds = e.getOutbounds();
-		if (entitydim != currentdim || e.isUpdaterequired()) {
+		if (entitydim != null && (entitydim != currentdim || e.isUpdaterequired())) {
 			int x = 0, y = 0, w = 0, h = 0;
 			try {
 				bounds = e.getBounds();
-				e.setOptimizedbounds(currentdim);
-				w = bounds.width;
-				h = bounds.height;
-				x = bounds.x;
-				y = bounds.y;
-				if (!e.isMaintainingX()) {
-					x *= xmod;
+				if (bounds != null) {
+					e.setOptimizedbounds(currentdim);
+					w = bounds.width;
+					h = bounds.height;
+					x = bounds.x;
+					y = bounds.y;
+					if (!e.isMaintainingX()) {
+						x *= xmod;
+					}
+					if (!e.isMaintainingY()) {
+						y *= ymod;
+					}
+					if (!e.isMaintainingWidth()) {
+						w *= xmod;
+					}
+					if (!e.isMaintainingHeight()) {
+						h *= ymod;
+					}
+					bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
+					e.setUpdaterequired(false);
 				}
-				if (!e.isMaintainingY()) {
-					y *= ymod;
-				}
-				if (!e.isMaintainingWidth()) {
-					w *= xmod;
-				}
-				if (!e.isMaintainingHeight()) {
-					h *= ymod;
-				}
-				bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
-				e.setUpdaterequired(false);
 			} catch (NullPointerException i) {
 				System.err.println("ENTITY " + e + " IS NULL!");
 				JumboErrorHandler.handle(i);

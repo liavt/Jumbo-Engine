@@ -118,4 +118,58 @@ public class JumboGraphicsGroup extends JumboEntity {
 		}
 	}
 
+	public void setAllChildrenMaintainingX(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainx(t);
+			}
+		}
+	}
+
+	public void setAllChildrenMaintainingY(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainy(t);
+			}
+		}
+	}
+
+	public void setAllChildrenMaintainingWidth(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainwidth(t);
+			}
+		}
+	}
+
+	public void setAllChildrenMaintainingHeight(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainheight(t);
+			}
+		}
+	}
+
+	public void setAllChildrenMaintainingPosition(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainingPosition(t);
+			}
+		}
+	}
+
+	public void setAllChildrenMaintainingDimension(boolean t) {
+		for (int i = 0; i < array.size(); i++) {
+			final JumboEntity e = array.get(i);
+			if (e != null && !e.isDead()) {
+				e.setMaintainingDimensions(t);
+			}
+		}
+	}
+
 }
