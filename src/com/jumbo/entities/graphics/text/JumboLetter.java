@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.JumboRenderer;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboLetter extends JumboGraphicsObject {
 	/**

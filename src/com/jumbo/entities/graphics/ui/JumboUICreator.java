@@ -3,7 +3,7 @@ package com.jumbo.entities.graphics.ui;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboUICreator {
 

@@ -3,7 +3,7 @@ package com.jumbo.entities.graphics;
 import java.awt.Rectangle;
 
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboCheckbox extends JumboButton {
 

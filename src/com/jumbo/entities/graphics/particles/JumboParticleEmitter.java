@@ -9,7 +9,7 @@ import com.jumbo.components.Position;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.JumboGraphicsGroup;
 import com.jumbo.entities.graphics.JumboAnimation;
 import com.jumbo.entities.graphics.JumboAnimationFrame;

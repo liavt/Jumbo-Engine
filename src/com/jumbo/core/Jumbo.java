@@ -7,8 +7,6 @@ import org.lwjgl.opengl.Display;
 
 import com.jumbo.components.JumboException;
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.core.ng.JumboNGRenderMode;
-import com.jumbo.core.ng.JumboNGTextureBinder;
 import com.jumbo.entities.audio.JumboAudioHandler;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
@@ -217,29 +215,4 @@ public final class Jumbo {
 		setNewLaunchConfig(c);
 	}
 
-	/**
-	 * <b>Be aware that this changes the current {@link JumboRenderMode} and
-	 * {@link JumboTextureBinder}</b>
-	 * <p>
-	 * Set whether graphics should be enabled.
-	 * <p>
-	 * Disabled graphics allows for {@linkplain Jumbo#start(JumboLaunchConfig)}
-	 * to be called, but no window will appear. Other features in the Jumbo
-	 * Engine will still work, like audio, and entities will still be ticked and
-	 * updated.
-	 * 
-	 * @param b
-	 *            Whether graphical rendering should occur
-	 * @see JumboNGRenderMode
-	 * @see JumboNGTextureBinder
-	 */
-	public static void setGraphicsEnabled(boolean b) {
-		if (b) {
-			JumboRenderer.setCurrentRenderMode(new JumboRenderMode());
-			JumboTexture.setBinder(new JumboTextureBinder());
-		} else {
-			JumboRenderer.setCurrentRenderMode(new JumboNGRenderMode());
-			JumboTexture.setBinder(new JumboNGTextureBinder());
-		}
-	}
 }

@@ -1,6 +1,5 @@
 package com.jumbo.core;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
@@ -9,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.TripleFloat;
+import com.jumbo.core.modules.JumboRenderModeGL11;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.JumboMathHandler;
@@ -287,7 +287,7 @@ public final class JumboRenderer {
 
 	public static void init() {
 		// the default mode
-		addRenderMode(new JumboRenderMode());
+		addRenderMode(new JumboRenderModeGL11());
 		setCurrentRenderMode(0);
 		update();
 	}
@@ -312,7 +312,6 @@ public final class JumboRenderer {
 	 * {@link JumboMathHandler#xmod} and {@link JumboMathHandler#ymod}.
 	 */
 	public static void update() {
-		GL11.glLoadIdentity();
 		// JumboLaunchConfig config = JumboSettings.launchConfig;
 		final int width, height;
 		final float factor;
@@ -342,12 +341,11 @@ public final class JumboRenderer {
 		// for high dpi modes
 		renderwidth = (int) (width * factor);
 		renderheight = (int) (height * factor);
-		JumboMathHandler.currentdim = new Dimension(renderwidth, renderheight);
-		GL11.glOrtho(0.0f, renderwidth, 0, renderheight, 0.0f, 1.0f);
-		GL11.glViewport(0, 0, renderwidth, renderheight);
-		// }
-		JumboMathHandler.xmod = (renderwidth / ((float) JumboSettings.launchConfig.width()));
-		JumboMathHandler.ymod = (renderheight / ((float) JumboSettings.launchConfig.height()));
+
+		for (JumboRenderMode m : modes) {
+			m.resize(renderwidth, renderheight);
+		}
+
 		JumboPaintClass.getScene().onWindowUpdate();
 		JumboPaintClass.getPreviousScene().onWindowUpdate();
 		wasResized = false;

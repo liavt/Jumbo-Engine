@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.text.JumboText;
 import com.jumbo.entities.graphics.text.JumboTextBox;
 

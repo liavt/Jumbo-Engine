@@ -1,10 +1,12 @@
-package com.jumbo.core;
+package com.jumbo.core.texture;
 
 import java.awt.image.BufferedImage;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.LambdaInteger;
+import com.jumbo.core.modules.JumboTextureBinderGL11;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.loaders.JumboImageHandler;
 
 public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
@@ -13,7 +15,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static JumboTextureBinder b = new JumboTextureBinder();
+	private static JumboTextureBinder b = new JumboTextureBinderGL11();
 	private final static LambdaInteger previousid = new LambdaInteger(-1);
 
 	public static final short FADE_WIDTH = 100;
@@ -254,7 +256,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 			}
 			setData(pixels, width, height);
 		} catch (Exception e) {
-			e.printStackTrace();
+			JumboErrorHandler.handle(e);
 		}
 	}
 

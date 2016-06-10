@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.JumboRenderer;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboAnimationFrame extends JumboGraphicsObject {
 	/**
