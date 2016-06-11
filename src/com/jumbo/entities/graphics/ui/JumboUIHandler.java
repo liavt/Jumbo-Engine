@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import com.jumbo.components.JumboColor;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboUIHandler {
 	private static int[] passivecolor = new int[] { 50, 50, 50, 255 }, hovercolor = new int[] { 0, 100, 255, 255 };

@@ -8,7 +8,7 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.JumboRenderer;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboProgressBar extends JumboGraphicsObject {
 	/**

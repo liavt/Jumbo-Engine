@@ -8,19 +8,6 @@ public final class JumboSettings {
 
 	public static JumboLaunchConfig launchConfig;
 
-	public static final boolean wireframe = false;// makes everything become a
-													// wireframe, so it allows
-													// you to see whether
-													// objects are being
-													// rendered, and if they are
-													// behind other objects.
-	public static final boolean rectangle = false;// makes all the textures in
-													// memory to a solid random
-													// color. this allows you to
-													// find out which objects
-													// share textures, as they
-													// will both be the same
-													// color.
 	public static boolean logerrors = true;// whether to write a log file
 											// to the disk explaining
 											// the error. turn this on
@@ -30,11 +17,7 @@ public final class JumboSettings {
 											// IF YOU DO, YOU WILL
 											// PROBABLY HAVE LIKE 1000S
 											// OF LOGS
-	public static boolean trippy = false;// smoke weed everyday!
-	public static boolean shaky = false;// like the drug mode, but less trippy
-	public static int shakeintensity = 0; // how much the screen shakes,
-											// measured
-											// in pixels
+
 	public static boolean inputEnabled = true;// for user input
 	// for
 	public static int fps = 0, tickdelay = 33;

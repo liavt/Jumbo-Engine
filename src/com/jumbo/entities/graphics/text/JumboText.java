@@ -1,11 +1,11 @@
-package com.jumbo.entities.graphics;
+package com.jumbo.entities.graphics.text;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.JumboGraphicsGroup;
 import com.jumbo.tools.loaders.JumboStringHandler;
 

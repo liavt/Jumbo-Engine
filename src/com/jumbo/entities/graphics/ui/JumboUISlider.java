@@ -2,7 +2,7 @@ package com.jumbo.entities.graphics.ui;
 
 import java.awt.Rectangle;
 
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.JumboSlider;
 
 public class JumboUISlider extends JumboSlider {

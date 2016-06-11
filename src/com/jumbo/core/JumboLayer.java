@@ -1,7 +1,6 @@
 package com.jumbo.core;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Required by a {@link JumboPaintClass} to render.
@@ -56,8 +55,8 @@ public class JumboLayer implements Cloneable {
 	}
 
 	public final void render() {
-		for (Iterator<JumboEntity> iterator = entities.iterator(); iterator.hasNext();) {
-			final JumboEntity e = iterator.next();
+		for (int i = 0; i < entities.size(); i++) {
+			final JumboEntity e = entities.get(i);
 			if (e != null) {
 				e.render();
 			}

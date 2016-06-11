@@ -1,4 +1,4 @@
-package com.jumbo.core;
+package com.jumbo.core.modules;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
@@ -18,21 +18,25 @@ import java.nio.IntBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
-//it is intented to be used statically, and you can't override static methods. making a bunch of lambdas would be a massive mess
-@SuppressWarnings("static-method")
-public class JumboTextureBinder {
+import com.jumbo.core.texture.JumboTextureBinder;
+
+public class JumboTextureBinderGL11 extends JumboTextureBinder {
+	@Override
 	public void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
+	@Override
 	public void bind(int id) {
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 
+	@Override
 	public void unload(int id) {
 		glDeleteTextures(id);
 	}
 
+	@Override
 	public int load(int width, int height, int... pixels) {
 		final IntBuffer buffer = ByteBuffer.allocateDirect(pixels.length << 2).order(ByteOrder.nativeOrder())
 				.asIntBuffer();
@@ -46,6 +50,7 @@ public class JumboTextureBinder {
 		return tex;
 	}
 
+	@Override
 	public int[] getData(int width, int height, int id) {
 		final IntBuffer buf = BufferUtils.createIntBuffer(width * height);
 		bind(id);
@@ -56,4 +61,5 @@ public class JumboTextureBinder {
 		buf.get(data);
 		return data;
 	}
+
 }

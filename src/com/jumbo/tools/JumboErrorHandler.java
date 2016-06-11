@@ -38,9 +38,6 @@ public class JumboErrorHandler {
 				String message = "<ERROR REPORT START> %n <ENGINE PROPERTIES> %n";
 				message += "Fullscreen: " + JumboSettings.launchConfig.fullscreen + "%n";
 				message += "VSync: " + JumboSettings.launchConfig.vsync + "%n";
-				message += "Shaky: " + JumboSettings.shaky + "%n";
-				message += "Trippy: " + JumboSettings.trippy + "%n";
-				message += "Shake Intensity: " + JumboSettings.shakeintensity + "%n";
 				message += "Game Title: " + JumboSettings.launchConfig.title + "%n";
 				message += "Font Path: " + JumboSettings.launchConfig.fontpath + "%n";
 				message += "FPS: " + JumboSettings.fps + "%n";

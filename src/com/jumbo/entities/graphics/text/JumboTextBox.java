@@ -1,4 +1,4 @@
-package com.jumbo.entities.graphics;
+package com.jumbo.entities.graphics.text;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.jumbo.components.Position;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 
 public class JumboTextBox extends JumboGraphicsObject {
 	/**

@@ -1,7 +1,7 @@
-package com.jumbo.core.ng;
+package com.jumbo.core.modules;
 
 import com.jumbo.core.Jumbo;
-import com.jumbo.core.JumboTextureBinder;
+import com.jumbo.core.texture.JumboTextureBinder;
 
 /**
  * {@link JumboTextureBinder} whose methods don't do anything - for a
@@ -9,7 +9,7 @@ import com.jumbo.core.JumboTextureBinder;
  *
  * @see Jumbo#setGraphicsEnabled(boolean)
  */
-public class JumboNGTextureBinder extends JumboTextureBinder {
+public class JumboTextureBinderNG extends JumboTextureBinder {
 
 	@Override
 	public void unbind() {

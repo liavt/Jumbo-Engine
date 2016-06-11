@@ -1,4 +1,4 @@
-package com.jumbo.core.ng;
+package com.jumbo.core.modules;
 
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboGraphicsObject;
@@ -10,7 +10,7 @@ import com.jumbo.core.JumboRenderMode;
  *
  * @see Jumbo#setGraphicsEnabled(boolean)
  */
-public class JumboNGRenderMode extends JumboRenderMode {
+public class JumboRenderModeNG extends JumboRenderMode {
 
 	@Override
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
@@ -22,6 +22,11 @@ public class JumboNGRenderMode extends JumboRenderMode {
 
 	@Override
 	public void prepare() {
+	}
+
+	@Override
+	public void resize(int newWidth, int newHeight) {
+
 	}
 
 }

@@ -2,10 +2,10 @@ package com.jumbo.entities.graphics.ui;
 
 import java.awt.Rectangle;
 
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.JumboButton;
 import com.jumbo.entities.graphics.JumboImage;
-import com.jumbo.entities.graphics.JumboText;
+import com.jumbo.entities.graphics.text.JumboText;
 
 public class JumboUIButton extends JumboButton {
 	/**

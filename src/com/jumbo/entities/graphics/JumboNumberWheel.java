@@ -3,7 +3,8 @@ package com.jumbo.entities.graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
+import com.jumbo.entities.graphics.text.JumboInputBox;
 
 public class JumboNumberWheel extends JumboInputBox {
 	/**

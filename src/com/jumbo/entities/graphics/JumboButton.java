@@ -10,7 +10,9 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.components.interfaces.TriggeredEvent;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
+import com.jumbo.entities.graphics.text.JumboText;
+import com.jumbo.entities.graphics.text.JumboTextBox;
 import com.jumbo.tools.input.JumboInputListener;
 
 public class JumboButton extends JumboGraphicsObject {
@@ -33,11 +35,11 @@ public class JumboButton extends JumboGraphicsObject {
 	protected TriggeredEvent trigger;
 	protected TriggeredAction clickaction;
 
-	public JumboGraphicsObject getHovericon() {
+	public JumboImage getHoverIcon() {
 		return this.hovericon;
 	}
 
-	public void setHovericon(BufferedImage hovericon) {
+	public void setHoverIcon(BufferedImage hovericon) {
 		this.hovericon = new JumboImage(hovericon, getBounds());
 	}
 
@@ -416,6 +418,30 @@ public class JumboButton extends JumboGraphicsObject {
 		}
 	}
 
+	public void setDisabledIcon(JumboImage icon) {
+		this.disabledicon = icon;
+	}
+
+	public void setDisabledIcon(JumboTexture icon) {
+		this.disabledicon.setTexture(icon);
+	}
+
+	/**
+	 * @param hovericon
+	 *            the hovericon to set
+	 */
+	public void setHoverIcon(JumboImage hovericon) {
+		this.hovericon = hovericon;
+	}
+
+	/**
+	 * @param hovericon
+	 *            the hovericon to set
+	 */
+	public void setHoverIcon(JumboTexture hovericon) {
+		this.hovericon.setTexture(hovericon);
+	}
+
 	@Override
 	public void customTick() {
 		if (this.icon != null) {
@@ -434,6 +460,19 @@ public class JumboButton extends JumboGraphicsObject {
 		if (action != null) {
 			action.action();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jumbo.core.JumboEntity#additionalCalculations(java.awt.Rectangle)
+	 */
+	@Override
+	public Rectangle additionalCalculations(Rectangle inbounds) {
+		final Rectangle bounds = super.additionalCalculations(inbounds);
+
+		return bounds;
 	}
 
 }

@@ -3,25 +3,18 @@ package com.jumbo.tools.calculations;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
-import com.jumbo.components.TripleFloat;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
-import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboRenderer;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.input.console.JumboConsole;
 
 public final class JumboMathHandler {
-	private static int triph = 0, tripw = 0, rot = 0;// values for when its
-	// trippy
-
 	public static float xmod = ((Jumbo.getFrameWidth() * 1.0f) / (1080 * 1.0f)), // for
 			// rendering
 			ymod = ((Jumbo.getFrameHeight() * 1.0f) / (720 * 1.0f));// for
@@ -53,56 +46,6 @@ public final class JumboMathHandler {
 
 	public static int rgbToSRGB(int r, int g, int b, int a) {
 		return ((a)) << 24 | (g) << 16 | ((b)) << 8 | ((r));
-	}
-
-	public static void refresh() {
-		if (JumboSettings.shaky || JumboSettings.trippy) {
-			GL11.glMatrixMode(GL11.GL_TEXTURE);
-			GL11.glLoadIdentity();
-			rot++;
-			GL11.glRotatef(rot + (triph / (tripw + 1)), 0, 0, 1);
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-			if (JumboSettings.trippy) {
-				tripw -= Dice.rollBool() && tripw > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
-				triph -= Dice.rollBool() && triph > 0 ? (Dice.roll(30) - 1) : -(Dice.roll(30) - 1);
-				if (tripw <= 0) {
-					tripw = 0;
-				}
-				if (triph <= 0) {
-					triph = 0;
-				}
-				if (tripw >= 50) {
-					tripw = 50;
-				}
-				if (triph >= 50) {
-					triph = 50;
-				}
-				;
-				boolean negative = Dice.rollBool();
-				JumboSettings.shakeintensity = Dice.roll(tripw + triph);
-				if (negative) {
-					JumboSettings.shakeintensity = -JumboSettings.shakeintensity;
-				}
-			}
-			if (JumboSettings.shakeintensity <= 0) {
-				JumboSettings.shakeintensity = 1;
-			}
-		} else if (JumboSettings.shakeintensity > 0) {
-			JumboSettings.shakeintensity -= (Dice.roll(2) - 1);
-			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
-			TripleFloat c = JumboRenderer.getRefreshcolor();
-			JumboRenderer.setRefreshcolor(new TripleFloat(c.x / JumboSettings.shakeintensity,
-					c.y / JumboSettings.shakeintensity, c.z / JumboSettings.shakeintensity));
-		}
-	}
-
-	public static void init() {
-		// GPUCalculator.init();
-		// GPUCalculator.setResultSize(2);
-	}
-
-	public static void destroy() {
-		// GPUCalculator.destroy();
 	}
 
 	public static int floatToX(int number) {
@@ -161,29 +104,31 @@ public final class JumboMathHandler {
 	public static Rectangle calculateEntityPosition(JumboEntity e) {
 		Dimension entitydim = e.getOptimizedbounds(), currentdim = JumboMathHandler.currentdim;
 		Rectangle bounds = e.getOutbounds();
-		if (entitydim != currentdim || e.isUpdaterequired()) {
+		if (entitydim != null && (entitydim != currentdim || e.isUpdaterequired())) {
 			int x = 0, y = 0, w = 0, h = 0;
 			try {
 				bounds = e.getBounds();
-				e.setOptimizedbounds(currentdim);
-				w = bounds.width;
-				h = bounds.height;
-				x = bounds.x;
-				y = bounds.y;
-				if (!e.isMaintainingX()) {
-					x *= xmod;
+				if (bounds != null) {
+					e.setOptimizedbounds(currentdim);
+					w = bounds.width;
+					h = bounds.height;
+					x = bounds.x;
+					y = bounds.y;
+					if (!e.isMaintainingX()) {
+						x *= xmod;
+					}
+					if (!e.isMaintainingY()) {
+						y *= ymod;
+					}
+					if (!e.isMaintainingWidth()) {
+						w *= xmod;
+					}
+					if (!e.isMaintainingHeight()) {
+						h *= ymod;
+					}
+					bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
+					e.setUpdaterequired(false);
 				}
-				if (!e.isMaintainingY()) {
-					y *= ymod;
-				}
-				if (!e.isMaintainingWidth()) {
-					w *= xmod;
-				}
-				if (!e.isMaintainingHeight()) {
-					h *= ymod;
-				}
-				bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
-				e.setUpdaterequired(false);
 			} catch (NullPointerException i) {
 				System.err.println("ENTITY " + e + " IS NULL!");
 				JumboErrorHandler.handle(i);
@@ -212,38 +157,6 @@ public final class JumboMathHandler {
 		return r1.x + r1.width >= r2.x && r1.y + r1.height >= r2.y && r1.y < r2.y + r2.height && r1.x < r2.x + r2.width;
 	}
 
-	@Deprecated
-	public static boolean collisionPixelPerfect(JumboGraphicsObject a, JumboGraphicsObject b) {
-		final int[] adata = a.getTexture().getData(), bdata = b.getTexture().getData();
-		final int height, width;
-		final int awidth = a.getTexture().getWidth(), bwidth = b.getTexture().getWidth(),
-				aheight = a.getTexture().getHeight(), bheight = b.getTexture().getHeight();
-		if (aheight > bheight) {
-			height = bheight;
-		} else {
-			height = aheight;
-		}
-		if (awidth > bwidth) {
-			width = bwidth;
-		} else {
-			width = awidth;
-		}
-		System.err.println(awidth + " " + bwidth);
-		for (int y = 0; y < height; y++) {
-			if (y > bheight || y > aheight) {
-				break;
-			}
-			for (int x = 0; x < width; x++) {
-				if (x > bwidth || x > awidth) {
-					break;
-				}
-				final int apix = adata[x * y], bpix = bdata[x * y];
-				JumboConsole.log(((apix & 0xff000000) >> 24) + " " + ((bpix & 0xff000000) >> 24));
-			}
-		}
-		return false;
-	}
-
 	public static boolean collides(Position r1, Rectangle r2) {
 		return r1.x >= r2.x && r1.x <= r2.width + r2.x && r1.y >= r2.y && r1.y <= r2.height + r2.y;
 	}
@@ -262,5 +175,22 @@ public final class JumboMathHandler {
 
 	public static FloatRectangle divideRectangle(Rectangle r, int f) {
 		return new FloatRectangle(r.x / f, r.y / f, r.width / f, r.height / f);
+	}
+
+	public static Matrix4f createProjectionMatrix(float FOV, float NEAR_PLANE, float FAR_PLANE) {
+		final float aspectRatio = (float) Jumbo.getFrameWidth() / (float) Jumbo.getFrameHeight();
+		final float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
+		final float x_scale = y_scale / aspectRatio;
+		final float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+		Matrix4f projectionMatrix = new Matrix4f();
+		projectionMatrix.m00 = x_scale;
+		projectionMatrix.m11 = y_scale;
+		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
+		projectionMatrix.m23 = -1;
+		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+		projectionMatrix.m33 = 0;
+
+		return projectionMatrix;
 	}
 }

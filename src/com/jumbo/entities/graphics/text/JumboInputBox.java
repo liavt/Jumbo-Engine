@@ -1,11 +1,13 @@
-package com.jumbo.entities.graphics;
+package com.jumbo.entities.graphics.text;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.jumbo.components.interfaces.TriggeredAction;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
+import com.jumbo.entities.graphics.JumboButton;
+import com.jumbo.entities.graphics.JumboImage;
 import com.jumbo.tools.input.JumboInputHandler;
 import com.jumbo.tools.input.JumboKey;
 

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import com.jumbo.components.Position;
+import com.jumbo.core.texture.JumboTexture;
 
 public abstract class JumboGraphicsObject extends JumboEntity {
 	/**

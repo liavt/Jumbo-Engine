@@ -7,7 +7,7 @@ import org.lwjgl.input.Mouse;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.core.JumboEntity;
-import com.jumbo.core.JumboTexture;
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.tools.calculations.JumboMathHandler;
 import com.jumbo.tools.input.JumboInputListener;
 

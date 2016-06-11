@@ -1,12 +1,12 @@
-package com.jumbo.core;
+package com.jumbo.core.texture;
 
 import java.awt.image.BufferedImage;
 
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.LambdaInteger;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.Dice;
+import com.jumbo.core.modules.JumboTextureBinderGL11;
+import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.loaders.JumboImageHandler;
 
 public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
@@ -15,8 +15,22 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static JumboTextureBinder b = new JumboTextureBinder();
+	private static JumboTextureBinder b = new JumboTextureBinderGL11();
 	private final static LambdaInteger previousid = new LambdaInteger(-1);
+
+	public static final short FADE_WIDTH = 100;
+
+	static {
+		solidcolor = new JumboTexture(new int[] { JumboColor.WHITE.toByte() }, 1, 1);
+		final int[] pixels = new int[(FADE_WIDTH * 2)];
+		for (int i = 0; i < FADE_WIDTH; i++) {
+			pixels[i] = new JumboColor(1.0f, 1.0f, 1.0f, i / (float) FADE_WIDTH).toByte();
+		}
+		for (int i = 0; i < FADE_WIDTH; i++) {
+			pixels[i + FADE_WIDTH] = new JumboColor(1.0f, 1.0f, 1.0f, 1.0f - ((i) / (float) FADE_WIDTH)).toByte();
+		}
+		fade = new JumboTexture(pixels, FADE_WIDTH * 2, 1);
+	}
 
 	public static JumboTextureBinder getBinder() {
 		return b;
@@ -93,27 +107,6 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	public static JumboTexture solidcolor, fade;
-
-	private static boolean init = false;
-
-	public static boolean isInit() {
-		return init;
-	}
-
-	public static final short FADE_WIDTH = 100;
-
-	public static void init() {
-		solidcolor = new JumboTexture(new int[] { JumboColor.WHITE.toByte() }, 1, 1);
-		final int[] pixels = new int[(FADE_WIDTH * 2)];
-		for (int i = 0; i < FADE_WIDTH; i++) {
-			pixels[i] = new JumboColor(1.0f, 1.0f, 1.0f, i / (float) FADE_WIDTH).toByte();
-		}
-		for (int i = 0; i < FADE_WIDTH; i++) {
-			pixels[i + FADE_WIDTH] = new JumboColor(1.0f, 1.0f, 1.0f, 1.0f - ((i) / (float) FADE_WIDTH)).toByte();
-		}
-		fade = new JumboTexture(pixels, FADE_WIDTH * 2, 1);
-		init = true;
-	}
 
 	private int ID = -1;
 
@@ -238,13 +231,8 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	private int load(int[] inpixels) {
 		final int[] pixels;
-		if (JumboSettings.rectangle) {
-			pixels = new int[] { Dice.randomColor().toByte() };
-			width = 1;
-			height = 1;
-		} else {
-			pixels = inpixels;
-		}
+
+		pixels = inpixels;
 		return b.load(width, height, pixels);
 	}
 
@@ -268,7 +256,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 			}
 			setData(pixels, width, height);
 		} catch (Exception e) {
-			e.printStackTrace();
+			JumboErrorHandler.handle(e);
 		}
 	}
 
@@ -302,14 +290,14 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		this.height = height;
 	}
 
-	void bind() {
+	public void bind() {
 		if (previousid.getNum() != ID) {
 			b.bind(ID);
 			previousid.setNum(ID);
 		}
 	}
 
-	static void unbind() {
+	public static void unbind() {
 		b.unbind();
 	}
 
