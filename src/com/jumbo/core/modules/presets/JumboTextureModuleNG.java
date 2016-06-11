@@ -1,15 +1,15 @@
-package com.jumbo.core.modules;
+package com.jumbo.core.modules.presets;
 
 import com.jumbo.core.Jumbo;
-import com.jumbo.core.texture.JumboTextureBinder;
+import com.jumbo.core.modules.JumboTextureModule;
 
 /**
- * {@link JumboTextureBinder} whose methods don't do anything - for a
+ * {@link JumboTextureModule} whose methods don't do anything - for a
  * non-graphical mode.
  *
  * @see Jumbo#setGraphicsEnabled(boolean)
  */
-public class JumboTextureBinderNG extends JumboTextureBinder {
+public class JumboTextureModuleNG extends JumboTextureModule {
 
 	@Override
 	public void unbind() {

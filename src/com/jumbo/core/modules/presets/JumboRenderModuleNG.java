@@ -1,16 +1,16 @@
-package com.jumbo.core.modules;
+package com.jumbo.core.modules.presets;
 
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboRenderMode;
+import com.jumbo.core.modules.JumboRenderModule;
 
 /**
- * {@link JumboRenderMode} whose methods don't do anything - for a non-graphical
+ * {@link JumboRenderModule} whose methods don't do anything - for a non-graphical
  * mode.
  *
  * @see Jumbo#setGraphicsEnabled(boolean)
  */
-public class JumboRenderModeNG extends JumboRenderMode {
+public class JumboRenderModuleNG extends JumboRenderModule {
 
 	@Override
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {

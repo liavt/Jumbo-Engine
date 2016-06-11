@@ -1,9 +1,15 @@
 package com.jumbo.components;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class JumboColor implements java.lang.Cloneable {
-	private int r = 255, g = 255, b = 255, a = 255;
+public class JumboColor implements java.lang.Cloneable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private short r = 255, g = 255, b = 255, a = 255;
 
 	public static final JumboColor RED = new JumboColor(255, 0, 0), GREEN = new JumboColor(0, 255, 0),
 			DARK_BLUE = new JumboColor(0, 0, 255), CYAN = new JumboColor(0, 255, 255),
@@ -15,11 +21,11 @@ public class JumboColor implements java.lang.Cloneable {
 			DARK_ORANGE = new JumboColor(255, 100, 0), LIGHT_ORANGE = new JumboColor(255, 150, 0);
 
 	public JumboColor darker() {
-		return new JumboColor((int) (r * 0.9f), (int) (g * 0.9f), (int) (b * 0.9f));
+		return new JumboColor((short) (r * 0.9f), (short) (g * 0.9f), (short) (b * 0.9f));
 	}
 
 	public JumboColor brighter() {
-		return new JumboColor((int) (r * 1.1f), (int) (g * 1.1f), (int) (b * 1.1f));
+		return new JumboColor((short) (r * 1.1f), (short) (g * 1.1f), (short) (b * 1.1f));
 	}
 
 	/*
@@ -58,7 +64,7 @@ public class JumboColor implements java.lang.Cloneable {
 
 	@Override
 	public Object clone() {
-		final int r = this.r, g = this.g, b = this.b, a = this.a;
+		final short r = this.r, g = this.g, b = this.b, a = this.a;
 		return new JumboColor(r, g, b, a);
 	}
 
@@ -112,19 +118,19 @@ public class JumboColor implements java.lang.Cloneable {
 		return new JumboColor(r, g, b);
 	}
 
-	public JumboColor(int r, int g, int b, int a) {
+	public JumboColor(short r, short g, short b, short a) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = a;
 	}
 
-	public JumboColor(int r, int g, int b) {
+	public JumboColor(short r, short g, short b) {
 		this(r, g, b, 255);
 	}
 
 	public JumboColor(float r, float g, float b, float a) {
-		this((int) (r * 255.0f), (int) (g * 255.0f), (int) (b * 255.0f), (int) (a * 255.0f));
+		this((short) (r * 255.0f), (short) (g * 255.0f), (short) (b * 255.0f), (short) (a * 255.0f));
 	}
 
 	public JumboColor(float r, float g, float b) {
@@ -139,14 +145,14 @@ public class JumboColor implements java.lang.Cloneable {
 		this(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 
-	public JumboColor(int[] color) {
+	public JumboColor(short[] color) {
 		this(color[0], color[1], color[2], color[3]);
 	}
 
 	/**
 	 * @return the r
 	 */
-	public int getRed() {
+	public short getRed() {
 		return r;
 	}
 
@@ -154,14 +160,14 @@ public class JumboColor implements java.lang.Cloneable {
 	 * @param r
 	 *            the r to set
 	 */
-	public void setRed(int r) {
+	public void setRed(short r) {
 		this.r = r;
 	}
 
 	/**
 	 * @return the g
 	 */
-	public int getGreen() {
+	public short getGreen() {
 		return g;
 	}
 
@@ -169,14 +175,14 @@ public class JumboColor implements java.lang.Cloneable {
 	 * @param g
 	 *            the g to set
 	 */
-	public void setGreen(int g) {
+	public void setGreen(short g) {
 		this.g = g;
 	}
 
 	/**
 	 * @return the b
 	 */
-	public int getBlue() {
+	public short getBlue() {
 		return b;
 	}
 
@@ -184,14 +190,14 @@ public class JumboColor implements java.lang.Cloneable {
 	 * @param b
 	 *            the b to set
 	 */
-	public void setBlue(int b) {
+	public void setBlue(short b) {
 		this.b = b;
 	}
 
 	/**
 	 * @return the a
 	 */
-	public int getAlpha() {
+	public short getAlpha() {
 		return a;
 	}
 
@@ -199,7 +205,7 @@ public class JumboColor implements java.lang.Cloneable {
 	 * @param a
 	 *            the a to set
 	 */
-	public void setAlpha(int a) {
+	public void setAlpha(short a) {
 		this.a = a;
 	}
 
@@ -224,18 +230,18 @@ public class JumboColor implements java.lang.Cloneable {
 	}
 
 	public void setAlpha(float a) {
-		this.a = (int) (a * 255.0f);
+		this.a = (short) (a * 255.0f);
 	}
 
 	public void setRed(float r) {
-		this.r = (int) (r * 255.0f);
+		this.r = (short) (r * 255.0f);
 	}
 
 	public void setGreen(float g) {
-		this.g = (int) (g * 255.0f);
+		this.g = (short) (g * 255.0f);
 	}
 
 	public void setBlue(float b) {
-		this.b = (int) (b * 255.0f);
+		this.b = (short) (b * 255.0f);
 	}
 }

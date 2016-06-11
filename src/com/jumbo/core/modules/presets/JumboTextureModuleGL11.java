@@ -1,4 +1,4 @@
-package com.jumbo.core.modules;
+package com.jumbo.core.modules.presets;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
@@ -18,9 +18,9 @@ import java.nio.IntBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
-import com.jumbo.core.texture.JumboTextureBinder;
+import com.jumbo.core.modules.JumboTextureModule;
 
-public class JumboTextureBinderGL11 extends JumboTextureBinder {
+public class JumboTextureModuleGL11 extends JumboTextureModule {
 	@Override
 	public void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);

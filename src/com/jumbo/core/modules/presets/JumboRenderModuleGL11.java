@@ -1,4 +1,4 @@
-package com.jumbo.core.modules;
+package com.jumbo.core.modules.presets;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -10,13 +10,14 @@ import org.lwjgl.opengl.GL13;
 import com.jumbo.components.FloatRectangle;
 import com.jumbo.components.Position;
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboRenderMode;
+import com.jumbo.core.modules.JumboRenderModule;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.JumboMathHandler;
 
-public class JumboRenderModeGL11 extends JumboRenderMode {
+public class JumboRenderModuleGL11 extends JumboRenderModule {
+	@Override
 	public void resize(int newWidth, int newHeight) {
 		GL11.glLoadIdentity();
 
@@ -30,6 +31,7 @@ public class JumboRenderModeGL11 extends JumboRenderMode {
 		JumboMathHandler.ymod = (newHeight / ((float) JumboSettings.launchConfig.height()));
 	}
 
+	@Override
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
 		Rectangle rect = new Rectangle();
 		try {
@@ -93,6 +95,7 @@ public class JumboRenderModeGL11 extends JumboRenderMode {
 		}
 	};
 
+	@Override
 	public void init() {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -106,6 +109,7 @@ public class JumboRenderModeGL11 extends JumboRenderMode {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	};
 
+	@Override
 	public void prepare() {
 	}
 }

@@ -1,7 +1,7 @@
-package com.jumbo.core.texture;
+package com.jumbo.core.modules;
 
 //it is intented to be used statically, and you can't override static methods. making a bunch of lambdas would be a massive mess
-public abstract class JumboTextureBinder {
+public abstract class JumboTextureModule {
 	public abstract void bind(int id);
 
 	public abstract void unbind();

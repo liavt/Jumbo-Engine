@@ -4,10 +4,25 @@ This file will get updated with every update.
 #####Upcoming
 * Fixed particle system
 * Updated audio system
-* Wireframe and 'solid' render mode
+* New preset modules
 * OpenGL 3 2D render mode
 * 3D support
 * More modularity support
+
+##Version Alpha 1.1.5
+###Added
+* JumboColor is now Serializable
+* The JumboPainter class, which allows you to do direct rendering to a JumboTexture, similar to the Graphics class found in Java AWT. No implementations have been built with it yet.
+* Wireframe render modules, named JumboRenderModuleWireframe
+* Installation instructions to README.md
+
+###Modified
+* JumboColor now stores data as a series of shorts to save memory.
+* JumboRenderMode has been renamed to JumboRenderModule, and has been moved to core.modules.
+* JumboTextureBinder has been renamed to JumboTextureModule, and has been moved to core.modules.
+* Classes that previously started with JumboRenderMode or JumboTextureBinder have been renamed to their corresponding module names (IE: JumboRenderModeGL11 has been renamed to JumboRenderModuleGL11)
+* JumboTexture's *solidcolor* and *fade* have been created final for increased speed
+* Premade modules have been moved to core.modules.presets
 
 ##Version Alpha 1.1.0
 ###Added

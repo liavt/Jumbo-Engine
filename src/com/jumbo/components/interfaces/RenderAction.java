@@ -2,11 +2,11 @@
 package com.jumbo.components.interfaces;
 
 import com.jumbo.core.JumboGraphicsObject;
-import com.jumbo.core.JumboRenderMode;
 import com.jumbo.core.JumboRenderer;
+import com.jumbo.core.modules.JumboRenderModule;
 
 /**
- * Used in {@link JumboRenderMode}. Called by {@link JumboRenderer} when
+ * Used in {@link JumboRenderModule}. Called by {@link JumboRenderer} when
  * {@link JumboRenderer#render(JumboGraphicsObject)} is called.
  * 
  * @see TriggeredAction
@@ -15,7 +15,7 @@ import com.jumbo.core.JumboRenderer;
 public interface RenderAction extends java.io.Serializable {
 	/**
 	 * Used to render entities by {@link JumboRenderer}. Stored in a
-	 * {@link JumboRenderMode}.
+	 * {@link JumboRenderModule}.
 	 * 
 	 * @param e
 	 *            {@link JumboGraphicsObject} to be rendererd

@@ -1,10 +1,13 @@
-package com.jumbo.core;
+package com.jumbo.core.modules;
 
 import com.jumbo.components.interfaces.RenderAction;
 import com.jumbo.components.interfaces.TriggeredAction;
+import com.jumbo.core.JumboGraphicsObject;
+import com.jumbo.core.JumboLayer;
+import com.jumbo.core.JumboRenderer;
 
 /**
- * Class that contains various interfaces to be used for renderring by the
+ * Class that contains various interfaces to be used for rendering by the
  * {@link JumboRenderer}.
  * <p>
  * Contains default interfaces that can be overridden to provide a custom OpenGL
@@ -18,7 +21,7 @@ import com.jumbo.components.interfaces.TriggeredAction;
  * @see TriggeredAction
  * @see JumboLayer
  **/
-public abstract class JumboRenderMode {
+public abstract class JumboRenderModule {
 
 	public abstract void init();
 

@@ -2,6 +2,8 @@
 
 A Java engine that uses LWJGL.
 
+**Note: this engine is in alpha. Updates may break previous functionality. Use at your own risk.**
+
 ## Features
 * Fast and easy hardware-accelerated [OpenGL](https://www.opengl.org/) rendering.
 * Completely modular core, allowing you to write your own implementation of texture binding, entity rendering, audio playback, and more.
@@ -15,8 +17,11 @@ A Java engine that uses LWJGL.
 * Easy and flexible particle generation, with support for anything from fire effects, to rain, to sparkles.
 * Optional texture generator for dynamic sizing.
 
+##Installation
+Download the project through git, and add everything in the /src/ folder to your build path. The only dependency is LWJGL 2 and it's natives, which can be found on their [website.](http://wiki.lwjgl.org/wiki/Downloading_and_Setting_Up_LWJGL) The LWJGL jar files are located in the /jars/ folder. You will need to download natives.
+
 ## FAQ
-Why is it called ´Jumbo?´
+Why is it called Jumbo?
 * Jumbo means big, and this library is supposed to handle everything! The idea behind it is that this is a versatile library - and thus it is jumbo.
 
 What dependencies does it have?
@@ -29,7 +34,7 @@ What is the syntax?
 * It is very Swing-like.
 
 How fast is it?
-* It is hardware accelerated, so it may vary from system to system. Locked at 60 FPS, using the default renderer, the engine was able to render 10,000 entities at once, only using up 5% of my Intel i7.
+* It is hardware accelerated, so it may vary from system to system.
 
 Documentation?
 * Very little. However, we are slowly adding that.

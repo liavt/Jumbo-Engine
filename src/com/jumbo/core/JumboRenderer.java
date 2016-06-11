@@ -8,7 +8,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.TripleFloat;
-import com.jumbo.core.modules.JumboRenderModeGL11;
+import com.jumbo.core.modules.JumboRenderModule;
+import com.jumbo.core.modules.presets.JumboRenderModuleGL11;
 import com.jumbo.tools.JumboErrorHandler;
 import com.jumbo.tools.JumboSettings;
 import com.jumbo.tools.calculations.JumboMathHandler;
@@ -16,7 +17,7 @@ import com.jumbo.tools.calculations.JumboMathHandler;
 /**
  * Class that handles all OpenGL rendering code.
  * <p>
- * Contains an internal buffer of {@link JumboRenderMode}s, and can switch
+ * Contains an internal buffer of {@link JumboRenderModule}s, and can switch
  * between them. By default, index 0 has the built-in implemenation, and the
  * <code>JumboRenderer<code> will use that unless you specify otherwise.
  */
@@ -26,15 +27,15 @@ public final class JumboRenderer {
 	 */
 	public static boolean wasResized = Display.wasResized();
 	static int renderwidth, renderheight;
-	private static final ArrayList<JumboRenderMode> modes = new ArrayList<>();
-	private static JumboRenderMode current;
+	private static final ArrayList<JumboRenderModule> modes = new ArrayList<>();
+	private static JumboRenderModule current;
 	private static int currentmode = 0;
 
 	private JumboRenderer() {
 	}
 
 	/**
-	 * Adds a new {@link JumboRenderMode} to the internal buffer.
+	 * Adds a new {@link JumboRenderModule} to the internal buffer.
 	 * 
 	 * @param m
 	 *            JumboRenderMode to be added
@@ -42,7 +43,7 @@ public final class JumboRenderer {
 	 * @throws NullPointerException
 	 *             if the parameter is null
 	 */
-	public static int addRenderMode(JumboRenderMode m) {
+	public static int addRenderMode(JumboRenderModule m) {
 		if (m == null) {
 			throw new NullPointerException("Inputted JumboRenderMode is null!");
 		}
@@ -51,7 +52,7 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Removes a {@link JumboRenderMode} from the internal buffer.
+	 * Removes a {@link JumboRenderModule} from the internal buffer.
 	 * 
 	 * @param m
 	 *            index of the JumboRenderMode to be removed
@@ -74,7 +75,7 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Removes a {@link JumboRenderMode} from the internal buffer.
+	 * Removes a {@link JumboRenderModule} from the internal buffer.
 	 * 
 	 * @param m
 	 *            JumboRenderMode to be removed
@@ -84,7 +85,7 @@ public final class JumboRenderer {
 	 *             if the paramater was never added or it is the only
 	 *             JumboRenderMode in the bufer.
 	 */
-	public static void removeRenderMode(JumboRenderMode m) {
+	public static void removeRenderMode(JumboRenderModule m) {
 		if (m == null) {
 			throw new NullPointerException("Inputted JumboRenderMode is null!");
 		}
@@ -101,14 +102,14 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Get the {@link JumboRenderMode} located at an index.
+	 * Get the {@link JumboRenderModule} located at an index.
 	 * 
 	 * @param index
 	 *            location of desired JumboRenderMode
 	 * @return The JumboRenderMode located at the specified index
-	 * @see #locationOfMode(JumboRenderMode m)
+	 * @see #locationOfMode(JumboRenderModule m)
 	 */
-	public static JumboRenderMode getMode(int index) {
+	public static JumboRenderModule getMode(int index) {
 		if (index < 0) {
 			throw new IllegalArgumentException("Input is less than 0!");
 		}
@@ -119,13 +120,13 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Returns the location of a {@link JumboRenderMode} in the internal buffer.
+	 * Returns the location of a {@link JumboRenderModule} in the internal buffer.
 	 * 
 	 * @param m
 	 *            the JumboRenderMode to look up
 	 * @return the index of parameter <i>m</i>
 	 */
-	public static int locationOfMode(JumboRenderMode m) {
+	public static int locationOfMode(JumboRenderModule m) {
 		if (m == null) {
 			throw new NullPointerException("Input is null!");
 		}
@@ -145,10 +146,10 @@ public final class JumboRenderer {
 	 * @param m
 	 *            the JumboRenderMode to be used
 	 * @see #render(JumboGraphicsObject obj)
-	 * @see #addRenderMode(JumboRenderMode m)
+	 * @see #addRenderMode(JumboRenderModule m)
 	 * @see #setCurrentRenderMode(int index)
 	 */
-	public static void setCurrentRenderMode(JumboRenderMode m) {
+	public static void setCurrentRenderMode(JumboRenderModule m) {
 		if (m == null) {
 			throw new NullPointerException("Input is null!");
 		}
@@ -164,13 +165,13 @@ public final class JumboRenderer {
 	}
 
 	/**
-	 * Sets the current {@link JumboRenderMode} to be used for rendering.
+	 * Sets the current {@link JumboRenderModule} to be used for rendering.
 	 * 
 	 * @param index
 	 *            the location of the desired mode in the internal buffer
 	 * @see #render(JumboGraphicsObject obj)
-	 * @see #addRenderMode(JumboRenderMode m)
-	 * @see #setCurrentRenderMode(JumboRenderMode m)
+	 * @see #addRenderMode(JumboRenderModule m)
+	 * @see #setCurrentRenderMode(JumboRenderModule m)
 	 */
 	public static void setCurrentRenderMode(int index) {
 		if (index < 0) {
@@ -287,7 +288,7 @@ public final class JumboRenderer {
 
 	public static void init() {
 		// the default mode
-		addRenderMode(new JumboRenderModeGL11());
+		addRenderMode(new JumboRenderModuleGL11());
 		setCurrentRenderMode(0);
 		update();
 	}
@@ -295,7 +296,7 @@ public final class JumboRenderer {
 	/**
 	 * Prepares the screen for rendering, which includes clearing it.
 	 * <p>
-	 * Also does the current {@link JumboRenderMode}'s custom preparation
+	 * Also does the current {@link JumboRenderModule}'s custom preparation
 	 * action.
 	 */
 	public static void prepare() {
@@ -342,7 +343,7 @@ public final class JumboRenderer {
 		renderwidth = (int) (width * factor);
 		renderheight = (int) (height * factor);
 
-		for (JumboRenderMode m : modes) {
+		for (JumboRenderModule m : modes) {
 			m.resize(renderwidth, renderheight);
 		}
 
@@ -353,7 +354,7 @@ public final class JumboRenderer {
 
 	/**
 	 * Renders the {@link JumboGraphicsObject} paramater using the specified
-	 * {@link JumboRenderMode}, calling its initiation action, preparation
+	 * {@link JumboRenderModule}, calling its initiation action, preparation
 	 * action, and finally the render action. Afterwards, reverts everything to
 	 * the default render mode.
 	 * <p>
@@ -377,7 +378,7 @@ public final class JumboRenderer {
 
 	/**
 	 * Renders the {@link JumboGraphicsObject} parameter using the specified
-	 * {@link JumboRenderMode}, calling its initiation action, preparation
+	 * {@link JumboRenderModule}, calling its initiation action, preparation
 	 * action, and finally the render action. Afterwards, reverts everything to
 	 * the default render mode.
 	 * <p>
@@ -391,7 +392,7 @@ public final class JumboRenderer {
 	 *            the JumboRenderMode to use for rendering
 	 * @see #render(JumboGraphicsObject e)
 	 */
-	public static void render(JumboGraphicsObject e, JumboRenderMode m) {
+	public static void render(JumboGraphicsObject e, JumboRenderModule m) {
 		try {
 			m.init();
 			m.prepare();
@@ -407,11 +408,11 @@ public final class JumboRenderer {
 
 	/**
 	 * Renders the {@link JumboGraphicsObject} parameter using the current
-	 * {@link JumboRenderMode}.
+	 * {@link JumboRenderModule}.
 	 * 
 	 * @param e
 	 *            GraphicsObject to be rendered
-	 * @see #render(JumboGraphicsObject e, JumboRenderMode m)
+	 * @see #render(JumboGraphicsObject e, JumboRenderModule m)
 	 * @see #setCurrentRenderMode(int index)
 	 */
 	public static void render(JumboGraphicsObject e) {

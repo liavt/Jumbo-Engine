@@ -144,6 +144,7 @@ public final class Jumbo {
 		if (JumboAudioHandler.isInit()) {
 			JumboAudioHandler.destroy();
 		}
+
 		System.out.flush();
 		System.err.flush();
 		// Display.destroy();
