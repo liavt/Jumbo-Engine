@@ -1,7 +1,6 @@
 package com.jumbo.core;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -9,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.jumbo.components.Position;
+import com.jumbo.components.Quad;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.entities.JumboGraphicsGroup;
 import com.jumbo.tools.JumboErrorHandler;
@@ -30,7 +30,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * @param bounds
 	 *            for rendering, measured in pixels
 	 */
-	public JumboEntity(Rectangle bounds) {
+	public JumboEntity(Quad bounds) {
 		this.bounds = bounds;
 		this.outbounds = bounds;
 	}
@@ -67,18 +67,18 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * @return The final position of this entity. Does not contain inherited
 	 *         positions.
 	 */
-	public Rectangle getOutbounds() {
+	public Quad getOutbounds() {
 		return outbounds;
 	}
 
 	/**
 	 * @param outbounds
 	 */
-	public void setOutbounds(Rectangle outbounds) {
+	public void setOutbounds(Quad outbounds) {
 		this.outbounds = outbounds;
 	}
 
-	private Rectangle bounds = new Rectangle();// position and
+	private Quad bounds = new Quad();// position and
 	// dimensions of the
 	// entity
 	private boolean updaterequired = true;
@@ -168,11 +168,11 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	}
 
 	@SuppressWarnings("static-method")
-	public Rectangle additionalCalculations(Rectangle bounds) {
+	public Quad additionalCalculations(Quad bounds) {
 		return bounds;
 	}
 
-	protected Rectangle outbounds = bounds;
+	protected Quad outbounds = bounds;
 
 	protected boolean maintainx = false, maintainy = false, maintainwidth = true, maintainheight = true;
 	protected boolean dead = false;// if true, the entity will be removed from
@@ -225,7 +225,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 *
 	 * @return The current bounds, free of calculations
 	 */
-	public Rectangle getBounds() {
+	public Quad getBounds() {
 		updaterequired = true;
 		return bounds;
 	}
@@ -255,18 +255,18 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * @see #calculatePosition()
 	 * @see #getOutbounds()
 	 */
-	public Rectangle getInheritedOutbounds() {
+	public Quad getInheritedOutbounds() {
 		final int size = parent.size();
 		if (size == 0) {
 			return outbounds;
 		}
 		int parentx = 0, parenty = 0;
 		for (int i = size - 1; i >= 0; i--) {
-			final Rectangle parentpos = parent.get(i).getInheritedOutbounds();
+			final Quad parentpos = parent.get(i).getInheritedOutbounds();
 			parentx += parentpos.x;
 			parenty += parentpos.y;
 		}
-		return new Rectangle(outbounds.x + parentx, outbounds.y + parenty, (outbounds.width), outbounds.height);
+		return new Quad(outbounds.x + parentx, outbounds.y + parenty, (outbounds.width), outbounds.height);
 	}
 
 	/**
@@ -279,7 +279,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 * @see #getBounds()
 	 * @see #getOutbounds()
 	 */
-	public void setBounds(Rectangle bounds) {
+	public void setBounds(Quad bounds) {
 		updaterequired = true;
 		this.bounds = bounds;
 	}
@@ -391,7 +391,7 @@ public abstract class JumboEntity implements java.io.Serializable, java.lang.Clo
 	 */
 	public void increasePosition(int x, int y) {
 		updaterequired = true;
-		bounds = new Rectangle(bounds.x + x, bounds.y + y, bounds.width, bounds.height);
+		bounds = new Quad(bounds.x + x, bounds.y + y, bounds.width, bounds.height);
 	}
 
 	public void increasePosition(Position p) {

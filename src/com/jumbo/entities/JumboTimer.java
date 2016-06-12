@@ -1,6 +1,6 @@
 package com.jumbo.entities;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboEntity;
@@ -49,7 +49,7 @@ public class JumboTimer extends JumboEntity {
 	protected boolean running = true;
 
 	public JumboTimer(int delay, TriggeredAction action) {
-		super(new Rectangle(0, 0, 0, 0));
+		super(new Quad(0, 0, 0, 0));
 		this.delay = delay;
 		this.action = action;
 	}

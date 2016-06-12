@@ -5,11 +5,11 @@ package com.jumbo.components;
  * int value, and that integer can be modified via methods, which allows for the
  * modification of an int in a lambda expression
  * 
- * @param <T>
+ * @param <T> type of object to store
  * 
  *
  */
-public class LambdaObject<T> implements java.io.Serializable {
+public class Wrapper<T> implements java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -17,12 +17,12 @@ public class LambdaObject<T> implements java.io.Serializable {
 	private T obj;
 
 	/**
-	 * Creates a new {@link LambdaInteger} with a specified value
+	 * Creates a new {@link IntWrapper} with a specified value
 	 * 
 	 * @param obj
 	 *            starting value
 	 **/
-	public LambdaObject(T obj) {
+	public Wrapper(T obj) {
 		this.obj = obj;
 	}
 
@@ -55,7 +55,7 @@ public class LambdaObject<T> implements java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		LambdaObject<?> other = (LambdaObject<?>) obj;
+		Wrapper<?> other = (Wrapper<?>) obj;
 		if (this.obj == null) {
 			if (other.obj != null) {
 				return false;

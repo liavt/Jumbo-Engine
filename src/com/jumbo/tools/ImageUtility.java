@@ -10,7 +10,7 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
-import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.QuadF;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.JumboAnimationFrame;
 
@@ -226,7 +226,7 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new FloatRectangle(((float) i / (float) framenum), 0,
+			frame.setTextureCoords(new QuadF(((float) i / (float) framenum), 0,
 					(float) framewidth / (float) img.getWidth(), 1));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().width = framewidth;
@@ -241,7 +241,7 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new FloatRectangle(0, ((float) i / (float) framenum), 1,
+			frame.setTextureCoords(new QuadF(0, ((float) i / (float) framenum), 1,
 					(float) frameheight / (float) img.getHeight()));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().height = frameheight;
@@ -255,7 +255,7 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(img.getID());
-			frame.setTextureCoords(new FloatRectangle(((float) i / (float) framenum), 0,
+			frame.setTextureCoords(new QuadF(((float) i / (float) framenum), 0,
 					(float) framewidth / (float) img.getWidth(), 1));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().width = framewidth;
@@ -270,7 +270,7 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new FloatRectangle(0, ((float) i / (float) framenum), 1,
+			frame.setTextureCoords(new QuadF(0, ((float) i / (float) framenum), 1,
 					(float) frameheight / (float) img.getHeight()));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().height = frameheight;

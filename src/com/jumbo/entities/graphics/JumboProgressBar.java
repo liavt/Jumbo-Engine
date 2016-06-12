@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.components.JumboColor;
@@ -53,13 +53,13 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		this.min = min;
 	}
 
-	protected JumboImage overlayarea = new JumboImage(new Rectangle(),
+	protected JumboImage overlayarea = new JumboImage(new Quad(),
 			new JumboTexture(JumboTexture.solidcolor, JumboColor.RED));
 	protected TriggeredAction progresschangeaction;
 
-	public JumboProgressBar(Rectangle bounds) {
+	public JumboProgressBar(Quad bounds) {
 		super(bounds, new JumboTexture(JumboTexture.solidcolor, JumboColor.DARK_GREY));
-		overlayarea.setBounds(new Rectangle(10, 10, bounds.width - 20, bounds.height - 20));
+		overlayarea.setBounds(new Quad(10, 10, bounds.width - 20, bounds.height - 20));
 		setProgress(progress);
 		overlayarea.setMaintainingPosition(true);
 	}
@@ -109,7 +109,7 @@ public class JumboProgressBar extends JumboGraphicsObject {
 
 	public void setProgress(int prog) {
 		int progress = prog;
-		Rectangle bounds = getOutbounds();
+		Quad bounds = getOutbounds();
 		if (progress > max) {
 			progress = max;
 		}
@@ -118,7 +118,7 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		}
 		this.progress = progress;
 		float mod = (float) (this.progress) / (float) (Math.abs(max));
-		Rectangle overlaybounds = overlayarea.getBounds();
+		Quad overlaybounds = overlayarea.getBounds();
 		if (!vertical) {
 			overlaybounds.x = 10;
 			overlaybounds.height = outbounds.height - 20;
@@ -187,7 +187,7 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		if (descriptor == null) {
 			throw new IllegalArgumentException("Input is null!");
 		}
-		Rectangle bounds = getBounds(), dbounds = descriptor.getBounds();
+		Quad bounds = getBounds(), dbounds = descriptor.getBounds();
 		this.descriptor = descriptor;
 		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - ((float) dbounds.getWidth() / 2.0f)))),
 				(int) ((((bounds.height / 2.0f) - ((float) dbounds.getHeight() / 2.0f)))));
@@ -195,7 +195,7 @@ public class JumboProgressBar extends JumboGraphicsObject {
 	}
 
 	@Override
-	public Rectangle additionalCalculations(Rectangle bounds) {
+	public Quad additionalCalculations(Quad bounds) {
 		if (descriptor != null) {
 			descriptor.setMaintainingDimensions(true);
 			descriptor.setMaintainingPosition(true);

@@ -1,10 +1,10 @@
 package com.jumbo.entities.graphics.particles;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.MinMaxVector;
+import com.jumbo.components.Range;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.texture.JumboTexture;
@@ -19,13 +19,13 @@ public class JumboParticleField extends JumboEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 	JumboGraphicsGroup particles = new JumboGraphicsGroup();
-	MinMaxVector xoffset = new MinMaxVector(0, 0), yoffset = new MinMaxVector(0, 0);
-	MinMaxVector red = new MinMaxVector(255, 255);
-	MinMaxVector green = new MinMaxVector(255, 255);
-	MinMaxVector blue = new MinMaxVector(255, 255);
-	MinMaxVector alpha = new MinMaxVector(255, 255);
-	MinMaxVector speed = new MinMaxVector(10, 10);
-	MinMaxVector delaytime = new MinMaxVector(0, 250);
+	Range xoffset = new Range(0, 0), yoffset = new Range(0, 0);
+	Range red = new Range(255, 255);
+	Range green = new Range(255, 255);
+	Range blue = new Range(255, 255);
+	Range alpha = new Range(255, 255);
+	Range speed = new Range(10, 10);
+	Range delaytime = new Range(0, 250);
 	boolean spawner = true;
 	boolean init = false;
 
@@ -47,7 +47,7 @@ public class JumboParticleField extends JumboEntity {
 	/**
 	 * @return the speed
 	 */
-	public MinMaxVector getSpeed() {
+	public Range getSpeed() {
 		return speed;
 	}
 
@@ -55,14 +55,14 @@ public class JumboParticleField extends JumboEntity {
 	 * @param speed
 	 *            the speed to set
 	 */
-	public void setSpeed(MinMaxVector speed) {
+	public void setSpeed(Range speed) {
 		this.speed = speed;
 	}
 
 	/**
 	 * @return the xoffset
 	 */
-	public MinMaxVector getXoffset() {
+	public Range getXoffset() {
 		return xoffset;
 	}
 
@@ -70,14 +70,14 @@ public class JumboParticleField extends JumboEntity {
 	 * @param xoffset
 	 *            the xoffset to set
 	 */
-	public void setXoffset(MinMaxVector xoffset) {
+	public void setXoffset(Range xoffset) {
 		this.xoffset = xoffset;
 	}
 
 	/**
 	 * @return the yoffset
 	 */
-	public MinMaxVector getYoffset() {
+	public Range getYoffset() {
 		return yoffset;
 	}
 
@@ -85,14 +85,14 @@ public class JumboParticleField extends JumboEntity {
 	 * @param yoffset
 	 *            the yoffset to set
 	 */
-	public void setYoffset(MinMaxVector yoffset) {
+	public void setYoffset(Range yoffset) {
 		this.yoffset = yoffset;
 	}
 
 	/**
 	 * @return the red
 	 */
-	public MinMaxVector getRed() {
+	public Range getRed() {
 		return red;
 	}
 
@@ -100,14 +100,14 @@ public class JumboParticleField extends JumboEntity {
 	 * @param red
 	 *            the red to set
 	 */
-	public void setRed(MinMaxVector red) {
+	public void setRed(Range red) {
 		this.red = red;
 	}
 
 	/**
 	 * @return the green
 	 */
-	public MinMaxVector getGreen() {
+	public Range getGreen() {
 		return green;
 	}
 
@@ -115,14 +115,14 @@ public class JumboParticleField extends JumboEntity {
 	 * @param green
 	 *            the green to set
 	 */
-	public void setGreen(MinMaxVector green) {
+	public void setGreen(Range green) {
 		this.green = green;
 	}
 
 	/**
 	 * @return the blue
 	 */
-	public MinMaxVector getBlue() {
+	public Range getBlue() {
 		return blue;
 	}
 
@@ -130,21 +130,21 @@ public class JumboParticleField extends JumboEntity {
 	 * @param blue
 	 *            the blue to set
 	 */
-	public void setBlue(MinMaxVector blue) {
+	public void setBlue(Range blue) {
 		this.blue = blue;
 	}
 
 	/**
 	 * @return the alpha
 	 */
-	public MinMaxVector getAlpha() {
+	public Range getAlpha() {
 		return alpha;
 	}
 
 	/**
 	 * @return the delaytime
 	 */
-	public MinMaxVector getDelaytime() {
+	public Range getDelaytime() {
 		return delaytime;
 	}
 
@@ -152,7 +152,7 @@ public class JumboParticleField extends JumboEntity {
 	 * @param delaytime
 	 *            the delaytime to set
 	 */
-	public void setDelaytime(MinMaxVector delaytime) {
+	public void setDelaytime(Range delaytime) {
 		this.delaytime = delaytime;
 	}
 
@@ -160,7 +160,7 @@ public class JumboParticleField extends JumboEntity {
 	 * @param alpha
 	 *            the alpha to set
 	 */
-	public void setAlpha(MinMaxVector alpha) {
+	public void setAlpha(Range alpha) {
 		this.alpha = alpha;
 	}
 
@@ -170,8 +170,8 @@ public class JumboParticleField extends JumboEntity {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public Particle(JumboAnimation a, Rectangle fieldbounds) {
-			super(new ArrayList<JumboAnimationFrame>(), new Rectangle(0, 0, a.getBounds().width, a.getBounds().height));
+		public Particle(JumboAnimation a, Quad fieldbounds) {
+			super(new ArrayList<JumboAnimationFrame>(), new Quad(0, 0, a.getBounds().width, a.getBounds().height));
 			ArrayList<JumboEntity> array = a.getFrames().array;
 			for (JumboEntity e : array) {
 				JumboAnimationFrame f = (JumboAnimationFrame) e;
@@ -190,14 +190,14 @@ public class JumboParticleField extends JumboEntity {
 		public int x = 0, y = 0, w = 0, h = 0;
 
 		@Override
-		public Rectangle additionalCalculations(Rectangle bounds) {
+		public Quad additionalCalculations(Quad bounds) {
 			resetPos();
 			return bounds;
 		}
 
 		@Override
 		public void customRender() {
-			Rectangle pos = outbounds;
+			Quad pos = outbounds;
 			pos.x += x;
 			pos.y += y;
 			if ((pos.x < 0 || pos.x >= w || pos.y < 0 || pos.y >= h)) {
@@ -211,7 +211,7 @@ public class JumboParticleField extends JumboEntity {
 		}
 
 		public void resetPos() {
-			Rectangle bounds = getBounds();
+			Quad bounds = getBounds();
 			bounds.x = Dice.roll(w);
 			bounds.y = Dice.roll(h);
 			x = xoffset.roll();
@@ -223,7 +223,7 @@ public class JumboParticleField extends JumboEntity {
 		}
 	}
 
-	public JumboParticleField(Rectangle fieldbounds, JumboAnimation a, int particlenum) {
+	public JumboParticleField(Quad fieldbounds, JumboAnimation a, int particlenum) {
 		super(fieldbounds);
 		particles.addParent(this);
 

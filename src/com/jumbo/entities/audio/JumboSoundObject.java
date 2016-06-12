@@ -1,6 +1,6 @@
 package com.jumbo.entities.audio;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import org.lwjgl.openal.AL10;
 import org.lwjgl.util.WaveData;
@@ -60,7 +60,7 @@ public class JumboSoundObject extends JumboEntity {
 		this.looping = looping;
 	}
 
-	public JumboSoundObject(Rectangle bounds, String path) {
+	public JumboSoundObject(Quad bounds, String path) {
 		super(bounds);
 		data = WaveData.create(ResourceLoader.getResourceAsStream(path));
 		soundID = JumboAudioHandler.addSound(this);
@@ -68,7 +68,7 @@ public class JumboSoundObject extends JumboEntity {
 	}
 
 	public JumboSoundObject(String path) {
-		this(new Rectangle(), path);
+		this(new Quad(), path);
 	}
 
 	public void play() {

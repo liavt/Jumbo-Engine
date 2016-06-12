@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -54,13 +54,13 @@ public class JumboAnimation extends JumboImage {
 		this.loopedonce = false;
 	}
 
-	public JumboAnimation(JumboAnimationFrame[] frames, Rectangle rect) {
+	public JumboAnimation(JumboAnimationFrame[] frames, Quad rect) {
 		super(new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB), rect);
 		initFrames(frames);
 		this.frames.addParent(this);
 	}
 
-	public JumboAnimation(ArrayList<JumboAnimationFrame> a, Rectangle rect) {
+	public JumboAnimation(ArrayList<JumboAnimationFrame> a, Quad rect) {
 		super(new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB), rect);
 		initFrames(a);
 		this.frames.addParent(this);

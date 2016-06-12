@@ -1,11 +1,11 @@
 package com.jumbo.components;
 
-public class Position3D implements java.lang.Cloneable, java.io.Serializable {
+public class Position3D extends Position {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public int x = 0, y = 0, z = 0;
+	public int z = 0;
 
 	public Position3D(int x, int y, int z) {
 		super();

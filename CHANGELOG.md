@@ -9,6 +9,24 @@ This file will get updated with every update.
 * 3D support
 * More modularity support
 
+##Version Alpha 1.2.0
+*Lots of refactoring to make names more understandable and start on JUnit testing*
+
+###Added
+* getTexture(String) to JumboImageHandler, which returns JumboTexture instead of BufferedImage. Part of the eventual goals of this engine is to stop relying on AWT classes. However, BufferedImage and ImageIO.read() will stay, as they are extremely complex to implement and unneccessary to replace.
+* JUnit to classpath, and test.jumbo packages. Currently, there is only one unit test to make sure it works. As time goes on, more tests will be added.
+
+###Modified
+* JumboPainter.loadPainter has been changed to simply be a constructor
+* All references to java.awt.Rectangle have been changed to Quad, a new class in the components package. This is part of the migration away from AWT classes. Quad extends Position and adds the width/height parameters. All functionality is the same as java.awt.Rectangle.
+* FloatRectangle is now called QuadF
+* FloatPosition is now called PositionF
+* Position3D now extends Position
+* MinMaxVector is now called Range
+* LambdaObject is now called Wrapper
+* LambdaInteger is now called IntWrapper
+* TripleFloat is now called Position3DF
+
 ##Version Alpha 1.1.5
 ###Added
 * JumboColor is now Serializable

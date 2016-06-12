@@ -1,15 +1,49 @@
 package com.jumbo.core.texture;
 
+import com.jumbo.components.JumboColor;
+
 public abstract class JumboPainter implements AutoCloseable {
 	protected int[] data;
 	protected int width, height, ID;
 
-	public static JumboPainter loadPainter(final JumboTexture tex, JumboPainter p) {
-		p.data = tex.getData();
-		p.ID = tex.getID();
-		p.height = tex.getHeight();
-		p.width = tex.getWidth();
-		return p;
+	private JumboColor color;
+	private int size;
+
+	/**
+	 * @return the color
+	 */
+	public JumboColor getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color
+	 *            the color to set
+	 */
+	public void setColor(JumboColor color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
+	 * @param size
+	 *            the size to set
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public JumboPainter(JumboTexture tex) {
+		data = tex.getData();
+		ID = tex.getID();
+		height = tex.getHeight();
+		width = tex.getWidth();
 	}
 
 	@Override
@@ -19,4 +53,6 @@ public abstract class JumboPainter implements AutoCloseable {
 		data = null;// 'deallocate' the array. the garbage collector will delete
 					// it's space later
 	}
+
+	public abstract JumboPainter drawQuad();
 }

@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
@@ -20,24 +20,24 @@ public class JumboSlider extends JumboProgressBar {
 	private JumboImage valuebox;
 	protected JumboImage disabledicon;
 
-	public JumboSlider(Rectangle bounds, boolean vert) {
+	public JumboSlider(Quad bounds, boolean vert) {
 		super(bounds);
 		vertical = vert;
 		if (!vertical) {
-			valuebox = new JumboImage(new Rectangle(0, 0, 10, overlayarea.getBounds().height),
+			valuebox = new JumboImage(new Quad(0, 0, 10, overlayarea.getBounds().height),
 					new JumboTexture(JumboTexture.solidcolor, JumboColor.LIGHT_GREY));
 		} else {
-			valuebox = new JumboImage(new Rectangle(0, 0, overlayarea.getBounds().width, 10),
+			valuebox = new JumboImage(new Quad(0, 0, overlayarea.getBounds().width, 10),
 					new JumboTexture(JumboTexture.solidcolor, JumboColor.LIGHT_GREY));
 		}
 		valuebox.addParent(overlayarea);
 
 		this.disabledicon = new JumboImage(new JumboTexture(new JumboColor(100, 100, 100, 125)),
-				new Rectangle(0, 0, getBounds().width, getBounds().height));
+				new Quad(0, 0, getBounds().width, getBounds().height));
 		this.disabledicon.addParent(this);
 	}
 
-	public JumboSlider(Rectangle bounds) {
+	public JumboSlider(Quad bounds) {
 		this(bounds, false);
 	}
 
@@ -45,7 +45,7 @@ public class JumboSlider extends JumboProgressBar {
 	public void setProgress(int progress) {
 		super.setProgress(progress);
 		if (valuebox != null && this.progress > min) {
-			Rectangle bounds = valuebox.getOutbounds();
+			Quad bounds = valuebox.getOutbounds();
 			if (!vertical) {
 				bounds.x = (int) (((((float) (this.progress - min) / (float) (max - min)))
 						* (getOutbounds().width - 20)));
@@ -80,7 +80,7 @@ public class JumboSlider extends JumboProgressBar {
 		if (enabled) {
 			int x = k.mousex, y = k.mousey, rx = renderpos.x, ry = renderpos.y;
 			boolean clicked = Mouse.isButtonDown(0), colliding = JumboMathHandler.collides(x, y,
-					new Rectangle(rx, ry, outbounds.width, outbounds.height));
+					new Quad(rx, ry, outbounds.width, outbounds.height));
 			if (colliding) {
 				// JumboDisplayManager.getFrame().setCursor(new
 				// Cursor(Cursor.HAND_CURSOR));
@@ -110,7 +110,7 @@ public class JumboSlider extends JumboProgressBar {
 				if (!parents.contains(this)) {
 					parents.add(this);
 				}
-				disabledicon.setOutbounds(new Rectangle(0, 0, outbounds.width, outbounds.height));
+				disabledicon.setOutbounds(new Quad(0, 0, outbounds.width, outbounds.height));
 				disabledicon.render();
 			}
 		}

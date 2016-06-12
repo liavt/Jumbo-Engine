@@ -1,6 +1,6 @@
 package com.jumbo.entities;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -33,12 +33,12 @@ public class JumboGraphicsGroup extends JumboEntity {
 		this.action = action;
 	}
 
-	public JumboGraphicsGroup(Rectangle bounds) {
+	public JumboGraphicsGroup(Quad bounds) {
 		super(bounds);
 	}
 
 	public JumboGraphicsGroup(JumboEntity[] array) {
-		super(new Rectangle(0, 0, 0, 0));
+		super(new Quad(0, 0, 0, 0));
 		this.array = new ArrayList<>(array.length);
 		for (JumboEntity e : array) {
 			this.array.add(e);
@@ -46,17 +46,17 @@ public class JumboGraphicsGroup extends JumboEntity {
 	}
 
 	public JumboGraphicsGroup(ArrayList<JumboEntity> array) {
-		super(new Rectangle(0, 0, 0, 0));
+		super(new Quad(0, 0, 0, 0));
 		this.array = array;
 	}
 
 	public JumboGraphicsGroup() {
-		super(new Rectangle(0, 0, 0, 0));
+		super(new Quad(0, 0, 0, 0));
 	}
 
 	@Override
 	public void customRender() {
-		final Rectangle bounds = getOutbounds();
+		final Quad bounds = getOutbounds();
 		final int w = bounds.width, h = bounds.height;
 		final boolean blockview = w > 0 && h > 0;
 		if (blockview) {

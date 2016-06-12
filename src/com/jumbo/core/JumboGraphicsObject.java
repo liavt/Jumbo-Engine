@@ -1,9 +1,9 @@
 package com.jumbo.core;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
 
 import com.jumbo.components.Position;
+import com.jumbo.components.Quad;
 import com.jumbo.core.texture.JumboTexture;
 
 public abstract class JumboGraphicsObject extends JumboEntity {
@@ -41,7 +41,7 @@ public abstract class JumboGraphicsObject extends JumboEntity {
 		this.outofbounds = outofbounds;
 	}
 
-	public JumboGraphicsObject(Rectangle bounds, JumboTexture texture) {
+	public JumboGraphicsObject(Quad bounds, JumboTexture texture) {
 		super(bounds);
 		this.tex = texture;
 	}

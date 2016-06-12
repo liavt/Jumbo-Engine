@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.components.interfaces.TriggeredAction;
@@ -23,11 +23,11 @@ public class JumboChooser extends JumboGraphicsObject {
 	private short current = 0;
 	private TriggeredAction changeaction;
 
-	public JumboChooser(Rectangle b, JumboTexture t, String[] options) {
+	public JumboChooser(Quad b, JumboTexture t, String[] options) {
 		this(b, t, null, options);
 	}
 
-	public <T extends Enum<?>> JumboChooser(Rectangle b, T[] enums, JumboTexture tex, JumboTexture h) {
+	public <T extends Enum<?>> JumboChooser(Quad b, T[] enums, JumboTexture tex, JumboTexture h) {
 		this(b, tex, h, null);
 		final String[] values = new String[enums.length];
 		for (int i = 0; i < enums.length; i++) {
@@ -108,11 +108,11 @@ public class JumboChooser extends JumboGraphicsObject {
 		return desc;
 	}
 
-	public JumboChooser(Rectangle bounds, JumboTexture tex, JumboTexture hover, String[] options) {
+	public JumboChooser(Quad bounds, JumboTexture tex, JumboTexture hover, String[] options) {
 		super(bounds, null);
 		this.options = options;
-		left = new JumboButton(tex, hover, new Rectangle(0, 0, 50, 50));
-		right = new JumboButton(tex, hover, new Rectangle(bounds.width - 50, 0, 50, 50));
+		left = new JumboButton(tex, hover, new Quad(0, 0, 50, 50));
+		right = new JumboButton(tex, hover, new Quad(bounds.width - 50, 0, 50, 50));
 		left.setMaintainingPosition(true);
 		left.setDescriptor(new JumboText("$<"));
 		left.addParent(this);
@@ -141,7 +141,7 @@ public class JumboChooser extends JumboGraphicsObject {
 			current = next;
 			refreshText();
 		});
-		desc = new JumboTextBox(new Rectangle(50, 0, bounds.width - 50, 50), new JumboText(""));
+		desc = new JumboTextBox(new Quad(50, 0, bounds.width - 50, 50), new JumboText(""));
 		desc.setMaintainingPosition(true);
 		desc.addParent(this);
 		refreshText();
@@ -188,7 +188,7 @@ public class JumboChooser extends JumboGraphicsObject {
 	}
 
 	@Override
-	public Rectangle additionalCalculations(Rectangle bounds) {
+	public Quad additionalCalculations(Quad bounds) {
 		right.getBounds().x = bounds.width - 50;
 		desc.getBounds().width = bounds.width - 100;
 		refreshText();

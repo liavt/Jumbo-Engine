@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 
 import com.jumbo.core.texture.JumboTexture;
@@ -16,8 +16,8 @@ public class JumboNumberWheel extends JumboInputBox {
 		super(icon, hovericon, x, y, w, h);
 	}
 
-	public JumboNumberWheel(BufferedImage icon, BufferedImage hovericon, Rectangle rectangle) {
-		super(icon, hovericon, rectangle);
+	public JumboNumberWheel(BufferedImage icon, BufferedImage hovericon, Quad Quad) {
+		super(icon, hovericon, Quad);
 	}
 
 	public JumboNumberWheel(BufferedImage icon, int x, int y, int w, int h) {
@@ -28,16 +28,16 @@ public class JumboNumberWheel extends JumboInputBox {
 		super(x, y, w, h, tex);
 	}
 
-	public JumboNumberWheel(JumboImage img, Rectangle rect) {
+	public JumboNumberWheel(JumboImage img, Quad rect) {
 		super(img, rect);
 	}
 
-	public JumboNumberWheel(JumboTexture tex, JumboTexture hover, Rectangle rectangle) {
-		super(tex, hover, rectangle);
+	public JumboNumberWheel(JumboTexture tex, JumboTexture hover, Quad Quad) {
+		super(tex, hover, Quad);
 	}
 
-	public JumboNumberWheel(JumboTexture tex, Rectangle rectangle) {
-		super(tex, rectangle);
+	public JumboNumberWheel(JumboTexture tex, Quad Quad) {
+		super(tex, Quad);
 	}
 
 	@Override

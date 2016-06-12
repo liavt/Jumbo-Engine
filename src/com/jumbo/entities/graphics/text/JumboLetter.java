@@ -1,7 +1,7 @@
 package com.jumbo.entities.graphics.text;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.core.JumboGraphicsObject;
@@ -58,7 +58,7 @@ public class JumboLetter extends JumboGraphicsObject {
 	}
 
 	// @Override
-	// public Rectangle additionalCalculations(Rectangle bounds) {
+	// public Quad additionalCalculations(Quad bounds) {
 	// return bounds;
 	// }
 
@@ -78,7 +78,7 @@ public class JumboLetter extends JumboGraphicsObject {
 		this.size = size;
 	}
 
-	public JumboLetter(Rectangle bounds, JumboTexture texture) {
+	public JumboLetter(Quad bounds, JumboTexture texture) {
 		super(bounds, texture);
 	}
 

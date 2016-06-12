@@ -1,13 +1,13 @@
 package com.jumbo.core.modules.presets;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.QuadF;
 import com.jumbo.components.Position;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.modules.JumboRenderModule;
@@ -33,7 +33,7 @@ public class JumboRenderModuleGL11 extends JumboRenderModule {
 
 	@Override
 	public void render(JumboGraphicsObject e, int renderwidth, int renderheight) {
-		Rectangle rect = new Rectangle();
+		Quad rect = new Quad();
 		try {
 			rect = e.getInheritedOutbounds();
 		} catch (NullPointerException ex)
@@ -56,9 +56,9 @@ public class JumboRenderModuleGL11 extends JumboRenderModule {
 			// to prevent repeat method calls
 			tex.bind();
 			// JumboColor
-			FloatRectangle c = tex.getColor();
+			QuadF c = tex.getColor();
 			GL11.glColor4f(c.x, c.y, c.width, c.height);
-			final FloatRectangle texturecoords = tex.getTextureCoords();
+			final QuadF texturecoords = tex.getTextureCoords();
 			// float texturex = e.getTexture().getTextureCoords().x,
 			// texturey =
 			// e

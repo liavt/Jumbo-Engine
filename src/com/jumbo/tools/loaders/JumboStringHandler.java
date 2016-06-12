@@ -1,6 +1,6 @@
 package com.jumbo.tools.loaders;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.QuadF;
 import com.jumbo.components.JumboColor;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
@@ -143,10 +143,10 @@ public final class JumboStringHandler {
 	}
 
 	public static class CharInfo {
-		public Rectangle rect = new Rectangle(0, 0, 0, 0);
+		public Quad rect = new Quad(0, 0, 0, 0);
 		public int id = 0;
 
-		public CharInfo(int id, Rectangle rect) {
+		public CharInfo(int id, Quad rect) {
 			this.rect = rect;
 			this.id = id;
 		}
@@ -230,7 +230,7 @@ public final class JumboStringHandler {
 			for (int i = 0; i < chars.length; i++) {
 				String line = lines.get(3 + i);
 				int id = 0;
-				Rectangle rect = new Rectangle(0, 0, 0, 0);
+				Quad rect = new Quad(0, 0, 0, 0);
 				for (String part : line.split(" ")) {
 					if (part.contains("id=")) {
 						id = Integer.valueOf(part.substring(3));
@@ -388,7 +388,7 @@ public final class JumboStringHandler {
 				}
 			}
 			if (id < 21) {
-				out = new CharInfo(id, new Rectangle(0, 0, -id, 0));
+				out = new CharInfo(id, new Quad(0, 0, -id, 0));
 			}
 			if (out != null) {
 
@@ -405,10 +405,10 @@ public final class JumboStringHandler {
 					continue;
 				}
 
-				final Rectangle outbounds = out.rect;
+				final Quad outbounds = out.rect;
 				final JumboTexture texture = JumboStringHandler.tex;
 				final float width = texture.getWidth(), height = texture.getHeight();
-				final FloatRectangle outpos = new FloatRectangle(outbounds.x / width, outbounds.y / height,
+				final QuadF outpos = new QuadF(outbounds.x / width, outbounds.y / height,
 						outbounds.width / width, outbounds.height / height);
 
 				// check for special characters
@@ -433,7 +433,7 @@ public final class JumboStringHandler {
 				tex.setTextureCoords(outpos);
 				tex.setColor(col);
 
-				final JumboLetter let = new JumboLetter(new Rectangle(0, 0, (outbounds.width), (outbounds.height)),
+				final JumboLetter let = new JumboLetter(new Quad(0, 0, (outbounds.width), (outbounds.height)),
 						tex);
 				let.setId(id);
 				let.setSize(currentsize);
@@ -441,7 +441,7 @@ public final class JumboStringHandler {
 				results.add(let);
 			} else {
 				JumboConsole.log("UNICODE ID " + id + " NOT FOUND IN FONT FILE", 1);
-				results.add(new JumboLetter(new Rectangle(0, 0, 0, 0), JumboStringHandler.unknownchar));
+				results.add(new JumboLetter(new Quad(0, 0, 0, 0), JumboStringHandler.unknownchar));
 			}
 		}
 		return results;

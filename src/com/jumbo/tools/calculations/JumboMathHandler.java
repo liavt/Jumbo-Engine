@@ -1,12 +1,12 @@
 package com.jumbo.tools.calculations;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 
-import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.QuadF;
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.core.Jumbo;
@@ -84,26 +84,26 @@ public final class JumboMathHandler {
 		return new Vector2f(result1, result2);
 	}
 
-	public static Rectangle multiplyRectangle(Rectangle rect, float num) {
-		return new Rectangle((int) (rect.x * num), (int) (rect.y * num), (int) (rect.width * num),
+	public static Quad multiplyQuad(Quad rect, float num) {
+		return new Quad((int) (rect.x * num), (int) (rect.y * num), (int) (rect.width * num),
 				(int) (rect.height * num));
 	}
 
-	public static Rectangle subtractRectangle(Rectangle rect, int num) {
-		return new Rectangle(rect.x - num, rect.y - num, rect.width - num, rect.height - num);
+	public static Quad subtractQuad(Quad rect, int num) {
+		return new Quad(rect.x - num, rect.y - num, rect.width - num, rect.height - num);
 	}
 
-	public static Rectangle subtractRectangle(Rectangle rect, Rectangle rect2) {
-		return new Rectangle(rect.x - rect2.x, rect.y - rect2.y, rect.width - rect2.width, rect.height - rect2.height);
+	public static Quad subtractQuad(Quad rect, Quad rect2) {
+		return new Quad(rect.x - rect2.x, rect.y - rect2.y, rect.width - rect2.width, rect.height - rect2.height);
 	}
 
-	public static JumboColor floatToColor(FloatRectangle v) {
+	public static JumboColor floatToColor(QuadF v) {
 		return new JumboColor((int) v.x, (int) v.y, (int) v.width, (int) v.height);
 	}
 
-	public static Rectangle calculateEntityPosition(JumboEntity e) {
+	public static Quad calculateEntityPosition(JumboEntity e) {
 		Dimension entitydim = e.getOptimizedbounds(), currentdim = JumboMathHandler.currentdim;
-		Rectangle bounds = e.getOutbounds();
+		Quad bounds = e.getOutbounds();
 		if (entitydim != null && (entitydim != currentdim || e.isUpdaterequired())) {
 			int x = 0, y = 0, w = 0, h = 0;
 			try {
@@ -126,7 +126,7 @@ public final class JumboMathHandler {
 					if (!e.isMaintainingHeight()) {
 						h *= ymod;
 					}
-					bounds = e.additionalCalculations(new Rectangle(x, y, w, h));
+					bounds = e.additionalCalculations(new Quad(x, y, w, h));
 					e.setUpdaterequired(false);
 				}
 			} catch (NullPointerException i) {
@@ -153,28 +153,28 @@ public final class JumboMathHandler {
 				| ((pix & 0xff0000) >> 16);
 	}
 
-	public static boolean collides(Rectangle r1, Rectangle r2) {
+	public static boolean collides(Quad r1, Quad r2) {
 		return r1.x + r1.width >= r2.x && r1.y + r1.height >= r2.y && r1.y < r2.y + r2.height && r1.x < r2.x + r2.width;
 	}
 
-	public static boolean collides(Position r1, Rectangle r2) {
+	public static boolean collides(Position r1, Quad r2) {
 		return r1.x >= r2.x && r1.x <= r2.width + r2.x && r1.y >= r2.y && r1.y <= r2.height + r2.y;
 	}
 
-	public static boolean collides(int x, int y, Rectangle r2) {
+	public static boolean collides(int x, int y, Quad r2) {
 		return collides(new Position(x, y), r2);
 	}
 
-	public static FloatRectangle multiplyRectangle(FloatRectangle r, float f) {
-		return new FloatRectangle(r.x * f, r.y * f, r.width * f, r.height * f);
+	public static QuadF multiplyQuad(QuadF r, float f) {
+		return new QuadF(r.x * f, r.y * f, r.width * f, r.height * f);
 	}
 
-	public static FloatRectangle divideRectangle(FloatRectangle r, float f) {
-		return new FloatRectangle(r.x / f, r.y / f, r.width / f, r.height / f);
+	public static QuadF divideQuad(QuadF r, float f) {
+		return new QuadF(r.x / f, r.y / f, r.width / f, r.height / f);
 	}
 
-	public static FloatRectangle divideRectangle(Rectangle r, int f) {
-		return new FloatRectangle(r.x / f, r.y / f, r.width / f, r.height / f);
+	public static QuadF divideQuad(Quad r, int f) {
+		return new QuadF(r.x / f, r.y / f, r.width / f, r.height / f);
 	}
 
 	public static Matrix4f createProjectionMatrix(float FOV, float NEAR_PLANE, float FAR_PLANE) {

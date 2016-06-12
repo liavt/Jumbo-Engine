@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics.text;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.components.Position;
@@ -17,7 +17,7 @@ public class JumboTextBox extends JumboGraphicsObject {
 	private Position offset;
 	private boolean centerwidth = true, centerheight = true, topdown = true;
 
-	public JumboTextBox(Rectangle bounds, JumboText t) {
+	public JumboTextBox(Quad bounds, JumboText t) {
 		super(bounds, new JumboTexture());
 		text = t;
 		offset = t.getPosition();
@@ -88,9 +88,9 @@ public class JumboTextBox extends JumboGraphicsObject {
 	}
 
 	@Override
-	public Rectangle additionalCalculations(Rectangle bounds) {
+	public Quad additionalCalculations(Quad bounds) {
 		int x = 0, y = 0;
-		final Rectangle tbounds = text.getBounds();
+		final Quad tbounds = text.getBounds();
 		// JumboConsole.log(bounds + " " + basebounds);
 		if (centerwidth) {
 			x = (int) ((((bounds.width / 2.0f) - (tbounds.width / 2.0f))));
@@ -110,10 +110,10 @@ public class JumboTextBox extends JumboGraphicsObject {
 			// + 1;
 			// final ArrayList<JumboEntity> imgs = text.getLetters();
 			// for (JumboEntity e : imgs) {
-			// final Rectangle newbounds = e.getBounds();
+			// final Quad newbounds = e.getBounds();
 			// final float mod = (float) size / ((JumboLetter) e).getSize();
 			// System.out.println(mod);
-			// e.setOutbounds(new Rectangle((int) (newbounds.x * mod),
+			// e.setOutbounds(new Quad((int) (newbounds.x * mod),
 			// newbounds.y, (int) (newbounds.width * mod),
 			// (int) (newbounds.height * mod)));
 			// }

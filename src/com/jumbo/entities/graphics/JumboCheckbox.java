@@ -1,14 +1,14 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.texture.JumboTexture;
 
 public class JumboCheckbox extends JumboButton {
 
-	public JumboCheckbox(JumboTexture tex, JumboTexture hover, Rectangle rectangle) {
-		super(tex, hover, rectangle);
+	public JumboCheckbox(JumboTexture tex, JumboTexture hover, Quad Quad) {
+		super(tex, hover, Quad);
 		setClickAction(() -> {
 		});
 	}

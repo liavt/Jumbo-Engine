@@ -7,7 +7,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.TripleFloat;
+import com.jumbo.components.Position3DF;
 import com.jumbo.core.modules.JumboRenderModule;
 import com.jumbo.core.modules.presets.JumboRenderModuleGL11;
 import com.jumbo.tools.JumboErrorHandler;
@@ -212,7 +212,7 @@ public final class JumboRenderer {
 		if (b < 0) {
 			throw new IllegalArgumentException("Blue cannot be less than 1!");
 		}
-		refreshcolor = new TripleFloat(r, g, b);
+		refreshcolor = new Position3DF(r, g, b);
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}
 
@@ -284,7 +284,7 @@ public final class JumboRenderer {
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}
 
-	private static TripleFloat refreshcolor = new TripleFloat(0, 0, 0);
+	private static Position3DF refreshcolor = new Position3DF(0, 0, 0);
 
 	public static void init() {
 		// the default mode
@@ -427,13 +427,13 @@ public final class JumboRenderer {
 
 	/**
 	 * Returns the current JumboColor that is being refreshed to as a
-	 * {@link TripleFloat}.
+	 * {@link Position3DF}.
 	 * 
 	 * @return current refresh JumboColor
 	 * @see JumboColor
-	 * @see #setRefreshcolor(TripleFloat c)
+	 * @see #setRefreshcolor(Position3DF c)
 	 */
-	public static TripleFloat getRefreshcolor() {
+	public static Position3DF getRefreshcolor() {
 		return refreshcolor;
 	}
 
@@ -441,12 +441,12 @@ public final class JumboRenderer {
 	 * Set the current JumboColor that the screen will be cleared to.
 	 * 
 	 * @param c
-	 *            new JumboColor, as a {@link TripleFloat}
+	 *            new JumboColor, as a {@link Position3DF}
 	 * @see #getRefreshcolor()
 	 * @see #setRefreshcolor(JumboColor c)
 	 * @see #setRefreshcolor(float r, float g, float b)
 	 */
-	public static void setRefreshcolor(TripleFloat c) {
+	public static void setRefreshcolor(Position3DF c) {
 		refreshcolor = c;
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}

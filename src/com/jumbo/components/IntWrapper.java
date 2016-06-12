@@ -7,7 +7,7 @@ package com.jumbo.components;
  * 
  *
  */
-public class LambdaInteger implements java.io.Serializable {
+public class IntWrapper implements java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -15,24 +15,24 @@ public class LambdaInteger implements java.io.Serializable {
 	private int num = 0;
 
 	/**
-	 * Creates a new {@link LambdaInteger} with a specified value
+	 * Creates a new {@link IntWrapper} with a specified value
 	 * 
 	 * @param num
 	 *            starting value
 	 **/
-	public LambdaInteger(int num) {
+	public IntWrapper(int num) {
 		this.num = num;
 	}
 
 	/**
-	 * Creates a new {@link LambdaInteger} with value of 0
+	 * Creates a new {@link IntWrapper} with value of 0
 	 */
-	public LambdaInteger() {
+	public IntWrapper() {
 		this(0);
 	}
 
 	/**
-	 * @return the current number represented by this {@link LambdaInteger}.
+	 * @return the current number represented by this {@link IntWrapper}.
 	 * 
 	 * @see #setNum(int num)
 	 * @see #increment()
@@ -45,7 +45,7 @@ public class LambdaInteger implements java.io.Serializable {
 
 	/**
 	 * @param num
-	 *            the num to set this {@link LambdaInteger}
+	 *            the num to set this {@link IntWrapper}
 	 * 
 	 * @see #setNum(int num)
 	 * @see #increment()
@@ -57,7 +57,7 @@ public class LambdaInteger implements java.io.Serializable {
 	}
 
 	/**
-	 * Increments the current number stored by this {@link LambdaInteger} by 1.
+	 * Increments the current number stored by this {@link IntWrapper} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}++.
 	 * 
@@ -70,7 +70,7 @@ public class LambdaInteger implements java.io.Serializable {
 	}
 
 	/**
-	 * Reduces the current number stored by this {@link LambdaInteger} by 1.
+	 * Reduces the current number stored by this {@link IntWrapper} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}--.
 	 * 
@@ -84,7 +84,7 @@ public class LambdaInteger implements java.io.Serializable {
 
 	/**
 	 * Adds a specified integer to the number represented by this
-	 * {@link LambdaInteger}.
+	 * {@link IntWrapper}.
 	 * <p>
 	 * Same as {@link #getNum()}+=parameter.
 	 * 
@@ -138,7 +138,7 @@ public class LambdaInteger implements java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		LambdaInteger other = (LambdaInteger) obj;
+		IntWrapper other = (IntWrapper) obj;
 		return num == other.num;
 	}
 }

@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics.text;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -34,8 +34,8 @@ public class JumboInputBox extends JumboButton {
 		super(icon, hovericon, x, y, w, h);
 	}
 
-	public JumboInputBox(BufferedImage icon, BufferedImage hovericon, Rectangle rectangle) {
-		super(icon, hovericon, rectangle);
+	public JumboInputBox(BufferedImage icon, BufferedImage hovericon, Quad Quad) {
+		super(icon, hovericon, Quad);
 	}
 
 	public JumboInputBox(BufferedImage icon, int x, int y, int w, int h) {
@@ -46,16 +46,16 @@ public class JumboInputBox extends JumboButton {
 		super(x, y, w, h, tex);
 	}
 
-	public JumboInputBox(JumboImage img, Rectangle rect) {
+	public JumboInputBox(JumboImage img, Quad rect) {
 		super(img, rect);
 	}
 
-	public JumboInputBox(JumboTexture tex, JumboTexture hover, Rectangle rectangle) {
-		super(tex, hover, rectangle);
+	public JumboInputBox(JumboTexture tex, JumboTexture hover, Quad Quad) {
+		super(tex, hover, Quad);
 	}
 
-	public JumboInputBox(JumboTexture tex, Rectangle rectangle) {
-		super(tex, rectangle);
+	public JumboInputBox(JumboTexture tex, Quad Quad) {
+		super(tex, Quad);
 	}
 
 	/**

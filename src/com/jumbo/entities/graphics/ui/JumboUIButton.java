@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics.ui;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.JumboButton;
@@ -14,20 +14,20 @@ public class JumboUIButton extends JumboButton {
 	private static final long serialVersionUID = 1L;
 
 	private void create() {
-		Rectangle bounds = getBounds();
-		icon = new JumboImage(new Rectangle(0, 0, bounds.width, bounds.height),
+		Quad bounds = getBounds();
+		icon = new JumboImage(new Quad(0, 0, bounds.width, bounds.height),
 				JumboUIHandler.create(bounds.width, bounds.height));
-		hovericon = new JumboImage(new Rectangle(0, 0, bounds.width, bounds.height),
+		hovericon = new JumboImage(new Quad(0, 0, bounds.width, bounds.height),
 				JumboUIHandler.create(bounds.width, bounds.height, JumboUIHandler.getHovercolor()));
 	}
 
-	public JumboUIButton(Rectangle bounds) {
+	public JumboUIButton(Quad bounds) {
 		super(new JumboTexture(), bounds);
 		create();
 	}
 
-	public JumboUIButton(Rectangle rectangle, JumboText jumboText) {
-		super(new JumboTexture(), rectangle);
+	public JumboUIButton(Quad Quad, JumboText jumboText) {
+		super(new JumboTexture(), Quad);
 		create();
 		setDescriptor(jumboText);
 	}

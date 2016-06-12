@@ -2,9 +2,9 @@ package com.jumbo.core.texture;
 
 import java.awt.image.BufferedImage;
 
-import com.jumbo.components.FloatRectangle;
+import com.jumbo.components.QuadF;
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.LambdaInteger;
+import com.jumbo.components.IntWrapper;
 import com.jumbo.core.modules.JumboTextureModule;
 import com.jumbo.core.modules.presets.JumboTextureModuleGL11;
 import com.jumbo.tools.JumboErrorHandler;
@@ -17,7 +17,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private static JumboTextureModule b = new JumboTextureModuleGL11();
-	private final static LambdaInteger previousid = new LambdaInteger(-1);
+	private final static IntWrapper previousid = new IntWrapper(-1);
 
 	public static final short FADE_WIDTH = 100;
 
@@ -101,8 +101,8 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	public Object clone() {
 		final JumboTexture t = new JumboTexture();
 		t.setID(ID);
-		final FloatRectangle coords = getTextureCoords();
-		t.setTextureCoords(new FloatRectangle(coords.x, coords.y, coords.width, coords.height));
+		final QuadF coords = getTextureCoords();
+		t.setTextureCoords(new QuadF(coords.x, coords.y, coords.width, coords.height));
 		t.setColor(color);
 		return t;
 	}
@@ -111,8 +111,8 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	private int ID = -1;
 
-	private FloatRectangle textureCoords = new FloatRectangle(0, 0, 1, 1);
-	private FloatRectangle color = new FloatRectangle(1, 1, 1, 1);
+	private QuadF textureCoords = new QuadF(0, 0, 1, 1);
+	private QuadF color = new QuadF(1, 1, 1, 1);
 
 	private int width = 0, height = 0;
 
@@ -150,19 +150,19 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 		load(img);
 	}
 
-	public FloatRectangle getTextureCoords() {
+	public QuadF getTextureCoords() {
 		return textureCoords;
 	}
 
-	public void setTextureCoords(FloatRectangle textureCoords) {
+	public void setTextureCoords(QuadF textureCoords) {
 		this.textureCoords = textureCoords;
 	}
 
-	public FloatRectangle getColor() {
+	public QuadF getColor() {
 		return color;
 	}
 
-	public void setColor(FloatRectangle color) {
+	public void setColor(QuadF color) {
 		this.color = color;
 	}
 
@@ -196,14 +196,14 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 
 	public JumboTexture(JumboTexture t, JumboColor c) {
 		ID = t.getID();
-		final FloatRectangle coords = t.getTextureCoords();
-		textureCoords = new FloatRectangle(coords.x, coords.y, coords.width, coords.height);
+		final QuadF coords = t.getTextureCoords();
+		textureCoords = new QuadF(coords.x, coords.y, coords.width, coords.height);
 		width = t.getWidth();
 		height = t.getHeight();
 		setColor(c);
 	}
 
-	public JumboTexture(JumboTexture t, FloatRectangle c) {
+	public JumboTexture(JumboTexture t, QuadF c) {
 		this(t, new JumboColor(c.x, c.y, c.width, c.height));
 	}
 

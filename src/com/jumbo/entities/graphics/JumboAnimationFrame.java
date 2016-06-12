@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 
 import com.jumbo.core.JumboGraphicsObject;
@@ -15,12 +15,12 @@ public class JumboAnimationFrame extends JumboGraphicsObject {
 	private int delay;
 
 	public JumboAnimationFrame(int delay, JumboTexture texture) {
-		super(new Rectangle(0, 0, texture.getWidth(), texture.getHeight()), texture);
+		super(new Quad(0, 0, texture.getWidth(), texture.getHeight()), texture);
 		this.delay = delay;
 	}
 
 	public JumboAnimationFrame(int delay, BufferedImage texture) {
-		super(new Rectangle(0, 0, texture.getWidth(), texture.getHeight()), new JumboTexture(texture));
+		super(new Quad(0, 0, texture.getWidth(), texture.getHeight()), new JumboTexture(texture));
 		this.delay = delay;
 	}
 

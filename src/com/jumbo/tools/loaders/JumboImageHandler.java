@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.tools.JumboErrorHandler;
 
 public final class JumboImageHandler {
@@ -17,6 +18,10 @@ public final class JumboImageHandler {
 		} catch (Exception e) {
 			JumboErrorHandler.handle(e);
 		}
+	}
+
+	public static JumboTexture getTexture(String path) {
+		return new JumboTexture(getImage(path));
 	}
 
 	public static BufferedImage getImage(String path) {

@@ -2,7 +2,7 @@ package com.jumbo.components;
 
 import com.jumbo.tools.calculations.Dice;
 
-public class MinMaxVector {
+public class Range {
 	public int min = 0, max = 0;
 
 	public boolean inRange(int i) {
@@ -29,7 +29,7 @@ public class MinMaxVector {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		MinMaxVector other = (MinMaxVector) obj;
+		Range other = (Range) obj;
 		if (max != other.max) {
 			return false;
 		}
@@ -44,7 +44,7 @@ public class MinMaxVector {
 		return "MinMaxVector[ min: " + min + ", max: " + max + " ]";
 	}
 
-	public MinMaxVector(int minoffset, int maxoffset) {
+	public Range(int minoffset, int maxoffset) {
 		min = minoffset;
 		max = maxoffset;
 	}

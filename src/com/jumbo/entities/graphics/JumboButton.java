@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class JumboButton extends JumboGraphicsObject {
 	protected JumboGraphicsObject descriptor;
 
 	protected JumboImage icon;
-	protected JumboImage hovericon = new JumboImage(hovertex, new Rectangle(0, 0, 1, 1));
+	protected JumboImage hovericon = new JumboImage(hovertex, new Quad(0, 0, 1, 1));
 	protected JumboImage disabledicon;
 
 	protected TriggeredEvent hoverevent;
@@ -75,29 +75,29 @@ public class JumboButton extends JumboGraphicsObject {
 		this.hovericon.setCustomTickAction(hoveraction);
 	}
 
-	public JumboButton(BufferedImage icon, BufferedImage hovericon, Rectangle rectangle) {
-		super(rectangle, null);
+	public JumboButton(BufferedImage icon, BufferedImage hovericon, Quad Quad) {
+		super(Quad, null);
 		if (icon != null) {
-			this.icon = new JumboImage(icon, new Rectangle(0, 0, rectangle.width, rectangle.height));
+			this.icon = new JumboImage(icon, new Quad(0, 0, Quad.width, Quad.height));
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-					new Rectangle(0, 0, getBounds().width, getBounds().height));
+					new Quad(0, 0, getBounds().width, getBounds().height));
 			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		if (hovericon != null) {
-			this.hovericon = new JumboImage(hovericon, new Rectangle(0, 0, rectangle.width, rectangle.height));
+			this.hovericon = new JumboImage(hovericon, new Quad(0, 0, Quad.width, Quad.height));
 			this.hovericon.addParent(this);
 		}
 	}
 
 	public JumboButton(BufferedImage icon, int x, int y, int w, int h) {
-		super(new Rectangle(x, y, w, h), null);
+		super(new Quad(x, y, w, h), null);
 		if (icon != null) {
-			this.icon = new JumboImage(icon, new Rectangle(0, 0, w, h));
+			this.icon = new JumboImage(icon, new Quad(0, 0, w, h));
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-					new Rectangle(0, 0, getBounds().width, getBounds().height));
+					new Quad(0, 0, getBounds().width, getBounds().height));
 			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
@@ -105,85 +105,85 @@ public class JumboButton extends JumboGraphicsObject {
 	}
 
 	public JumboButton(BufferedImage icon, BufferedImage hovericon, int x, int y, int w, int h) {
-		super(new Rectangle(x, y, w, h), null);
+		super(new Quad(x, y, w, h), null);
 		if (icon != null) {
-			this.icon = new JumboImage(icon, new Rectangle(0, 0, w, h));
+			this.icon = new JumboImage(icon, new Quad(0, 0, w, h));
 			this.icon.addParent(this);
-			this.hovericon = new JumboImage(hovericon, new Rectangle(0, 0, w, h));
+			this.hovericon = new JumboImage(hovericon, new Quad(0, 0, w, h));
 			this.hovericon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-					new Rectangle(0, 0, getBounds().width, getBounds().height));
+					new Quad(0, 0, getBounds().width, getBounds().height));
 			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 	}
 
 	public JumboButton(int x, int y, int w, int h, JumboTexture tex) {
-		super(new Rectangle(x, y, w, h), null);
-		this.icon = new JumboImage(new Rectangle(0, 0, w, h), new JumboTexture(tex));
+		super(new Quad(x, y, w, h), null);
+		this.icon = new JumboImage(new Quad(0, 0, w, h), new JumboTexture(tex));
 		this.icon.addParent(this);
 		this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-				new Rectangle(0, 0, getBounds().width, getBounds().height));
+				new Quad(0, 0, getBounds().width, getBounds().height));
 		this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 		this.disabledicon.addParent(this);
 		this.hovericon.addParent(this);
 	}
 
-	public JumboButton(JumboTexture tex, Rectangle rectangle) {
-		super(rectangle, tex);
+	public JumboButton(JumboTexture tex, Quad Quad) {
+		super(Quad, tex);
 		if (tex != null) {
 			JumboTexture tex2 = new JumboTexture(tex);
-			this.icon = new JumboImage(new Rectangle(0, 0, rectangle.width, rectangle.height), new JumboTexture(tex2));
+			this.icon = new JumboImage(new Quad(0, 0, Quad.width, Quad.height), new JumboTexture(tex2));
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-					new Rectangle(0, 0, getBounds().width, getBounds().height));
+					new Quad(0, 0, getBounds().width, getBounds().height));
 			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		this.hovericon.addParent(this);
-		this.hovericon.setBounds(new Rectangle(0, 0, rectangle.width, rectangle.height));
-		setBounds(rectangle);
+		this.hovericon.setBounds(new Quad(0, 0, Quad.width, Quad.height));
+		setBounds(Quad);
 	}
 
-	public JumboButton(JumboTexture tex, JumboTexture hover, Rectangle rectangle) {
-		super(new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height), null);
+	public JumboButton(JumboTexture tex, JumboTexture hover, Quad Quad) {
+		super(new Quad(Quad.x, Quad.y, Quad.width, Quad.height), null);
 		if (tex != null) {
 			JumboTexture tex2 = new JumboTexture(tex);
-			this.icon = new JumboImage(new Rectangle(0, 0, rectangle.width, rectangle.height), new JumboTexture(tex2));
+			this.icon = new JumboImage(new Quad(0, 0, Quad.width, Quad.height), new JumboTexture(tex2));
 			this.icon.addParent(this);
 			this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-					new Rectangle(0, 0, getBounds().width, getBounds().height));
+					new Quad(0, 0, getBounds().width, getBounds().height));
 			this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 			this.disabledicon.addParent(this);
 		}
 		if (hover != null) {
-			this.hovericon = new JumboImage(new Rectangle(0, 0, rectangle.width, rectangle.height), hover);
+			this.hovericon = new JumboImage(new Quad(0, 0, Quad.width, Quad.height), hover);
 		}
 	}
 
-	public JumboButton(JumboImage img, Rectangle rect) {
+	public JumboButton(JumboImage img, Quad rect) {
 		super(rect, null);
-		img.setBounds(new Rectangle(0, 0, rect.width, rect.height));
+		img.setBounds(new Quad(0, 0, rect.width, rect.height));
 		this.icon = img;
 		this.disabledicon = new JumboImage(new JumboTexture(this.icon.getTexture()),
-				new Rectangle(0, 0, getBounds().width, getBounds().height));
+				new Quad(0, 0, getBounds().width, getBounds().height));
 		this.disabledicon.getTexture().setColor(new JumboColor(100, 100, 100, 125));
 		this.disabledicon.addParent(this);
 		this.hovericon.addParent(this);
-		this.hovericon.setBounds(new Rectangle(0, 0, rect.width, rect.height));
+		this.hovericon.setBounds(new Quad(0, 0, rect.width, rect.height));
 		setBounds(rect);
 	}
 
 	@Override
-	public void setBounds(Rectangle bounds) {
+	public void setBounds(Quad bounds) {
 		super.setBounds(bounds);
 		if (this.icon != null) {
-			this.icon.setBounds(new Rectangle(0, 0, bounds.width, bounds.height));
+			this.icon.setBounds(new Quad(0, 0, bounds.width, bounds.height));
 		}
 		if (this.disabledicon != null) {
-			this.disabledicon.setBounds(new Rectangle(0, 0, bounds.width, bounds.height));
+			this.disabledicon.setBounds(new Quad(0, 0, bounds.width, bounds.height));
 		}
 		if (this.disabledicon != null) {
-			this.hovericon.setBounds(new Rectangle(0, 0, bounds.width, bounds.height));
+			this.hovericon.setBounds(new Quad(0, 0, bounds.width, bounds.height));
 		}
 	}
 
@@ -266,7 +266,7 @@ public class JumboButton extends JumboGraphicsObject {
 	}
 
 	public void setDescriptor(JumboGraphicsObject descriptor) {
-		Rectangle bounds = getBounds(), dbounds = descriptor.getBounds();
+		Quad bounds = getBounds(), dbounds = descriptor.getBounds();
 		this.descriptor = descriptor;
 		if (!this.descriptor.getParents().contains(this)) {
 			this.descriptor.addParent(this);
@@ -277,8 +277,8 @@ public class JumboButton extends JumboGraphicsObject {
 	}
 
 	public void setDescriptor(JumboText t) {
-		Rectangle bounds = getBounds();
-		this.descriptor = new JumboTextBox(new Rectangle(0, 0, bounds.width, bounds.height), t);
+		Quad bounds = getBounds();
+		this.descriptor = new JumboTextBox(new Quad(0, 0, bounds.width, bounds.height), t);
 		this.descriptor.addParent(this);
 		this.descriptor.setMaintainingPosition(true);
 	}
@@ -340,7 +340,7 @@ public class JumboButton extends JumboGraphicsObject {
 		if (this.icon != null) {
 			this.icon.setTexture(t);
 		} else {
-			this.icon = new JumboImage(t, new Rectangle(0, 0, 0, 0));
+			this.icon = new JumboImage(t, new Quad(0, 0, 0, 0));
 			this.icon.addParent(this);
 			setBounds(getBounds());
 		}
@@ -349,8 +349,8 @@ public class JumboButton extends JumboGraphicsObject {
 	@Override
 	public void customRender() {
 		ArrayList<JumboEntity> parents = new ArrayList<>();
-		final Rectangle outpos = getOutbounds();
-		final Rectangle iconbounds = new Rectangle(0, 0, outpos.width, outpos.height);
+		final Quad outpos = getOutbounds();
+		final Quad iconbounds = new Quad(0, 0, outpos.width, outpos.height);
 		final Position renderpos;
 		if (this.icon != null) {
 			parents = this.icon.getParents();
@@ -361,12 +361,12 @@ public class JumboButton extends JumboGraphicsObject {
 			this.icon.render();
 			renderpos = this.icon.getRenderposition();
 		} else {
-			final Rectangle bounds = getInheritedOutbounds();
+			final Quad bounds = getInheritedOutbounds();
 			renderpos = new Position(bounds.x, bounds.y);
 		}
 		int x = k.mousex;
 		int y = k.mousey;
-		final Rectangle outbounds = new Rectangle(renderpos.x, renderpos.y, outpos.width, outpos.height);
+		final Quad outbounds = new Quad(renderpos.x, renderpos.y, outpos.width, outpos.height);
 		final boolean clicked = k.leftreleased;
 		final boolean hovering = x >= outbounds.x && x <= outbounds.width + outbounds.x && y >= outbounds.y
 				&& y <= outbounds.height + outbounds.y,
@@ -466,11 +466,11 @@ public class JumboButton extends JumboGraphicsObject {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jumbo.core.JumboEntity#additionalCalculations(java.awt.Rectangle)
+	 * com.jumbo.core.JumboEntity#additionalCalculations(com.jumbo.components.Quad)
 	 */
 	@Override
-	public Rectangle additionalCalculations(Rectangle inbounds) {
-		final Rectangle bounds = super.additionalCalculations(inbounds);
+	public Quad additionalCalculations(Quad inbounds) {
+		final Quad bounds = super.additionalCalculations(inbounds);
 
 		return bounds;
 	}

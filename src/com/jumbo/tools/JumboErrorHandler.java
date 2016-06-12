@@ -76,7 +76,7 @@ public class JumboErrorHandler {
 				JumboConsole.log("An error was found, and was logged under the name of " + filename + ".txt", 2);
 				JumboStringHandler.writeString(filename + ".txt", String.format(message));
 				// JButton button = new JButton("OK");
-				// button.setBounds(new Rectangle(0, 250, 50, 50));
+				// button.setBounds(new Quad(0, 250, 50, 50));
 				// button.setAction(new Action() {
 				//
 				// @Override

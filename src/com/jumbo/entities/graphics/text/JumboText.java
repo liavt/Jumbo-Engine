@@ -1,6 +1,6 @@
 package com.jumbo.entities.graphics.text;
 
-import java.awt.Rectangle;
+import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.core.JumboEntity;
@@ -31,7 +31,7 @@ public class JumboText extends JumboGraphicsObject {
 	}
 
 	public JumboText(String text2, int i, int j) {
-		super(new Rectangle(i, j, 0, 0), new JumboTexture(JumboStringHandler.getBitmap()));
+		super(new Quad(i, j, 0, 0), new JumboTexture(JumboStringHandler.getBitmap()));
 		this.text = text2;
 		setRenderable(false);
 		generateText();
@@ -61,12 +61,12 @@ public class JumboText extends JumboGraphicsObject {
 		if (imgs.array.size() > 0) {
 			final JumboGraphicsGroup temparray = new JumboGraphicsGroup();
 			int xoffset = 0, offsetnum = 0, base = JumboStringHandler.getBase();
-			final Rectangle bounds = getBounds();
+			final Quad bounds = getBounds();
 			bounds.height = imgs.array.get(0).getBounds().height;
 			int tempoffset = 0, outwidth = 0;
 			for (int i = 0; i < imgs.array.size(); i++) {
 				final JumboLetter img = (JumboLetter) imgs.array.get(i);
-				final Rectangle imgbounds = img.getBounds();
+				final Quad imgbounds = img.getBounds();
 				final float mod = img.getSize() / (float) JumboStringHandler.getSize();
 				final int width = (int) (imgbounds.width * mod), height = (int) (imgbounds.height * mod);
 				if (img.getId() == 10) {
@@ -74,7 +74,7 @@ public class JumboText extends JumboGraphicsObject {
 					tempoffset = 0;
 					xoffset = 0;
 				} else if (width > 0) {
-					img.setBounds(new Rectangle((xoffset), ((base - height) - (offsetnum * base)), (width), (height)));
+					img.setBounds(new Quad((xoffset), ((base - height) - (offsetnum * base)), (width), (height)));
 					tempoffset += width;
 					xoffset += width;
 					if (tempoffset > outwidth) {

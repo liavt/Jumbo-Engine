@@ -1,6 +1,6 @@
 package com.jumbo.components;
 
-public class FloatRectangle implements java.lang.Cloneable, java.io.Serializable {
+public class QuadF implements java.lang.Cloneable, java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -8,7 +8,7 @@ public class FloatRectangle implements java.lang.Cloneable, java.io.Serializable
 
 	@Override
 	public Object clone() {
-		return new FloatRectangle(x, y, width, height);
+		return new QuadF(x, y, width, height);
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class FloatRectangle implements java.lang.Cloneable, java.io.Serializable
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		FloatRectangle other = (FloatRectangle) obj;
+		QuadF other = (QuadF) obj;
 		if (Float.floatToIntBits(height) != Float.floatToIntBits(other.height)) {
 			return false;
 		}
@@ -66,19 +66,19 @@ public class FloatRectangle implements java.lang.Cloneable, java.io.Serializable
 	 */
 	@Override
 	public String toString() {
-		return "FloatRectangle [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		return "QuadF [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
 	public float x = 0, y = 0, width = 0, height = 0;
 
-	public FloatRectangle(float x2, float y2, float width2, float height2) {
+	public QuadF(float x2, float y2, float width2, float height2) {
 		x = x2;
 		y = y2;
 		width = width2;
 		height = height2;
 	}
 
-	public FloatRectangle() {
+	public QuadF() {
 		this(0, 0, 0, 0);
 	}
 
