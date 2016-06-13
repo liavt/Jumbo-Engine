@@ -18,7 +18,12 @@ A Java engine that uses LWJGL.
 * Optional texture generator for dynamic sizing.
 
 ##Installation
-Download the project through git, and add everything in the /src/ folder to your build path. The only dependency is LWJGL 2 and it's natives, which can be found on their [website.](http://wiki.lwjgl.org/wiki/Downloading_and_Setting_Up_LWJGL) The LWJGL jar files are located in the /jars/ folder. You will need to download natives.
+Later, there will be a .jar file you need to add. Right now, as it is in heavy development, you will have to add the project as specified below.
+
+##How can I contribute?
+Clone the project through git, and add everything in the /src/ folder to your build path. The only dependency is LWJGL 2 and it's natives, which can be found on their [website.](http://wiki.lwjgl.org/wiki/Downloading_and_Setting_Up_LWJGL) The LWJGL jar files are located in the /jars/ folder. You will need to download natives.
+
+Contributions you make need to follow the [style guide.](https://github.com/liavt/Jumbo-Engine/wiki/Styleguide)
 
 ## FAQ
 Why is it called Jumbo?
