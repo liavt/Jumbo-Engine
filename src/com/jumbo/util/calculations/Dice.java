@@ -1,11 +1,11 @@
-package com.jumbo.tools.calculations;
+package com.jumbo.util.calculations;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
 import com.jumbo.components.JumboColor;
-import com.jumbo.tools.loaders.JumboStringHandler.consonants;
-import com.jumbo.tools.loaders.JumboStringHandler.vowels;
+import com.jumbo.util.loaders.JumboStringHandler.consonants;
+import com.jumbo.util.loaders.JumboStringHandler.vowels;
 
 public final class Dice {
 	// static class for calling random numbers.

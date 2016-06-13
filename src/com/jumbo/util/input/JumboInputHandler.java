@@ -1,11 +1,11 @@
-package com.jumbo.tools.input;
+package com.jumbo.util.input;
 
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import com.jumbo.tools.JumboSettings;
+import com.jumbo.util.JumboSettings;
 
 /**
  * A class meant to replace the {@link Keyboard} class from LWJGL.

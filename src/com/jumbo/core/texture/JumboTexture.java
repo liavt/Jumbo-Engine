@@ -2,13 +2,13 @@ package com.jumbo.core.texture;
 
 import java.awt.image.BufferedImage;
 
-import com.jumbo.components.QuadF;
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.IntWrapper;
+import com.jumbo.components.IntCapsule;
+import com.jumbo.components.QuadF;
 import com.jumbo.core.modules.JumboTextureModule;
 import com.jumbo.core.modules.presets.JumboTextureModuleGL11;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.loaders.JumboImageHandler;
+import com.jumbo.util.ImageUtility;
+import com.jumbo.util.JumboErrorHandler;
 
 public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	/**
@@ -17,7 +17,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private static JumboTextureModule b = new JumboTextureModuleGL11();
-	private final static IntWrapper previousid = new IntWrapper(-1);
+	private final static IntCapsule previousid = new IntCapsule(-1);
 
 	public static final short FADE_WIDTH = 100;
 
@@ -191,7 +191,7 @@ public class JumboTexture implements java.io.Serializable, java.lang.Cloneable {
 	}
 
 	public JumboTexture(String path) {
-		this(JumboImageHandler.getImage(path));
+		this(ImageUtility.getImage(path));
 	}
 
 	public JumboTexture(JumboTexture t, JumboColor c) {

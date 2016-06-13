@@ -7,7 +7,7 @@ package com.jumbo.components;
  * 
  *
  */
-public class IntWrapper implements java.io.Serializable {
+public class IntCapsule implements java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -15,24 +15,24 @@ public class IntWrapper implements java.io.Serializable {
 	private int num = 0;
 
 	/**
-	 * Creates a new {@link IntWrapper} with a specified value
+	 * Creates a new {@link IntCapsule} with a specified value
 	 * 
 	 * @param num
 	 *            starting value
 	 **/
-	public IntWrapper(int num) {
+	public IntCapsule(int num) {
 		this.num = num;
 	}
 
 	/**
-	 * Creates a new {@link IntWrapper} with value of 0
+	 * Creates a new {@link IntCapsule} with value of 0
 	 */
-	public IntWrapper() {
+	public IntCapsule() {
 		this(0);
 	}
 
 	/**
-	 * @return the current number represented by this {@link IntWrapper}.
+	 * @return the current number represented by this {@link IntCapsule}.
 	 * 
 	 * @see #setNum(int num)
 	 * @see #increment()
@@ -45,7 +45,7 @@ public class IntWrapper implements java.io.Serializable {
 
 	/**
 	 * @param num
-	 *            the num to set this {@link IntWrapper}
+	 *            the num to set this {@link IntCapsule}
 	 * 
 	 * @see #setNum(int num)
 	 * @see #increment()
@@ -57,7 +57,7 @@ public class IntWrapper implements java.io.Serializable {
 	}
 
 	/**
-	 * Increments the current number stored by this {@link IntWrapper} by 1.
+	 * Increments the current number stored by this {@link IntCapsule} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}++.
 	 * 
@@ -70,7 +70,7 @@ public class IntWrapper implements java.io.Serializable {
 	}
 
 	/**
-	 * Reduces the current number stored by this {@link IntWrapper} by 1.
+	 * Reduces the current number stored by this {@link IntCapsule} by 1.
 	 * <p>
 	 * Same as calling {@link #getNum()}--.
 	 * 
@@ -84,7 +84,7 @@ public class IntWrapper implements java.io.Serializable {
 
 	/**
 	 * Adds a specified integer to the number represented by this
-	 * {@link IntWrapper}.
+	 * {@link IntCapsule}.
 	 * <p>
 	 * Same as {@link #getNum()}+=parameter.
 	 * 
@@ -138,7 +138,7 @@ public class IntWrapper implements java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		IntWrapper other = (IntWrapper) obj;
+		IntCapsule other = (IntCapsule) obj;
 		return num == other.num;
 	}
 }

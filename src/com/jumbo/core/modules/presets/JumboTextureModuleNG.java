@@ -1,13 +1,11 @@
 package com.jumbo.core.modules.presets;
 
-import com.jumbo.core.Jumbo;
 import com.jumbo.core.modules.JumboTextureModule;
 
 /**
  * {@link JumboTextureModule} whose methods don't do anything - for a
  * non-graphical mode.
  *
- * @see Jumbo#setGraphicsEnabled(boolean)
  */
 public class JumboTextureModuleNG extends JumboTextureModule {
 

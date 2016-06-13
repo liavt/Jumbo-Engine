@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import com.jumbo.tools.JumboSettings;
+import com.jumbo.util.JumboSettings;
 
 public final class JumboLaunchConfig {
 	public final BufferedImage[] icon;
@@ -31,6 +31,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 * 
+	 * @param mode
+	 * @param icon
+	 * @param fontpath
 	 */
 	public JumboLaunchConfig(DisplayMode mode, BufferedImage[] icon, String fontpath) {
 		this(defaultName, mode, icon, fontpath);
@@ -61,6 +65,9 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
 	 */
 	public JumboLaunchConfig(String name, DisplayMode mode) {
 		this(name, mode, defaultFont);
@@ -69,6 +76,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, DisplayMode, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
+	 * @param icon
 	 */
 	public JumboLaunchConfig(String name, DisplayMode mode, BufferedImage[] icon) {
 		this(name, mode, icon, defaultFont);
@@ -77,6 +88,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param mode
+	 * @param icon
+	 * @param fontpath
 	 */
 	public JumboLaunchConfig(Dimension mode, BufferedImage[] icon, String fontpath) {
 		this(defaultName, mode, icon, fontpath);
@@ -85,6 +100,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
+	 * @param fontpath
 	 */
 	public JumboLaunchConfig(String name, Dimension mode, String fontpath) {
 		this(name, mode, null, fontpath);
@@ -93,6 +112,8 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param mode
 	 */
 	public JumboLaunchConfig(Dimension mode) {
 		this(mode, null, defaultFont);
@@ -101,6 +122,9 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
 	 */
 	public JumboLaunchConfig(String name, Dimension mode) {
 		this(name, mode, defaultFont);
@@ -109,6 +133,10 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param name
+	 * @param mode
+	 * @param icon
 	 */
 	public JumboLaunchConfig(String name, Dimension mode, BufferedImage[] icon) {
 		this(name, mode, icon, defaultFont);
@@ -117,6 +145,9 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param mode
+	 * @param font
 	 */
 	public JumboLaunchConfig(DisplayMode mode, String font) {
 		this(defaultName, mode, font);
@@ -125,6 +156,9 @@ public final class JumboLaunchConfig {
 	/**
 	 * Overloaded constructor for
 	 * {@link #JumboLaunchConfig(String, Dimension, BufferedImage[], String)}
+	 * 
+	 * @param mode
+	 * @param font
 	 */
 	public JumboLaunchConfig(Dimension mode, String font) {
 		this(defaultName, mode, font);

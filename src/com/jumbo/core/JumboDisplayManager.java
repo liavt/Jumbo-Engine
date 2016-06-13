@@ -3,8 +3,6 @@ package com.jumbo.core;
 import java.awt.Canvas;
 import java.nio.ByteBuffer;
 
-import javax.swing.JFrame;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -13,8 +11,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.opengl.ImageIOImageData;
 
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
 
 class JumboDisplayManager {
 	// handles the frame
@@ -39,12 +37,6 @@ class JumboDisplayManager {
 	public static String getTitle() {
 		return JumboSettings.launchConfig.title;
 	}
-
-	public static JFrame getFrame() {
-		return frame;
-	}
-
-	private static JFrame frame;
 
 	static void closeInput() {
 		if (Keyboard.isCreated()) {

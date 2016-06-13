@@ -7,7 +7,7 @@ public class Position implements java.io.Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Object clone() {
+	public Object clone() throws CloneNotSupportedException {
 		return new Position(x, y);
 	}
 

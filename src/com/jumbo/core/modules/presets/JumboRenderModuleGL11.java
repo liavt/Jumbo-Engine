@@ -1,27 +1,24 @@
 package com.jumbo.core.modules.presets;
 
 import java.awt.Dimension;
-import com.jumbo.components.Quad;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import com.jumbo.components.QuadF;
 import com.jumbo.components.Position;
+import com.jumbo.components.Quad;
+import com.jumbo.components.QuadF;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.modules.JumboRenderModule;
 import com.jumbo.core.texture.JumboTexture;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.JumboMathHandler;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.calculations.JumboMathHandler;
 
 public class JumboRenderModuleGL11 extends JumboRenderModule {
 	@Override
 	public void resize(int newWidth, int newHeight) {
 		GL11.glLoadIdentity();
-
-		final float factor = Display.getPixelScaleFactor();
 
 		JumboMathHandler.currentdim = new Dimension(newWidth, newHeight);
 		GL11.glOrtho(0.0f, newWidth, 0, newHeight, 0.0f, 1.0f);

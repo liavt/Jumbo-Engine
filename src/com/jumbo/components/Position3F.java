@@ -1,12 +1,12 @@
 package com.jumbo.components;
 
-public class Position3DF implements java.lang.Cloneable, java.io.Serializable {
+public class Position3F implements java.lang.Cloneable, java.io.Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Position3DF(float x2, float y2, float z2) {
+	public Position3F(float x2, float y2, float z2) {
 		x = x2;
 		y = y2;
 		z = z2;
@@ -14,7 +14,7 @@ public class Position3DF implements java.lang.Cloneable, java.io.Serializable {
 
 	@Override
 	public Object clone() {
-		return new Position3DF(x, y, z);
+		return new Position3F(x, y, z);
 	}
 
 	public float x = 0, y = 0, z = 0;
@@ -50,7 +50,7 @@ public class Position3DF implements java.lang.Cloneable, java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Position3DF other = (Position3DF) obj;
+		Position3F other = (Position3F) obj;
 		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x)) {
 			return false;
 		}

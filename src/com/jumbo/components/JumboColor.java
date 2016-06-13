@@ -9,7 +9,7 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private short r = 255, g = 255, b = 255, a = 255;
+	private int r = 255, g = 255, b = 255, a = 255;
 
 	public static final JumboColor RED = new JumboColor(255, 0, 0), GREEN = new JumboColor(0, 255, 0),
 			DARK_BLUE = new JumboColor(0, 0, 255), CYAN = new JumboColor(0, 255, 255),
@@ -21,11 +21,11 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 			DARK_ORANGE = new JumboColor(255, 100, 0), LIGHT_ORANGE = new JumboColor(255, 150, 0);
 
 	public JumboColor darker() {
-		return new JumboColor((short) (r * 0.9f), (short) (g * 0.9f), (short) (b * 0.9f));
+		return new JumboColor((int) (r * 0.9f), (int) (g * 0.9f), (int) (b * 0.9f));
 	}
 
 	public JumboColor brighter() {
-		return new JumboColor((short) (r * 1.1f), (short) (g * 1.1f), (short) (b * 1.1f));
+		return new JumboColor((int) (r * 1.1f), (int) (g * 1.1f), (int) (b * 1.1f));
 	}
 
 	/*
@@ -64,7 +64,7 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 
 	@Override
 	public Object clone() {
-		final short r = this.r, g = this.g, b = this.b, a = this.a;
+		final int r = this.r, g = this.g, b = this.b, a = this.a;
 		return new JumboColor(r, g, b, a);
 	}
 
@@ -118,19 +118,19 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 		return new JumboColor(r, g, b);
 	}
 
-	public JumboColor(short r, short g, short b, short a) {
+	public JumboColor(int r, int g, int b, int a) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = a;
 	}
 
-	public JumboColor(short r, short g, short b) {
+	public JumboColor(int r, int g, int b) {
 		this(r, g, b, 255);
 	}
 
 	public JumboColor(float r, float g, float b, float a) {
-		this((short) (r * 255.0f), (short) (g * 255.0f), (short) (b * 255.0f), (short) (a * 255.0f));
+		this((int) (r * 255.0f), (int) (g * 255.0f), (int) (b * 255.0f), (int) (a * 255.0f));
 	}
 
 	public JumboColor(float r, float g, float b) {
@@ -145,14 +145,14 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 		this(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 
-	public JumboColor(short[] color) {
+	public JumboColor(int[] color) {
 		this(color[0], color[1], color[2], color[3]);
 	}
 
 	/**
 	 * @return the r
 	 */
-	public short getRed() {
+	public int getRed() {
 		return r;
 	}
 
@@ -160,14 +160,14 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	 * @param r
 	 *            the r to set
 	 */
-	public void setRed(short r) {
+	public void setRed(int r) {
 		this.r = r;
 	}
 
 	/**
 	 * @return the g
 	 */
-	public short getGreen() {
+	public int getGreen() {
 		return g;
 	}
 
@@ -175,14 +175,14 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	 * @param g
 	 *            the g to set
 	 */
-	public void setGreen(short g) {
+	public void setGreen(int g) {
 		this.g = g;
 	}
 
 	/**
 	 * @return the b
 	 */
-	public short getBlue() {
+	public int getBlue() {
 		return b;
 	}
 
@@ -190,14 +190,14 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	 * @param b
 	 *            the b to set
 	 */
-	public void setBlue(short b) {
+	public void setBlue(int b) {
 		this.b = b;
 	}
 
 	/**
 	 * @return the a
 	 */
-	public short getAlpha() {
+	public int getAlpha() {
 		return a;
 	}
 
@@ -205,7 +205,7 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	 * @param a
 	 *            the a to set
 	 */
-	public void setAlpha(short a) {
+	public void setAlpha(int a) {
 		this.a = a;
 	}
 
@@ -230,18 +230,18 @@ public class JumboColor implements java.lang.Cloneable, Serializable {
 	}
 
 	public void setAlpha(float a) {
-		this.a = (short) (a * 255.0f);
+		this.a = (int) (a * 255.0f);
 	}
 
 	public void setRed(float r) {
-		this.r = (short) (r * 255.0f);
+		this.r = (int) (r * 255.0f);
 	}
 
 	public void setGreen(float g) {
-		this.g = (short) (g * 255.0f);
+		this.g = (int) (g * 255.0f);
 	}
 
 	public void setBlue(float b) {
-		this.b = (short) (b * 255.0f);
+		this.b = (int) (b * 255.0f);
 	}
 }

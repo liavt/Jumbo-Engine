@@ -1,8 +1,8 @@
-package com.jumbo.tools.loaders;
+package com.jumbo.util.loaders;
 
-import com.jumbo.components.Quad;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,15 +11,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jumbo.components.QuadF;
 import com.jumbo.components.JumboColor;
+import com.jumbo.components.Quad;
+import com.jumbo.components.QuadF;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.text.JumboLetter;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.input.console.JumboConsole;
+import com.jumbo.util.ImageUtility;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.input.console.JumboConsole;
+import com.jumbo.util.input.console.JumboMessageType;
 
 /**
  * Static class that provides various methods concerning Strings. Also provides
@@ -77,11 +80,16 @@ public final class JumboStringHandler {
 		}
 	}
 
-	public static String loadAsString(String file) {
+	public static String loadAsString(String file) throws FileNotFoundException, IOException {
 		final File test = new File(file);
 
 		if (!test.exists() || !test.isFile() || !test.canRead()) {
-			return null;
+			throw new FileNotFoundException("File at " + file + " doesn't exist!");
+		} else if (!test.isFile()) {
+			throw new FileNotFoundException("File at " + file + " is a directory!");
+		} else if (!test.canRead()) {
+			throw new FileNotFoundException("File at " + file + " cannot be read!");
+
 		}
 
 		final StringBuffer result = new StringBuffer();
@@ -91,8 +99,6 @@ public final class JumboStringHandler {
 			while ((buffer = reader.readLine()) != null) {
 				result.append(buffer).append(System.lineSeparator());
 			}
-		} catch (Exception e) {
-			JumboErrorHandler.handle(e);
 		}
 		return result.toString().intern();
 	}
@@ -105,11 +111,11 @@ public final class JumboStringHandler {
 		return null;
 	}
 
-	public static void writeString(String path, String text) {
+	public static void writeString(String path, String text) throws IOException {
 		writeString(path, text, "UTF-16");
 	}
 
-	public static boolean deleteDirectory(File directory) {
+	public static boolean deleteDirectory(File directory) throws FileNotFoundException {
 		if (directory.exists()) {
 			final File[] files = directory.listFiles();
 			if (null != files) {
@@ -121,24 +127,22 @@ public final class JumboStringHandler {
 					}
 				}
 			}
+		} else {
+			throw new FileNotFoundException("File " + directory + " doesn't exist/isn't a directory!");
 		}
 		return (directory.delete());
 	}
 
-	public static void writeString(String path, String text, String charset) {
+	public static void writeString(String path, String text, String charset) throws IOException {
 		File file = new File(path);
-		try {
-			File par = file.getParentFile();
-			if (par != null) {
-				par.mkdirs();
-			}
-			// file.mkdirs();
-			file.createNewFile();
-			try (final PrintWriter writer = new PrintWriter(path, charset)) {
-				writer.print(text);
-			}
-		} catch (Exception e) {
-			JumboErrorHandler.handle(e);
+		File par = file.getParentFile();
+		if (par != null) {
+			par.mkdirs();
+		}
+		// file.mkdirs();
+		file.createNewFile();
+		try (final PrintWriter writer = new PrintWriter(path, charset)) {
+			writer.print(text);
 		}
 	}
 
@@ -205,7 +209,7 @@ public final class JumboStringHandler {
 					lines.add(s);
 				}
 			} catch (Exception e) {
-				System.err.println("ERROR READING FONT FILE!");
+				JumboConsole.log("Error reading font file!", JumboMessageType.ERROR);
 				JumboErrorHandler.handle(e);
 			}
 			base = Integer.valueOf(lines.get(1).substring(lines.get(1).lastIndexOf("base=") + 5,
@@ -246,11 +250,12 @@ public final class JumboStringHandler {
 				}
 				chars[i] = new CharInfo(id, rect);
 			}
-			tex = new JumboTexture(JumboImageHandler.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
+			tex = new JumboTexture(ImageUtility.getImage(JumboSettings.launchConfig.fontpath + "_0.png"));
 
 			resetSettings();
 		} else {
-			JumboConsole.log("No font was initialized;  text-based classes will raise errors", 1);
+			JumboConsole.log("No font was initialized;  text-based classes will raise errors",
+					JumboMessageType.WARNING);
 		}
 	}
 
@@ -408,8 +413,8 @@ public final class JumboStringHandler {
 				final Quad outbounds = out.rect;
 				final JumboTexture texture = JumboStringHandler.tex;
 				final float width = texture.getWidth(), height = texture.getHeight();
-				final QuadF outpos = new QuadF(outbounds.x / width, outbounds.y / height,
-						outbounds.width / width, outbounds.height / height);
+				final QuadF outpos = new QuadF(outbounds.x / width, outbounds.y / height, outbounds.width / width,
+						outbounds.height / height);
 
 				// check for special characters
 				if (id == 32) {
@@ -433,14 +438,13 @@ public final class JumboStringHandler {
 				tex.setTextureCoords(outpos);
 				tex.setColor(col);
 
-				final JumboLetter let = new JumboLetter(new Quad(0, 0, (outbounds.width), (outbounds.height)),
-						tex);
+				final JumboLetter let = new JumboLetter(new Quad(0, 0, (outbounds.width), (outbounds.height)), tex);
 				let.setId(id);
 				let.setSize(currentsize);
 				let.setItalics(italics);
 				results.add(let);
 			} else {
-				JumboConsole.log("UNICODE ID " + id + " NOT FOUND IN FONT FILE", 1);
+				JumboConsole.log("UNICODE ID " + id + " NOT FOUND IN FONT FILE", JumboMessageType.WARNING);
 				results.add(new JumboLetter(new Quad(0, 0, 0, 0), JumboStringHandler.unknownchar));
 			}
 		}
@@ -466,10 +470,10 @@ public final class JumboStringHandler {
 		return s.substring(0, 1).toUpperCase() + s.substring(1);
 	}
 
-	public final static void deleteStringIfExists(String path) {
+	public final static void deleteStringIfExists(String path) throws IllegalArgumentException {
 		File f = new File(path);
 		if (!f.exists()) {
-			JumboErrorHandler.handle(new IllegalArgumentException(path + " leads to a file that doesn't exist!"));
+			throw new IllegalArgumentException(path + " leads to a file that doesn't exist!");
 		}
 		f.delete();
 	}

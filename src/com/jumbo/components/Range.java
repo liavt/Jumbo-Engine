@@ -1,6 +1,6 @@
 package com.jumbo.components;
 
-import com.jumbo.tools.calculations.Dice;
+import com.jumbo.util.calculations.Dice;
 
 public class Range {
 	public int min = 0, max = 0;

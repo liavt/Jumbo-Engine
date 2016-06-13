@@ -1,13 +1,13 @@
 package com.jumbo.components;
 
-public class Position3D extends Position {
+public class Position3 extends Position {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public int z = 0;
 
-	public Position3D(int x, int y, int z) {
+	public Position3(int x, int y, int z) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -21,7 +21,7 @@ public class Position3D extends Position {
 	 */
 	@Override
 	public Object clone() {
-		return new Position3D(x, y, z);
+		return new Position3(x, y, z);
 	}
 
 	/*
@@ -55,7 +55,7 @@ public class Position3D extends Position {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Position3D other = (Position3D) obj;
+		Position3 other = (Position3) obj;
 		if (x != other.x) {
 			return false;
 		}

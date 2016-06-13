@@ -1,4 +1,4 @@
-package com.jumbo.components;
+package com.jumbo.core;
 
 public class JumboException extends Exception {
 

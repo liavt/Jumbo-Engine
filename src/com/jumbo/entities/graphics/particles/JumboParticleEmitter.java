@@ -13,7 +13,7 @@ import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.JumboGraphicsGroup;
 import com.jumbo.entities.graphics.JumboAnimation;
 import com.jumbo.entities.graphics.JumboAnimationFrame;
-import com.jumbo.tools.calculations.Dice;
+import com.jumbo.util.calculations.Dice;
 
 public class JumboParticleEmitter extends JumboEntity {
 	/**

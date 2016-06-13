@@ -1,9 +1,9 @@
 package com.jumbo.entities.graphics;
 
-import com.jumbo.components.Quad;
 import java.util.ArrayList;
 
 import com.jumbo.components.JumboColor;
+import com.jumbo.components.Quad;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
@@ -189,8 +189,8 @@ public class JumboProgressBar extends JumboGraphicsObject {
 		}
 		Quad bounds = getBounds(), dbounds = descriptor.getBounds();
 		this.descriptor = descriptor;
-		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - ((float) dbounds.getWidth() / 2.0f)))),
-				(int) ((((bounds.height / 2.0f) - ((float) dbounds.getHeight() / 2.0f)))));
+		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - (dbounds.getWidth() / 2.0f)))),
+				(int) ((((bounds.height / 2.0f) - (dbounds.getHeight() / 2.0f)))));
 		this.descriptor.setMaintainingPosition(true);
 	}
 

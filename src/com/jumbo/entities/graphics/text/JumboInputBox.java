@@ -8,8 +8,8 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.JumboButton;
 import com.jumbo.entities.graphics.JumboImage;
-import com.jumbo.tools.input.JumboInputHandler;
-import com.jumbo.tools.input.JumboKey;
+import com.jumbo.util.input.JumboInputHandler;
+import com.jumbo.util.input.JumboKey;
 
 public class JumboInputBox extends JumboButton {
 	protected StringBuffer text = new StringBuffer();

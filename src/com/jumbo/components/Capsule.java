@@ -9,7 +9,7 @@ package com.jumbo.components;
  * 
  *
  */
-public class Wrapper<T> implements java.io.Serializable {
+public class Capsule<T> implements java.io.Serializable {
 	/**
 	 * 
 	 */
@@ -17,12 +17,12 @@ public class Wrapper<T> implements java.io.Serializable {
 	private T obj;
 
 	/**
-	 * Creates a new {@link IntWrapper} with a specified value
+	 * Creates a new {@link IntCapsule} with a specified value
 	 * 
 	 * @param obj
 	 *            starting value
 	 **/
-	public Wrapper(T obj) {
+	public Capsule(T obj) {
 		this.obj = obj;
 	}
 
@@ -55,7 +55,7 @@ public class Wrapper<T> implements java.io.Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Wrapper<?> other = (Wrapper<?>) obj;
+		Capsule<?> other = (Capsule<?>) obj;
 		if (this.obj == null) {
 			if (other.obj != null) {
 				return false;

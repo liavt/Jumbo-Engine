@@ -1,4 +1,4 @@
-package com.jumbo.tools;
+package com.jumbo.util;
 
 import com.jumbo.core.JumboLaunchConfig;
 
@@ -8,7 +8,7 @@ public final class JumboSettings {
 
 	public static JumboLaunchConfig launchConfig;
 
-	public static boolean logerrors = true;// whether to write a log file
+	public static boolean logerrors = false;// whether to write a log file
 											// to the disk explaining
 											// the error. turn this on
 											// for production, and off

@@ -9,8 +9,42 @@ This file will get updated with every update.
 * 3D support
 * More modularity support
 
+##Version Alpha 1.3.0
+*This update will break previous code*
+
+###Added
+* More tests for components
+* JumboStringHandler now throws exceptions instead of silently handling them.
+* Changelog mentioning if the update will break code. This is not retroactive, but will be added to future updates. All updates in Alpha will probably have this message. After that, features to be removed will be deprecated, and a new segment of the changelog will be added to show new deprecations.
+* Style guide, located in the Github wiki
+* Jumbo.start() is not blocking anymore, which means that you can write code after it. It now launches the display in a seperate display.
+* Jumbo.isRunning(), whether it is running the main thread
+* Slight Javadoc cleanup
+* Backend improvements
+* CloneNotSupportedException could be through by Position.clone(), just in case an extending class throws it.
+* The J class, which allows for quick printing to console. Call it by doing J.l(message). It calls JumboConsole in the backend, and it can be chained to do J.l().l().l().l()...
+* The J class also has J.h(Throwable t), which calls JumboErroHandler.handle(Throwable t) in shorthand 
+
+###Removed
+* The exists() method in JumboImageHandler
+* JumboImageHandler
+* Jumbo.stop(int)
+* The JFrame from Jumbo, as it was currently unused. Later, there should be a feature to customize how the window is created.
+
+###Modified
+* JumboColor's storage has been reverted back to ints. The new unit tests showed that shorts get corrupted for some reason.
+* Position3D has been renamed to Position3
+* Position3DF has been renamed to Position3F
+* All of the file encodings have become UTF-8.
+* Wrapper and IntWrapper have been changed to Capsule and IntCapsule, as per the new style guide.
+* JumboException has been moved to the core package.
+* the package tools and its subpackages have been renamed to util as per the new style guide.
+* The methods in JumboImageHandler have been moved to ImageUtility, as per the new style guide.
+* Jumbo.stop() no longer calls System.exit()
+* JumboSettings.logerrors is now false by default
+* Jumbo.closeDisplay() has been changed to Jumbo.requestClose();
+
 ##Version Alpha 1.2.0
-*Lots of refactoring to make names more understandable and start on JUnit testing*
 
 ###Added
 * getTexture(String) to JumboImageHandler, which returns JumboTexture instead of BufferedImage. Part of the eventual goals of this engine is to stop relying on AWT classes. However, BufferedImage and ImageIO.read() will stay, as they are extremely complex to implement and unneccessary to replace.
@@ -28,6 +62,7 @@ This file will get updated with every update.
 * TripleFloat is now called Position3DF
 
 ##Version Alpha 1.1.5
+
 ###Added
 * JumboColor is now Serializable
 * The JumboPainter class, which allows you to do direct rendering to a JumboTexture, similar to the Graphics class found in Java AWT. No implementations have been built with it yet.

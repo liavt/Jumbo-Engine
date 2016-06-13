@@ -7,12 +7,12 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.jumbo.components.JumboColor;
-import com.jumbo.components.Position3DF;
+import com.jumbo.components.Position3F;
 import com.jumbo.core.modules.JumboRenderModule;
 import com.jumbo.core.modules.presets.JumboRenderModuleGL11;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.calculations.JumboMathHandler;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.calculations.JumboMathHandler;
 
 /**
  * Class that handles all OpenGL rendering code.
@@ -212,7 +212,7 @@ public final class JumboRenderer {
 		if (b < 0) {
 			throw new IllegalArgumentException("Blue cannot be less than 1!");
 		}
-		refreshcolor = new Position3DF(r, g, b);
+		refreshcolor = new Position3F(r, g, b);
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}
 
@@ -284,7 +284,7 @@ public final class JumboRenderer {
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}
 
-	private static Position3DF refreshcolor = new Position3DF(0, 0, 0);
+	private static Position3F refreshcolor = new Position3F(0, 0, 0);
 
 	public static void init() {
 		// the default mode
@@ -427,13 +427,13 @@ public final class JumboRenderer {
 
 	/**
 	 * Returns the current JumboColor that is being refreshed to as a
-	 * {@link Position3DF}.
+	 * {@link Position3F}.
 	 * 
 	 * @return current refresh JumboColor
 	 * @see JumboColor
-	 * @see #setRefreshcolor(Position3DF c)
+	 * @see #setRefreshcolor(Position3F c)
 	 */
-	public static Position3DF getRefreshcolor() {
+	public static Position3F getRefreshcolor() {
 		return refreshcolor;
 	}
 
@@ -441,12 +441,12 @@ public final class JumboRenderer {
 	 * Set the current JumboColor that the screen will be cleared to.
 	 * 
 	 * @param c
-	 *            new JumboColor, as a {@link Position3DF}
+	 *            new JumboColor, as a {@link Position3F}
 	 * @see #getRefreshcolor()
 	 * @see #setRefreshcolor(JumboColor c)
 	 * @see #setRefreshcolor(float r, float g, float b)
 	 */
-	public static void setRefreshcolor(Position3DF c) {
+	public static void setRefreshcolor(Position3F c) {
 		refreshcolor = c;
 		GL11.glClearColor(refreshcolor.x, refreshcolor.y, refreshcolor.z, 1);
 	}

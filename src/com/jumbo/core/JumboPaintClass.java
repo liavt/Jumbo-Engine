@@ -4,17 +4,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.entities.audio.JumboAudioHandler;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.input.JumboInputHandler;
-import com.jumbo.tools.input.console.JumboConsole;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.input.JumboInputHandler;
+import com.jumbo.util.input.console.JumboConsole;
+import com.jumbo.util.input.console.JumboMessageType;
 
 final class JumboPaintClass {
-	boolean running = false;
+	volatile boolean running = false;
+
+	static boolean closeRequested = false;
 
 	private static TriggeredAction customaction;
 
@@ -72,8 +76,8 @@ final class JumboPaintClass {
 	}
 
 	void stop() {
-		e.shutdownNow();
 		running = false;
+		e.shutdownNow();
 	}
 
 	static void render() {
@@ -95,12 +99,9 @@ final class JumboPaintClass {
 			a.action();
 		}
 		System.runFinalization();
-		if (Display.isCloseRequested()) {
-			Jumbo.stop();
-		}
 	}
 
-	static void update() {
+	static void update() throws LWJGLException {
 		final int time = (int) ((System.currentTimeMillis()) - startTime);
 		if (Math.abs(time) >= JumboSettings.tickdelay) {
 			startTime = (int) System.currentTimeMillis();
@@ -111,6 +112,13 @@ final class JumboPaintClass {
 		if (fps > 0) {
 			Display.sync(fps);
 		}
+		if (closeRequested) {
+			Jumbo.shutdownDisplay();
+		} else if (Display.isCloseRequested()) {
+			Jumbo.shutdownDisplay();
+			Jumbo.stop();
+			System.exit(0);
+		}
 	}
 
 	private static ExecutorService e;
@@ -119,7 +127,7 @@ final class JumboPaintClass {
 
 	void run() {
 		try {
-			e = Executors.newFixedThreadPool(2);
+			e = Executors.newFixedThreadPool(3);
 			running = true;
 			final Runnable input = () -> {
 				if (!JumboAudioHandler.isInit()) {
@@ -131,37 +139,57 @@ final class JumboPaintClass {
 				}
 				JumboAudioHandler.tick();
 			} , console = System.console() != null ? JumboConsole::tick : () -> {
+				try {
+					wait();
+				} catch (@SuppressWarnings("unused") InterruptedException e1) {
+					return;
+				}
 			};
-			Future<?> inputfuture = e.submit(input);
-			Future<?> consolefuture = e.submit(console);
+
 			// console.start();
 			// this is to make sure that the audio player is ready before the
 			// program starts. threads are not always reliable, and before,
 			// sometimes the program will start before the audio player is init,
 			// causing a crash.
-			while (true) {
-				if (JumboAudioHandler.isInit()) {
-					break;
+
+			e.submit(() -> {
+				Future<?> inputfuture = e.submit(input);
+				Future<?> consolefuture = e.submit(console);
+				try {
+					while (true) {
+						if (JumboAudioHandler.isInit()) {
+							break;
+						}
+					}
+					if (!Jumbo.init) {
+						Jumbo.init();
+						final TriggeredAction action = Jumbo.getLaunchAction();
+						if (action != null) {
+							action.action();
+						}
+						Jumbo.init = true;
+					}
+					startTime = (int) System.currentTimeMillis();
+					JumboConsole.log("Started.", JumboMessageType.ENGINE);
+					while (running) {
+						if (Thread.interrupted()) {
+							running = false;
+							break;
+						}
+						if (inputfuture.isDone()) {
+							inputfuture = e.submit(input);
+						}
+						if (consolefuture.isDone()) {
+							consolefuture = e.submit(console);
+						}
+
+						update();
+					}
+					e.shutdownNow();
+				} catch (Throwable t) {
+					JumboErrorHandler.handle(t);
 				}
-			}
-			if (!Jumbo.init) {
-				Jumbo.init();
-				final TriggeredAction action = Jumbo.getLaunchAction();
-				if (action != null) {
-					action.action();
-				}
-				Jumbo.init = true;
-			}
-			startTime = (int) System.currentTimeMillis();
-			while (running) {
-				if (inputfuture.isDone()) {
-					inputfuture = e.submit(input);
-				}
-				if (consolefuture.isDone()) {
-					consolefuture = e.submit(console);
-				}
-				update();
-			}
+			});
 		} catch (Throwable t) {
 			JumboErrorHandler.handle(t);
 		}

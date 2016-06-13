@@ -1,4 +1,4 @@
-package com.jumbo.tools.input;
+package com.jumbo.util.input;
 
 import java.util.ArrayList;
 
