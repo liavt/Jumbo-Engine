@@ -1,4 +1,4 @@
-package com.jumbo.tools.input.console;
+package com.jumbo.util.input.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,16 +8,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.jumbo.core.Jumbo;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
 
 public final class JumboConsole {
 	private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	private static final JumboCommand[] engine = { new JumboCommand("shutdown",
-			"Stops the Jumbo Engine, closing the window, and shutting down the JVM. Same as calling Jumbo.stop().", "",
-			(String[] args) -> {
-				Jumbo.stop();
-			}),
+	private static final JumboCommand[] engine = {
+			new JumboCommand("shutdown",
+					"Stops the Jumbo Engine, closing the window, and shutting down the JVM. Same as calling Jumbo.stop().",
+					"", (String[] args) -> {
+						Jumbo.stop();
+					}),
 			new JumboCommand("help",
 					"Shows all available commands. Put in a specific command as an argument to learn about that "
 							+ "command.",
@@ -62,7 +63,8 @@ public final class JumboConsole {
 				} else {
 					log("Invalid usage! Refer to /help for proper usage", 1);
 				}
-			}) };
+			})
+	};
 	private static final ArrayList<JumboCommand> custom = new ArrayList<>();
 
 	public static void execute(String s) {
@@ -114,6 +116,11 @@ public final class JumboConsole {
 
 	public static void log(Object s) {
 		log(s, 0);
+	}
+
+	public static void flush() {
+		System.out.flush();
+		System.err.flush();
 	}
 
 	public static void log(Object s, int type) {

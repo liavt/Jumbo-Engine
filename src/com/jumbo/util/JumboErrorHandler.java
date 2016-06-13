@@ -1,4 +1,4 @@
-package com.jumbo.tools;
+package com.jumbo.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import com.jumbo.core.Jumbo;
-import com.jumbo.tools.input.console.JumboConsole;
-import com.jumbo.tools.loaders.JumboStringHandler;
+import com.jumbo.util.input.console.JumboConsole;
+import com.jumbo.util.loaders.JumboStringHandler;
 
 public class JumboErrorHandler {
 
@@ -133,6 +133,7 @@ public class JumboErrorHandler {
 			}
 			t.printStackTrace();
 		}
-		Jumbo.stop(-1);
+		Jumbo.stop();
+		System.exit(-1);
 	}
 }

@@ -8,8 +8,8 @@ import org.lwjgl.input.Mouse;
 import com.jumbo.components.JumboColor;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.texture.JumboTexture;
-import com.jumbo.tools.calculations.JumboMathHandler;
-import com.jumbo.tools.input.JumboInputListener;
+import com.jumbo.util.calculations.JumboMathHandler;
+import com.jumbo.util.input.JumboInputListener;
 
 public class JumboSlider extends JumboProgressBar {
 	/**

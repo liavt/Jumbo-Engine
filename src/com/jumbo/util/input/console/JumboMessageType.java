@@ -1,4 +1,4 @@
-package com.jumbo.tools.input.console;
+package com.jumbo.util.input.console;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ public class JumboMessageType {
 	private static final ArrayList<JumboMessageType> types = new ArrayList<>();
 
 	public static final int INFO = addType(new JumboMessageType("INFO")),
+			DEBUG = addType(new JumboMessageType("DEBUG")), ENGINE = addType(new JumboMessageType("ENGINE")),
 			WARNING = addType(new JumboMessageType("WARNING", true)),
 			ERROR = addType(new JumboMessageType("ERROR", true));
 

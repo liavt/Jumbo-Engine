@@ -1,11 +1,11 @@
 package com.jumbo.entities.graphics;
 
-import com.jumbo.components.Quad;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
+import com.jumbo.components.Quad;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.components.interfaces.TriggeredEvent;
 import com.jumbo.core.JumboEntity;
@@ -13,7 +13,7 @@ import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.graphics.text.JumboText;
 import com.jumbo.entities.graphics.text.JumboTextBox;
-import com.jumbo.tools.input.JumboInputListener;
+import com.jumbo.util.input.JumboInputListener;
 
 public class JumboButton extends JumboGraphicsObject {
 	/**
@@ -271,8 +271,8 @@ public class JumboButton extends JumboGraphicsObject {
 		if (!this.descriptor.getParents().contains(this)) {
 			this.descriptor.addParent(this);
 		}
-		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - ((float) dbounds.getWidth() / 2.0f)))),
-				(int) ((((bounds.height / 2.0f) - ((float) dbounds.getHeight() / 2.0f)))));
+		this.descriptor.increasePosition((int) ((((bounds.width / 2.0f) - (dbounds.getWidth() / 2.0f)))),
+				(int) ((((bounds.height / 2.0f) - (dbounds.getHeight() / 2.0f)))));
 		this.descriptor.setMaintainingPosition(true);
 	}
 
@@ -466,7 +466,8 @@ public class JumboButton extends JumboGraphicsObject {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.jumbo.core.JumboEntity#additionalCalculations(com.jumbo.components.Quad)
+	 * com.jumbo.core.JumboEntity#additionalCalculations(com.jumbo.components.
+	 * Quad)
 	 */
 	@Override
 	public Quad additionalCalculations(Quad inbounds) {

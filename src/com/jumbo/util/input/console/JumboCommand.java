@@ -1,4 +1,4 @@
-package com.jumbo.tools.input.console;
+package com.jumbo.util.input.console;
 
 import com.jumbo.components.interfaces.ParametrizedAction;
 

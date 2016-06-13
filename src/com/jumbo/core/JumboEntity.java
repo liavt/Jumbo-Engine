@@ -11,8 +11,8 @@ import com.jumbo.components.Position;
 import com.jumbo.components.Quad;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.entities.JumboGraphicsGroup;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.calculations.JumboMathHandler;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.calculations.JumboMathHandler;
 
 /**
  * The superclass for anything related to the Jumbo engine

@@ -3,15 +3,16 @@ package com.jumbo.core;
 import java.io.IOException;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
-import com.jumbo.components.JumboException;
 import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.entities.audio.JumboAudioHandler;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.input.console.JumboConsole;
-import com.jumbo.tools.loaders.JumboStringHandler;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.input.console.JumboConsole;
+import com.jumbo.util.input.console.JumboMessageType;
+import com.jumbo.util.loaders.JumboStringHandler;
 
 public final class Jumbo {
 	// main engine class, gets called to start the engine
@@ -30,6 +31,8 @@ public final class Jumbo {
 	 *             If it fails to register the font
 	 */
 	public static void init() throws IOException {
+		JumboConsole.log("Initializing Jumbo Engine...", JumboMessageType.ENGINE);
+
 		JumboDisplayManager.createDisplay();
 		// Mouse.setNativeCursor(c);
 		// ShaderProgram.init();
@@ -37,6 +40,10 @@ public final class Jumbo {
 		JumboRenderer.init();
 		JumboStringHandler.initFont();
 		// JumboAudioPlayer.init();
+	}
+
+	public static boolean isRunning() {
+		return paint.running;
 	}
 
 	public static TriggeredAction getCloseListener() {
@@ -63,7 +70,9 @@ public final class Jumbo {
 
 	static void start(JumboLaunchConfig c, JumboScene s, JumboScene prev) {
 		try {
+			JumboConsole.log("Launching display...", JumboMessageType.ENGINE);
 			JumboSettings.launchConfig = c;
+			JumboPaintClass.closeRequested = false;
 			paint = new JumboPaintClass();
 			setScene(s);
 			setPreviousScene(prev);
@@ -101,7 +110,7 @@ public final class Jumbo {
 		return JumboPaintClass.getPreviousScene();
 	}
 
-	public static void update() {
+	public static void update() throws LWJGLException {
 		JumboPaintClass.update();
 	}
 
@@ -110,7 +119,7 @@ public final class Jumbo {
 	}
 
 	/**
-	 * Stops everything, closing the display, calling {@link #closeDisplay()},
+	 * Stops everything, closing the display, calling {@link #requestClose()},
 	 * {@link Jumbo#getCloseListener()}, {@link JumboAudioHandler#destroy()}
 	 * ,flushing {@link System#out} and {@link System#err}, and finally calling
 	 * {@link System#exit} with the specified exit code.
@@ -119,51 +128,55 @@ public final class Jumbo {
 	 * {@link Display#isCloseRequested()} is true.
 	 * <p>
 	 * This method is to be used at the end of a program's lifetime. If you
-	 * simply wish the close the graphical window, use {@link #closeDisplay()}
+	 * simply wish the close the graphical window, use {@link #requestClose()}
 	 * instead.
 	 * 
-	 * @param id
-	 *            exit code given to {@link System#exit(int)}
 	 * 
 	 * @see System
 	 * @see Display
 	 */
-	public static void stop(int id) {
-		try {
-			if (Display.isCreated() && Display.isCurrent()) {
-				final TriggeredAction close = Jumbo.getCloseListener();
-				if (close != null) {
-					close.action();
-				}
-				closeDisplay();
-			}
-		} catch (LWJGLException e) {
-			JumboConsole.log(e, 2);
-			// just continue with the forced shutdown
+	public static void stop() {
+		final TriggeredAction close = Jumbo.getCloseListener();
+		if (close != null) {
+			close.action();
 		}
-		if (JumboAudioHandler.isInit()) {
+		requestClose();
+		if (JumboAudioHandler.isInit() && AL.isCreated()) {
 			JumboAudioHandler.destroy();
 		}
 
-		System.out.flush();
-		System.err.flush();
 		// Display.destroy();
 		// frame.dispose();
-		System.exit(id);
 	}
 
-	public static void stop() {
-		stop(0);
-	}
+	static void shutdownDisplay() throws LWJGLException {
+		JumboConsole.log("Closing display...", JumboMessageType.ENGINE);
 
-	public static void closeDisplay() throws LWJGLException {
+		init = false;
 		Jumbo.paint.stop();
 		JumboDisplayManager.closeInput();
 		JumboDisplayManager.closeDisplay();
+
+	}
+
+	public static void requestClose() {
+		try {
+			if (Display.isCurrent()) {
+
+				shutdownDisplay();
+
+			} else {
+				JumboPaintClass.closeRequested = true;
+				while (paint != null && paint.running) {
+				}
+			}
+		} catch (LWJGLException e) {
+			JumboErrorHandler.handle(e);
+		}
 	}
 
 	/**
-	 * Sets a new {@link JumboLaunchConfig} by calling {@link #closeDisplay()}
+	 * Sets a new {@link JumboLaunchConfig} by calling {@link #requestClose()}
 	 * and {@link #start(JumboLaunchConfig)}.
 	 * 
 	 * @param c
@@ -173,9 +186,8 @@ public final class Jumbo {
 	 * @see JumboDisplayManager
 	 */
 	public static void setNewLaunchConfig(JumboLaunchConfig c) {
+		requestClose();
 		final TriggeredAction prev = getLaunchAction();
-		JumboDisplayManager.closeInput();
-		init = false;
 		// to make sure that the mainaction doesn't get called twice, making for
 		// some weird effects.
 		setLaunchAction(() -> {

@@ -8,8 +8,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 
-import com.jumbo.tools.JumboSettings;
-import com.jumbo.tools.input.console.JumboConsole;
+import com.jumbo.util.JumboSettings;
+import com.jumbo.util.input.console.JumboConsole;
 
 public final class JumboAudioHandler {
 	private JumboAudioHandler() {

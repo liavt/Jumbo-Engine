@@ -1,4 +1,4 @@
-package com.jumbo.tools;
+package com.jumbo.util;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 import com.jumbo.components.QuadF;
 import com.jumbo.core.texture.JumboTexture;
@@ -18,6 +21,30 @@ public class ImageUtility {
 	private static AffineTransform tx = null;
 	private static AffineTransformOp op = null;
 	private static BufferedImage img2 = null;
+
+	public static void saveImage(BufferedImage img, String path, String format) {
+		try {
+			ImageIO.write(img, format, new File(path));
+		} catch (Exception e) {
+			JumboErrorHandler.handle(e);
+		}
+	}
+
+	public static JumboTexture getTexture(String path) {
+		return new JumboTexture(getImage(path));
+	}
+
+	public static BufferedImage getImage(String path) {
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(path));
+		} catch (Exception e) {
+			System.err.println("Error reading image path '" + path + "'");
+			e.printStackTrace();
+		}
+
+		return image;
+	}
 
 	private ImageUtility() {
 	}
@@ -226,8 +253,8 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new QuadF(((float) i / (float) framenum), 0,
-					(float) framewidth / (float) img.getWidth(), 1));
+			frame.setTextureCoords(
+					new QuadF(((float) i / (float) framenum), 0, (float) framewidth / (float) img.getWidth(), 1));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().width = framewidth;
 		}
@@ -241,8 +268,8 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new QuadF(0, ((float) i / (float) framenum), 1,
-					(float) frameheight / (float) img.getHeight()));
+			frame.setTextureCoords(
+					new QuadF(0, ((float) i / (float) framenum), 1, (float) frameheight / (float) img.getHeight()));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().height = frameheight;
 		}
@@ -255,8 +282,8 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(img.getID());
-			frame.setTextureCoords(new QuadF(((float) i / (float) framenum), 0,
-					(float) framewidth / (float) img.getWidth(), 1));
+			frame.setTextureCoords(
+					new QuadF(((float) i / (float) framenum), 0, (float) framewidth / (float) img.getWidth(), 1));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().width = framewidth;
 		}
@@ -270,8 +297,8 @@ public class ImageUtility {
 		for (int i = 0; i < framenum; i++) {
 			JumboTexture frame = new JumboTexture();
 			frame.setID(tex.getID());
-			frame.setTextureCoords(new QuadF(0, ((float) i / (float) framenum), 1,
-					(float) frameheight / (float) img.getHeight()));
+			frame.setTextureCoords(
+					new QuadF(0, ((float) i / (float) framenum), 1, (float) frameheight / (float) img.getHeight()));
 			frames2[i] = new JumboAnimationFrame(delay, frame);
 			frames2[i].getBounds().height = frameheight;
 		}

@@ -9,7 +9,7 @@ import com.jumbo.components.interfaces.TriggeredAction;
 import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.entities.JumboGraphicsGroup;
-import com.jumbo.tools.input.console.JumboConsole;
+import com.jumbo.util.input.console.JumboConsole;
 
 public class JumboAnimation extends JumboImage {
 	/**

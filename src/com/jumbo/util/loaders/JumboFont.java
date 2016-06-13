@@ -1,4 +1,4 @@
-package com.jumbo.tools.loaders;
+package com.jumbo.util.loaders;
 
 public class JumboFont {
 	private int size;

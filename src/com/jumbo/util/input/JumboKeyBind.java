@@ -1,4 +1,4 @@
-package com.jumbo.tools.input;
+package com.jumbo.util.input;
 
 public class JumboKeyBind {
 	public final String name;

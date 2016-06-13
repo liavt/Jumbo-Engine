@@ -1,4 +1,4 @@
-package com.jumbo.tools.calculations;
+package com.jumbo.util.calculations;
 
 import java.awt.Dimension;
 import com.jumbo.components.Quad;
@@ -11,8 +11,8 @@ import com.jumbo.components.JumboColor;
 import com.jumbo.components.Position;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboEntity;
-import com.jumbo.tools.JumboErrorHandler;
-import com.jumbo.tools.JumboSettings;
+import com.jumbo.util.JumboErrorHandler;
+import com.jumbo.util.JumboSettings;
 
 public final class JumboMathHandler {
 	public static float xmod = ((Jumbo.getFrameWidth() * 1.0f) / (1080 * 1.0f)), // for

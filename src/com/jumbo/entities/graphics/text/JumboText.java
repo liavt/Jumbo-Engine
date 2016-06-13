@@ -7,7 +7,7 @@ import com.jumbo.core.JumboEntity;
 import com.jumbo.core.JumboGraphicsObject;
 import com.jumbo.core.texture.JumboTexture;
 import com.jumbo.entities.JumboGraphicsGroup;
-import com.jumbo.tools.loaders.JumboStringHandler;
+import com.jumbo.util.loaders.JumboStringHandler;
 
 public class JumboText extends JumboGraphicsObject {
 	/**
