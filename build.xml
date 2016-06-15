@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="Jumbo-Engine">
 	<property environment="env" />
 	<property name="junit.output.dir" value="junit" />
@@ -54,7 +49,7 @@
 				<pathelement location="bin" />
 				<pathelement location="jars/junit-4.10.jar" />
 			</classpath>
-			<jvmarg value="-Djava.library.path=${env.path}${path.separator}/native" />
+			<sysproperty key="java.library.path" value="${java.library.path};native/" />
 			<formatter type="plain" usefile="false" />
 			<formatter type="plain" />
 			<test name="test.jumbo.JumboTestingSuite" todir="." />
