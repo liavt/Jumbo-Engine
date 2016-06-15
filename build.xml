@@ -45,13 +45,17 @@
 		</javac>
 	</target>
 	<target name="test">
-		<junit haltonfailure="true" printsummary="true">
-			<classpath location="jars/lwjgl_util.jar" />
-			<classpath location="jars/lwjgl.jar" />
-			<classpath location="jars/slick-util.jar" />
-			<classpath location="bin" />
-			<classpath location="jars/junit-4.10.jar" />
-			<test name="test.jumbo.JumboTestingSuite" />
+		<junit haltonfailure="true" printsummary="true" showoutput="true">
+			<classpath>
+				<pathelement location="jars/lwjgl_util.jar" />
+				<pathelement location="jars/lwjgl.jar" />
+				<pathelement location="jars/slick-util.jar" />
+				<pathelement location="bin" />
+				<pathelement location="jars/junit-4.10.jar" />
+			</classpath>
+			<formatter type="plain" usefile="false" />
+			<formatter type="plain" />
+			<test name="test.jumbo.JumboTestingSuite" todir="." />
 		</junit>
 	</target>
 </project>
