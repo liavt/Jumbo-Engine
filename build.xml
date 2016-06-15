@@ -44,6 +44,7 @@
 			<classpath refid="Jumbo-Engine.classpath" />
 		</javac>
 	</target>
+	<property environment="env" />
 	<target name="test">
 		<junit haltonfailure="true" printsummary="true" showoutput="true">
 			<classpath>
@@ -53,7 +54,7 @@
 				<pathelement location="bin" />
 				<pathelement location="jars/junit-4.10.jar" />
 			</classpath>
-			<sysproperty key="java.library.path" value="native/" />
+			<jvmarg value="-Djava.library.path=${env.path}${path.separator}/native" />
 			<formatter type="plain" usefile="false" />
 			<formatter type="plain" />
 			<test name="test.jumbo.JumboTestingSuite" todir="." />
