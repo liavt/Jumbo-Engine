@@ -1,7 +1,5 @@
 language: java
 install: ant build
-os:
-  - osx
 jdk:
   - oraclejdk8
 notifications:
