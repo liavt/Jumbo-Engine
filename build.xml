@@ -43,50 +43,12 @@
             <classpath refid="Jumbo-Engine.classpath"/>
         </javac>
     </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target name="JumboColorTest (11)">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.jumbo.components.JumboColorTest" todir="${junit.output.dir}"/>
-            <classpath refid="Jumbo-Engine.classpath"/>
-        </junit>
-    </target>
-    <target name="JumboComponentsSuite (1)">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.jumbo.components.JumboComponentsSuite" todir="${junit.output.dir}"/>
-            <classpath refid="Jumbo-Engine.classpath"/>
-        </junit>
-    </target>
-    <target name="JumboComponentsSuite">
-        <java classname="test.jumbo.components.JumboComponentsSuite" failonerror="true" fork="yes">
-            <classpath refid="Jumbo-Engine.classpath"/>
-        </java>
-    </target>
-    <target name="JumboTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.jumbo.core.JumboTest" todir="${junit.output.dir}"/>
-            <classpath refid="Jumbo-Engine.classpath"/>
-        </junit>
-    </target>
     <target name="JumboTestingRunner">
         <java classname="test.jumbo.JumboTestingRunner" failonerror="true" fork="yes">
             <classpath refid="Jumbo-Engine.classpath"/>
         </java>
     </target>
-    <target name="WrapperTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="test.jumbo.components.WrapperTest" todir="${junit.output.dir}"/>
-            <classpath refid="Jumbo-Engine.classpath"/>
-        </junit>
-    </target>
-    <target name="junitreport">
+    <target name="test">
         <junitreport todir="${junit.output.dir}">
             <fileset dir="${junit.output.dir}">
                 <include name="TEST-*.xml"/>
