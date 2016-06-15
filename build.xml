@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Jumbo-Engine">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="Jumbo-Engine.classpath">
+        <pathelement location="jars/lwjgl_util.jar"/>
+        <pathelement location="jars/lwjgl.jar"/>
+        <pathelement location="jars/slick-util.jar"/>
+        <pathelement location="bin"/>
+        <pathelement location="jars/junit-4.10.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="test"/>
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="JumboColorTest (11)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.jumbo.components.JumboColorTest" todir="${junit.output.dir}"/>
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </junit>
+    </target>
+    <target name="JumboComponentsSuite (1)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.jumbo.components.JumboComponentsSuite" todir="${junit.output.dir}"/>
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </junit>
+    </target>
+    <target name="JumboComponentsSuite">
+        <java classname="test.jumbo.components.JumboComponentsSuite" failonerror="true" fork="yes">
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </java>
+    </target>
+    <target name="JumboTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.jumbo.core.JumboTest" todir="${junit.output.dir}"/>
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </junit>
+    </target>
+    <target name="JumboTestingRunner">
+        <java classname="test.jumbo.JumboTestingRunner" failonerror="true" fork="yes">
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </java>
+    </target>
+    <target name="WrapperTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.jumbo.components.WrapperTest" todir="${junit.output.dir}"/>
+            <classpath refid="Jumbo-Engine.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
