@@ -46,7 +46,7 @@
 	</target>
 	<property environment="env" />
 	<target name="test">
-		<junit haltonfailure="true" printsummary="true" showoutput="true">
+		<junit haltonfailure="true" printsummary="true" showoutput="true" fork="true">
 			<classpath>
 				<pathelement location="jars/lwjgl_util.jar" />
 				<pathelement location="jars/lwjgl.jar" />
