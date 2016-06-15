@@ -161,7 +161,7 @@ public final class Jumbo {
 
 	public static void requestClose() {
 		try {
-			if (Display.isCurrent()) {
+			if (Display.isCurrent() && Display.isActive()) {
 
 				shutdownDisplay();
 
