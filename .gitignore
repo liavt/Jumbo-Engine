@@ -43,6 +43,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
 /bin/
 
 *.class
@@ -65,3 +66,4 @@ TEST-test.jumbo.JumboTestingSuite.txt
 .settings
 .classpath
 .project
+JumboEngine.userlibraries
