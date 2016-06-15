@@ -10,18 +10,13 @@ import org.lwjgl.opengl.Display;
 import com.jumbo.core.Jumbo;
 import com.jumbo.core.JumboLaunchConfig;
 
-import test.jumbo.components.JumboComponentsSuite;
-import test.jumbo.core.JumboCoreSuite;
-import test.jumbo.tools.calculations.JumboCalculationsSuite;
-
 public class JumboTestingRunner {
 	public static void main(String... args) {
 		Jumbo.start(new JumboLaunchConfig("Testing...", new Dimension(500, 500)));
 		Jumbo.setLaunchAction(() -> {
 			while (!Display.isCreated()) {
 			}
-			Result result = JUnitCore.runClasses(JumboComponentsSuite.class, JumboCalculationsSuite.class,
-					JumboCoreSuite.class);
+			Result result = JUnitCore.runClasses(JumboTestingSuite.class);
 			for (Failure failure : result.getFailures()) {
 				System.err.println(
 						"Failed: " + failure.getTestHeader() + ": " + failure.getException().getLocalizedMessage());
