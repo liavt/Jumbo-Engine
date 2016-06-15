@@ -53,6 +53,7 @@
 				<pathelement location="bin" />
 				<pathelement location="jars/junit-4.10.jar" />
 			</classpath>
+			<sysproperty key="java.library.path" value="natives/"/>
 			<formatter type="plain" usefile="false" />
 			<formatter type="plain" />
 			<test name="test.jumbo.JumboTestingSuite" todir="." />
