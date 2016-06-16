@@ -1,5 +1,4 @@
 # Jumbo-Engine
-[![Build Status](https://travis-ci.org/liavt/Jumbo-Engine.svg?branch=master)](https://travis-ci.org/liavt/Jumbo-Engine)
 
 A Java engine that uses LWJGL.
 
