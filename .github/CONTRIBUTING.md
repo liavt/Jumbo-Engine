@@ -19,7 +19,6 @@
 * The 'master' branch must contain code that is ready to be used and passes all unit tests.
 * The 'snapshot' branch contains experimental or unfinished code. Updates to this branch does not have to be recorded in a changelog. Once this branch passes all unit testing and is deemed finished, it may be merged into master.
 	* When 'snapshot' gets merged into 'master,' the changelog must be updated with a new version number and all changes made.
-* Commits must be squashed in a pull request.
 * Commits **must** follow this style guide
 
 ###Versioning
