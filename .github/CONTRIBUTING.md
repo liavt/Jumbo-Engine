@@ -1,5 +1,7 @@
+**Before commiting to the repository, look over this document to ensure you follow standards**
+
 #Style guide for Jumbo Engine
-**All code and files must follow the instructions in this document**
+*All code made after this document's creation must follow the style guide*
 
 ##Meta
 
@@ -17,9 +19,8 @@
 * The 'master' branch must contain code that is ready to be used and passes all unit tests.
 * The 'snapshot' branch contains experimental or unfinished code. Updates to this branch does not have to be recorded in a changelog. Once this branch passes all unit testing and is deemed finished, it may be merged into master.
 	* When 'snapshot' gets merged into 'master,' the changelog must be updated with a new version number and all changes made.
-* All pull requests must be made onto the 'snapshot' branch.
 * Commits must be squashed in a pull request.
-
+* Commits **must** follow this style guide
 
 ###Versioning
 * A versioning phase is one of the following:
@@ -48,6 +49,8 @@
 * Subcategories will start with triple headers
 * Topics will be bullet pointed
 	* There may be subtopics that can have embedded bullet points
+* It doesn't matter if a bullet point doesn't end in a period
+* Examples may be given as long as they start with EXAMPLE:
 
 ##Code Style
 
@@ -62,6 +65,30 @@
 * Entities and components must be mutable, meaning they have a constructor.
 	* They may contain static utility methods that are optional use by the client.
 * Handlers and utlities must only have static methods, have a private constructor, and be final.
+
+###Testing
+* Unit tests are to be done with JUnit, whose jar is located in /jars
+* Every unit test must extends TestCase
+* Every unit test must specifically test 1 class.
+	* The unit test may use other classes to assist testing
+* The unit test's name is to be the name of the class that it is testing followed by the word 'Test.'
+	* A unit test's name is exempt from other naming rules, as long as it the follows the rule above.
+	* It is okay if a unit test has a naming conflict
+	* EXAMPLE: A unit test for *JumboEntity* will be called *JumboEntityTest* and a test for *Capsule* will be called *CapsuleTest*
+* EXAMPLE: *JumboTest* tests methods found in the *Jumbo* class. It may use the *Display* class from LWJGL to test *Jumbo.* The *JumboColorTest* tests methods found in *JumboColor*
+* Unit tests must be located in the source folder /test
+* The package for a unit test must mirror the package for the class it is testing, except it starts with *test.jumbo* instead of *com.jumbo*
+	* EXAMPLE: A unit test for *JumboScene,* which is located in *com.jumbo.core,* would be placed in *test.jumbo.core* 
+* For every testing package, there must be a testing suite which runs all of the tests in that package.
+	* The suite's name must be the word 'Jumbo' plus the package name followed by the word 'Suite.'
+		* The name only needs to include the lowest level package
+	* EXAMPLE: A suite for the test.jumbo.tools.calculations would be called JumboCalculationsSuite
+* The test.jumbo package contains a *testing runner* and a *testing suite.*
+* The *testing suite* is a testing suite which runs all of the individual package suites.
+* The *testing runner* has a main() method which runs the *testing suite.*
+	* The runner can contain other methods to assist testing
+* The *testing suite* and *testing runner* are to be called JumboTestingSuite and JumboTestingRunner respectively.
+* No other class may go into test.jumbo
 
 ##Files
 
