@@ -44,3 +44,13 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /bin/
+
+#Testing output
+TEST-test.jumbo.JumboTestingSuite.txt
+
+#IDE files
+.idea
+.settings
+.classpath
+.project
+JumboEngine.userlibraries
