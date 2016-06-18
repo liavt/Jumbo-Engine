@@ -1,4 +1,8 @@
-#Does this pull request...
+#These are what changed in this pull request:
+
+*This pull request [does/does not] break previous code*
+
+#TODO list
 
 * [ ] Follow all the rules in [this document?](https://github.com/liavt/Jumbo-Engine/blob/master/.github/CONTRIBUTING.md)
 * [ ] Have tests written?
@@ -6,4 +10,4 @@
 * [ ] Has it's commits squashed?
 * [ ] Pass all unit tests found in the /test folder?
 
-**If so, you are ready to go!**
+
