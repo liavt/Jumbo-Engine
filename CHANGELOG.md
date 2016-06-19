@@ -1,6 +1,8 @@
 #Jumbo Engine Changelog
 This file will get updated with every update.
 
+*Make sure new code follows the [style guide.](https://github.com/liavt/Jumbo-Engine/wiki/Style-Guide)*
+
 #####Upcoming
 * Fixed particle system
 * Updated audio system
