@@ -17,7 +17,7 @@ This file will get updated with every update.
 * JumboStringHandler now throws exceptions instead of silently handling them.
 * Changelog mentioning if the update will break code. This is not retroactive, but will be added to future updates. All updates in Alpha will probably have this message. After that, features to be removed will be deprecated, and a new segment of the changelog will be added to show new deprecations.
 * Style guide, located in the Github wiki
-* Jumbo.start() is not blocking anymore, which means that you can write code after it. It now launches the display in a seperate display.
+* Jumbo.start() is not blocking anymore, which means that you can write code after it. It now launches the display in a seperate thread.
 * Jumbo.isRunning(), whether it is running the main thread
 * Slight Javadoc cleanup
 * Backend improvements
