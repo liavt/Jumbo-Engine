@@ -1,5 +1,4 @@
 # Jumbo-Engine
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://github.com/liavt/Jumbo-Engine/blob/master/LICENSE)
 [![Java version 8 update 45](https://img.shields.io/badge/java-8.45-blue.svg)](http://www.oracle.com/technetwork/java/javase/8u45-relnotes-2494160.html)
 
 A Java engine that uses LWJGL.
