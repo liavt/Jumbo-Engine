@@ -70,7 +70,10 @@ Why use the old LWJGL 2.0 and not the new and improved LWJGL 3.0?
 * Well, LWJGL 3.0 is currently in alpha. We don't find it worth the work to rewrite a lot of the engine to an alpha build, and change it every month. When it finally releases, of course we will change to it, as by then, all the major bugs will be sorted out, the main API will be decided, and we will have access to all of it's major features, like VR support, Vulkan, GLFW, and other cool APIs.
 
 ##Examples
-[A repo that uses Jumbo-Engine](https://github.com/frc5431/ThingworxDemo)
+
 ![Internet demo](https://raw.githubusercontent.com/liavt/Jumbo-Engine/master/demos/darwindemo.PNG)
 ![Map](https://github.com/liavt/Jumbo-Engine/blob/master/demos/mapdemo.PNG)
 ![Menu](https://github.com/liavt/Jumbo-Engine/blob/master/demos/menudemo.PNG)
+[The following are from this repo](https://github.com/frc5431/ThingworxDemo)
+![Thingworx Demo 1](https://raw.githubusercontent.com/frc5431/ThingworxDemo/master/res/demo1.PNG)
+![Thingworx Demo 2](https://raw.githubusercontent.com/frc5431/ThingworxDemo/master/res/demo1.PNG)
