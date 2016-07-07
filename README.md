@@ -74,6 +74,6 @@ Why use the old LWJGL 2.0 and not the new and improved LWJGL 3.0?
 ![Internet demo](https://raw.githubusercontent.com/liavt/Jumbo-Engine/master/demos/darwindemo.PNG)
 ![Map](https://github.com/liavt/Jumbo-Engine/blob/master/demos/mapdemo.PNG)
 ![Menu](https://github.com/liavt/Jumbo-Engine/blob/master/demos/menudemo.PNG)
-[The following are from this repo](https://github.com/frc5431/ThingworxDemo)
+[Source for the following pictures](https://github.com/frc5431/ThingworxDemo)
 ![Thingworx Demo 1](https://raw.githubusercontent.com/frc5431/ThingworxDemo/master/res/demo1.PNG)
-![Thingworx Demo 2](https://raw.githubusercontent.com/frc5431/ThingworxDemo/master/res/demo1.PNG)
+![Thingworx Demo 2](https://raw.githubusercontent.com/frc5431/ThingworxDemo/master/res/demo2.PNG)
